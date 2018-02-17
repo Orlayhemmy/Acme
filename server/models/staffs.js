@@ -44,7 +44,10 @@ export default (sequelize, DataTypes) => {
     });
     Staffs.hasOne(models.Subjects, {
       foreignKey: 'staffId',
-    })
+    });
+    Staffs.hasMany(models.LessonNote, {
+      foreignKey: 'staffId',
+    });
   };
   return Staffs;
 };

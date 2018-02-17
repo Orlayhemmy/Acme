@@ -31,8 +31,8 @@ export default (sequelize, DataTypes) => {
     lessonNote.belongsTo(models.Class, {
       foreignKey: 'classId',
     });
-    lessonNote.belongsTo(models.Subject, {
-      foreignKey: 'subjectId',
+    lessonNote.belongsTo(models.Staffs, {
+      foreignKey: 'staffId',
     });
   }
   return LessonNote;

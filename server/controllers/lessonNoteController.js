@@ -1,3 +1,4 @@
+import { LessonNote } from '../models';
 
 export default class LessonNoteController {
   /**
@@ -38,23 +39,26 @@ export default class LessonNoteController {
     static updateLessonNote(req, res) {
       const { termId, weekId, classId, subjectId, content } = req.body;
       
-      Class.findOne({
+      LessonNote.findOne({
         where: {
-          class_id,
+          id: req.params.id,
         },
-      }).then((foundClass) => {
-        if (foundClass) {
-          Students.update({
-            classname: classname || foundClass.classname,
-            tutor_id: tutor_id || foundClass.tutor_id,
+      }).then((note) => {
+        if (note) {
+          LessonNote.update({
+            termId: termId || note.termId,
+            weekId: weekId || note.weekId,
+            classId: classId || note.classId,
+            subjectId: subjectId || note.subjectId,
+            content: content || note.content
           }).then(() => res.status(200).send({
-            message: 'Your information has been updated successfully',
+            message: 'Your lesson note has been updated successfully',
           })).catch(err => res.status(500).send({
             message: err.message,
           }));
         } else {
           return res.status(400).send({
-            message: 'Class not found',
+            message: 'lesson note not found',
           });
         }
       }).catch(err => res.status(500).send({
@@ -64,22 +68,27 @@ export default class LessonNoteController {
   /**
    * 
    * 
-   * @static getAllClasses
+   * @static getAllNotes
    * @param {any} req 
    * @param {any} res 
    * @memberof ClassController
    */
-    static getAllClasses(req, res) {
-      Class.findAll().then((classes) => {
-        if (classes) {
-          // show classes
+    static getAllNotes(req, res) {
+      const { id } = req.body;
+      LessonNote.findAll({
+        where: {
+          staffId: id,
+        }
+      }).then((notes) => {
+        if (notes) {
+          // show notes
           return res.status(200).send({
-            classes,
+            notes,
           });
         }
-        // No class found
+        // No lesson note found
         return res.status(404).send({
-          message: 'There are no registered classes',
+          message: 'No lesson not found',
         });
       }).catch(error => res.status(500).send({
         message: error.message,
@@ -88,27 +97,55 @@ export default class LessonNoteController {
   /**
    * 
    * 
-   * @staticgetSingleClass
+   * @static getSingleLessonNote
    * @param {any} req 
    * @param {any} res 
    * @memberof ClassController
    */
-    static getSingleClass(req, res) {
-      Class.findOne({
+    static getSingleLessonNote(req, res) {
+      const { id } = req.params;
+      LessonNote.findOne({
         where: {
-          class_id: req.params.class_id,
+          id,
         },
-      }).then((foundClass) => {
-          if (foundClass) {
+      }).then((note) => {
+          if (note) {
             return res.status(200).send({
-              foundClass,
+              note,
+            });
+          } else {
+            return res.status(400).send({
+              message: 'Lesson note not found',
             });
           }
-          return res.status(400).send({
-            message: 'Class not found',
-          });
         }).catch(error => res.status(500).send({
           message: error.message,
         }));
     }
+  /**
+   * 
+   * 
+   * @static deleteNote
+   * @param {any} req 
+   * @param {any} res 
+   * @returns 
+   * @memberof LessonNoteController
+   */
+    static deleteNote(req, res) {
+      const { id } = req.params;
+  
+      return LessonNote.findById(id).then((note) => {
+        if (note) {
+          return LessonNote.destroy().then(() => res.status(200).send({
+            message: 'Note Deleted',
+          }));
+        }
+        return res.status(400).send({
+          message: 'Lesson note does not exist',
+        });
+      }).catch(error => res.status(500).send({
+        message: error.message,
+      }));
+    }
+    
   }

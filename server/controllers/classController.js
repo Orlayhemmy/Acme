@@ -1,3 +1,4 @@
+import { Class } from '../models';
 
 export default class ClassController {
 /**
@@ -41,7 +42,7 @@ export default class ClassController {
       },
     }).then((foundClass) => {
       if (foundClass) {
-        Students.update({
+        Class.update({
           classname: classname || foundClass.classname,
           tutor_id: tutor_id || foundClass.tutor_id,
         }).then(() => res.status(200).send({

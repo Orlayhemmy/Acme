@@ -1,3 +1,4 @@
+import { Staffs } from '../models';
 
 export default class StaffController {
   /**
@@ -44,7 +45,12 @@ export default class StaffController {
               sex,
               password: hash,
             }).then(() => {
-                const payload = { staff_id, firstname };
+              Users.findOne({
+                where: {
+                  email,
+                },
+              }).then((newuser) => {
+                const payload = { id: newuser.id, staff_id, firstname };
                 const token = jwt.sign(payload, process.env.SECRET, {
                   expiresIn: 60 * 60 * 12,
                 });
@@ -61,6 +67,7 @@ export default class StaffController {
               }).catch(error => res.status(500).send({
                 message: error.message,
               }));
+            });
           });
         });
       }).catch(error => res.status(500).send({
@@ -87,7 +94,7 @@ export default class StaffController {
         if (user && user.staff_id === login_staff_id) {
           const check = bcrypt.compareSync(login_password, user.password);
           if (check) {
-            const payload = { firstname, staff_id };
+            const payload = { firstname, staff_id, id };
             const token = jwt.sign(payload, process.env.SECRET, {
               expiresIn: 60 * 60 * 12,
             });

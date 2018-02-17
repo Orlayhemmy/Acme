@@ -1,3 +1,4 @@
+import { Students } from '../models';
 
 export default class StudentController {
 /**
