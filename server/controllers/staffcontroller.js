@@ -1,5 +1,5 @@
 
-export default class StudentController {
+export default class StaffController {
   /**
    * 
    * 
@@ -199,7 +199,7 @@ export default class StudentController {
         if (employees) {
           // show staffs
           return res.status(200).send({
-            centers,
+            employees,
           });
         }
         // No employee found
@@ -221,7 +221,7 @@ export default class StudentController {
     static getSingleStaff(req, res) {
       Staffs.findOne({
         where: {
-          staff_id: req.params.id,
+          staff_id: req.params.staff_id,
         },
       }).then((employee) => {
           if (employee) {

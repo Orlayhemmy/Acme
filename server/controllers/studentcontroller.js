@@ -186,4 +186,54 @@ export default class StudentController {
       message: err.message,
     }));
   }
+ /**
+ * 
+ * 
+ * @static getAllStudents
+ * @param {any} req 
+ * @param {any} res 
+ * @memberof StudentController
+ */
+  static getAllStudents(req, res) {
+    Students.findAll().then((users) => {
+      if (users) {
+        // show students
+        return res.status(200).send({
+          users,
+        });
+      }
+      // No student found
+      return res.status(404).send({
+        message: 'There are no registered students',
+      });
+    }).catch(error => res.status(500).send({
+      message: error.message,
+    }));
+  }
+  /**
+  * 
+  * 
+  * @static getSingleStudent
+  * @param {any} req 
+  * @param {any} res 
+  * @memberof StudentController
+  */
+  static getSingleStudent(req, res) {
+    Staffs.findOne({
+      where: {
+        student_id: req.params.student_id,
+      },
+    }).then((user) => {
+        if (user) {
+          return res.status(200).send({
+            user,
+          });
+        }
+        return res.status(400).send({
+          message: 'Student not found',
+        });
+      }).catch(error => res.status(500).send({
+        message: error.message,
+      }));
+  }
 }
