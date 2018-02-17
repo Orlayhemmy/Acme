@@ -204,7 +204,7 @@ export default class StaffController {
         }
         // No employee found
         return res.status(404).send({
-          message: 'There are no registered staff',
+          message: 'There are no registered staffs',
         });
       }).catch(error => res.status(500).send({
         message: error.message,
