@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	<meta name="description" content="">
+	
+	<meta name="author" content="">
+	
+	<link rel="icon" href="images/favicon.ico">
+	
+	<title>Medialoot Bootstrap 4 Dashboard Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="css/font-awesome.css" rel="stylesheet">
+    
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container-fluid" id="wrapper">
+		<div class="row">
+			<nav class="sidebar col-xs-12 col-sm-4 col-lg-3 col-xl-2 bg-faded sidebar-style-1">
+				<h1 class="site-title"><a href="index.html"><em class="fa fa-home"></em> Yeshua High School</a></h1>
+				
+				<a href="#menu-toggle" class="btn btn-default" id="menu-toggle"><em class="fa fa-bars"></em></a>
+				
+				<ul class="nav nav-pills flex-column sidebar-nav">
+					<li class="nav-item"><a class="nav-link" href="dashboard.html"><em class="fa fa-dashboard"></em> Dashboard</a></li>
+					<li class="nav-item"><a class="nav-link" href="registration.html"><em class="fa fa-registered"></em> Role</a></li>
+					<li class="nav-item"><a class="nav-link active" href="lessonNote.html"><em class="fa fa-list"></em> Lesson Note <span class="sr-only">(current)</span></a></li>
+					<li class="nav-item"><a class="nav-link" href="assessments.html"><em class="fa fa-tasks"></em> Assessments </a></li>
+					<li class="nav-item"><a class="nav-link" href="spreadsheet.html"><em class="fa fa-table"></em> Spreadsheet</a></li>
+					<li class="nav-item"><a class="nav-link" href="report.html"><em class="fa fa-reply"></em> Reports</a></li>
+					<li class="nav-item"><a class="nav-link" href="chart.html"><em class="fa fa-bar-chart"></em> Chart</a></li>
+					<li class="nav-item"><a class="nav-link" href="library.html"><em class="fa fa-book"></em> Library</a></li>
+					<li class="nav-item"><a class="nav-link" href="test_area.html"><em class="fa fa-edit"></em> Test Area</a></li>
+				</ul>
+				
+				<a href="#" class="logout-button"><em class="fa fa-power-off"></em> Signout</a></nav>
+			
+			<main class="col-xs-12 col-sm-8 offset-sm-4 col-lg-9 offset-lg-3 col-xl-10 offset-xl-2 pt-3 pl-4">
+				<header class="page-header row justify-center">
+					<div class="col-md-6 col-lg-8" >
+						<h1 class="float-left text-center text-md-left">Lesson Note</h1>
+					</div>
+					
+					<div class="dropdown user-dropdown col-md-6 col-lg-4 text-center text-md-right"><a class="btn btn-stripped dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<img src="images/profile-pic.jpg" alt="profile photo" class="circle float-left profile-photo" width="50" height="auto">
+						
+						<div class="username mt-1">
+							<h4 class="mb-1">Username</h4>
+							
+							<h6>Teacher</h6>
+						</div>
+						</a>
+						
+						<div class="dropdown-menu dropdown-menu-right" style="margin-right: 1.5rem;" aria-labelledby="dropdownMenuLink"><a class="dropdown-item" href="#"><em class="fa fa-user-circle mr-1"></em> View Profile</a>
+						     <a class="dropdown-item" href="#"><em class="fa fa-sliders mr-1"></em> Preferences</a>
+						     <a class="dropdown-item" href="#"><em class="fa fa-power-off mr-1"></em> Logout</a></div>
+					</div>
+					
+					<div class="clear"></div>
+				</header>
+				
+				<section class="row">	
+					<div class="col-lg-12 mb-12" id="swap-one">
+						<div class="card text-center">
+									<div class="card-header">
+										<ul class="nav nav-tabs card-header-tabs">
+											<li class="nav-item"><a onClick="swapDiv('swap-one', 'swap-two')" class="nav-link active" href="#">Write Note</a></li>
+											<li class="nav-item"><a onClick="swapDiv('swap-one', 'swap-two')" class="nav-link" href="#">Preview Note</a></li>
+										</ul>
+									</div>
+									
+									<div class="card-block" id="write note">
+										<h4 class="card-title">Write Lesson Note</h4>
+										<section class="row">
+					<div class="col-sm-12 col-md-6">
+						<div class="card mb-4">	
+							<div class="card-block">
+								<section class="row">
+							<div class="col-12 mb-2">
+								<h3 class="mt-4 mb-4">Weekly Lesson Note</h3>
+								<form class="form-horizontal" action="" method="post">
+											<fieldset>
+												<!-- Week -->
+												<div class="form-group">
+													<label class="col-12 control-label no-padding" for="name">Week</label>
+													
+													<div class="col-12 no-padding">
+														<select id="week" class="form-control">
+															<option value="0">Select Week</option>
+														</select>
+													</div>
+												</div>
+												
+												<!-- Subject -->
+												<div class="form-group">
+													<label class="col-12 control-label no-padding" for="name">Subject</label>
+													
+													<div class="col-12 no-padding">
+														<select id="subject" class="form-control">
+															<option value="0">Select Subject</option>
+														</select>
+													</div>
+												</div>
+											
+												<!-- Class -->
+												<div class="form-group">
+													<label class="col-12 control-label no-padding" for="name">Class</label>
+													
+													<div class="col-12 no-padding">
+														<select id="class" class="form-control">
+															<option value="0">Select Class</option>
+														</select>
+													</div>
+												</div>
+												
+												
+												<!-- Form actions -->
+												<div class="form-group">
+													<div class="col-12 widget-right no-padding">
+														<input id="view-note" type="button" class="btn btn-primary btn-md float-right" value="Submit"/>
+													</div>
+												</div>
+											</fieldset>
+										</form>
+							</div>
+						</section>
+							</div>					
+						</div>
+					</div>
+					<div class="col-sm-12 col-md-6">
+						<div class="card mb-4">	
+							<div class="card-block color-blue">
+								<section class="row">
+							<div class="col-12 mb-2">
+								<h3 class="mt-4 mb-4">History</h3>
+								<div class="form-group">
+									<select id="history_week" class="form-control">
+										<option value="0">Current Week</option>
+									</select>
+								</div>
+								<div class="table-responsive">
+											<table class="table table-striped">
+												<thead>
+													<tr>
+														<th>S/N</th>
+														
+														<th>Topic</th>
+														
+														<th>Class</th>
+														
+														<th>Remove/Delete</th>
+													</tr>
+												</thead>
+												
+												<tbody>
+													<tr>
+														<td>1</td>
+														
+														<td>Plotting of Graph</td>
+																											
+														<td>Grade 9</td>
+														<td><i class="fa fa-recycle"></i></td>
+													</tr>
+													
+													<tr>
+														<td>2</td>
+														
+														<td>Factorization</td>
+														
+														<td>Grade 7</td>
+														<td><i class="fa fa-recycle"></i></td>
+													</tr>
+													
+													<tr>
+														<td>3</td>
+														
+														<td>Equations</td>
+														
+														<td>Grade 8</td>
+														
+														<td><i class="fa fa-recycle"></i></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+							</div>
+						</section>
+							</div>					
+						</div>
+					</div>
+				</section>
+					
+										
+							        </div>
+							        
+								</div>
+					</div>
+					<div class="col-lg-12 mb-12" id="swap-two" style="display: none">
+						<div class="card text-center">
+									<div class="card-header">
+										<ul class="nav nav-tabs card-header-tabs">
+											<li class="nav-item"><a onClick="swapDiv('swap-one', 'swap-two')" class="nav-link" href="#">Write Note</a></li>
+											<li class="nav-item"><a onClick="swapDiv('swap-one', 'swap-two')" class="nav-link active" href="#">Preview Note</a></li>
+										</ul>
+									</div>
+									
+									
+							        <div class="card-block" id="preview note">
+										<h4 class="card-title">Preview Lesson Note</h4>
+										<section class="row">
+					<div class="col-sm-12 col-md-6">
+						<div class="card mb-4">	
+							<div class="card-block">
+								<section class="row">
+							<div class="col-12 mb-2">
+								<h3 class="mt-4 mb-4">Weekly Lesson Note</h3>
+								<form class="form-horizontal" action="" method="post">
+											<fieldset>
+												<!-- Week -->
+												<div class="form-group">
+													<label class="col-12 control-label no-padding" for="name">Week</label>
+													
+													<div class="col-12 no-padding">
+														<select id="pre-week" class="form-control">
+															<option value="0">Select Week</option>
+														</select>
+													</div>
+												</div>
+												
+												<!-- Subject -->
+												<div class="form-group">
+													<label class="col-12 control-label no-padding" for="name">Subject</label>
+													
+													<div class="col-12 no-padding">
+														<select id="pre-subject" class="form-control">
+															<option value="0">Select Subject</option>
+														</select>
+													</div>
+												</div>
+											
+												<!-- Class -->
+												<div class="form-group">
+													<label class="col-12 control-label no-padding" for="name">Class</label>
+													
+													<div class="col-12 no-padding">
+														<select id="pre-class" class="form-control">
+															<option value="0">Select Class</option>
+														</select>
+													</div>
+												</div>
+												
+												
+												<!-- Form actions -->
+												<div class="form-group">
+													<div class="col-12 widget-right no-padding">
+														<input id="check-note" type="button" class="btn btn-primary btn-md float-right" value="Submit"/>
+													</div>
+												</div>
+											</fieldset>
+										</form>
+							</div>
+						</section>
+							</div>					
+						</div>
+					</div>
+					<div class="col-sm-12 col-md-6">
+						<div class="card mb-4">	
+							<div class="card-block color-orange">
+								<section class="row">
+							<div class="col-12 mb-2">
+								<h3 class="mt-4 mb-4">Lesson Notes</h3>
+								<div class="form-group">
+									<select id="pre-history_week" class="form-control">
+										<option value="0">Current Week</option>
+									</select>
+								</div>
+								<div class="table-responsive">
+											<table class="table table-striped">
+												<thead>
+													<tr>
+														<th>S/N</th>
+														
+														<th>Topic</th>
+														
+														<th>Class</th>
+														
+														<th>Remove/Delete</th>
+													</tr>
+												</thead>
+												
+												<tbody>
+													<tr>
+														<td>1</td>
+														
+														<td>Plotting of Graph</td>
+																											
+														<td>Grade 9</td>
+														<td><i class="fa fa-recycle"></i></td>
+													</tr>
+													
+													<tr>
+														<td>2</td>
+														
+														<td>Factorization</td>
+														
+														<td>Grade 7</td>
+														<td><i class="fa fa-recycle"></i></td>
+													</tr>
+													
+													<tr>
+														<td>3</td>
+														
+														<td>Equations</td>
+														
+														<td>Grade 8</td>
+														
+														<td><i class="fa fa-recycle"></i></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+							</div>
+						</section>
+							</div>					
+						</div>
+					</div>
+				</section>
+					
+										
+							        </div>
+								</div>
+					</div>					
+				</section>
+				<section class="row">
+							<div class="col-12 mt-4 mb-1 text-center"><a href="https://www.zitbase.com" class="footer">zitbase</a></div>
+						</section>
+			</main>
+		</div>
+	</div> 
+  <script>
+    function swapDiv(one, two){
+      one = document.getElementById(one);
+      two = document.getElementById(two);
+      
+      if(two.style.display == "none"){
+        one.style.display = "none";
+        two.style.display = "block";
+      } else {
+        two.style.display = "none";
+        one.style.display = "block";
+      }
+    }
+	  let note = document.getElementById('view-note');
+	  note.addEventListener('click', function() {
+		  window.open('note.html', 'window', 'toolbar=no, menubar=no, resizable=yes');
+	  });
+	   
+  </script>
+   <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="dist/js/bootstrap.min.js"></script>   
+	  </body>
+</html>
