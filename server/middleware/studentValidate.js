@@ -28,6 +28,7 @@ export default class Validation {
     if (firstname === undefined || lastname === undefined || password === undefined || retypePass === undefined
     || middlename === undefined || address === undefined || origin === undefined || mobile === undefined 
     || dob === undefined || student_id === undefined || sex === undefined) {
+      console.log(req.body);
       return res.status(400).send({
         message: 'All or some fields are not defined',
       });
@@ -155,7 +156,7 @@ export default class Validation {
     const errors = {};
     if (login_student_id === undefined || login_password === undefined) {
       return res.status(400).send({
-        message: 'Email or Password is undefined',
+        message: 'student ID or Password is undefined',
       });
     }
 

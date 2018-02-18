@@ -9,12 +9,12 @@ import StudentValidate from '../middleware/studentValidate';
 import StaffValidate from '../middleware/staffValidate';
 import ClassValidate from '../middleware/classValidate';
 
-const router = express.router();
+const router = express.Router();
 
-router.route('/student')
+router.route('/students')
   .post(StudentValidate.signup, StudentController.signup);
 
-router.route('/student/login')
+router.route('/students/login')
   .post(StudentValidate.signin, StudentController.signin);
 
 router.route('/student/:id')
@@ -27,10 +27,10 @@ router.route('/classStudents/:id')
 router.route('/studentPasswordRecovery')
   .post(StudentController.recoverPassword);
 
-route.route('/staff')
+router.route('/staffs')
   .post(StaffValidate.signup, StaffController.signup);
 
-router.route('/staff/login')
+router.route('/staffs/login')
   .post(StaffValidate.signin, StaffController.signin);
 
 router.route('/staff/:id')
@@ -49,7 +49,7 @@ router.route('/class/:id')
   .get(AuthToken, ClassController.getSingleClass)
   .delete(AuthAdminToken, ClassController.deleteClass);
 
-router.route('/note')
+router.route('/notes')
   .post(AuthToken, LessonNoteController.createLessonNote)
   .get(AuthToken, LessonNoteController.getAllNotes);
 

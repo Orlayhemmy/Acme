@@ -21,17 +21,17 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     }
   });
-  lessonNote.associate = (models) => {
-    lessonNote.belongsTo(models.Term, {
+  LessonNote.associate = (models) => {
+    LessonNote.belongsTo(models.Term, {
       foreignKey: 'termId',
     });
-    lessonNote.belongsTo(models.Week, {
+    LessonNote.belongsTo(models.Week, {
       foreignKey: 'weekId',
     });
-    lessonNote.belongsTo(models.Class, {
+    LessonNote.belongsTo(models.Class, {
       foreignKey: 'classId',
     });
-    lessonNote.belongsTo(models.Staffs, {
+    LessonNote.belongsTo(models.Staffs, {
       foreignKey: 'staffId',
     });
   }
