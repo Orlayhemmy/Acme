@@ -11,7 +11,7 @@ export default class StudentController {
  */
   static signup(req, res) {
     const { firstname, lastname, middlename, address, origin, mobile,
-       dob, password, student_id, sex} = req.body;
+       dob, password, student_id, sex } = req.body;
 
     Students.findOne({
       where: {

@@ -5,18 +5,21 @@ import LessonNoteController from '../controllers/lessonNoteController';
 import ClassController from '../controllers/classController';
 import AuthToken from '../middleware/authenticateToken';
 import AuthAdminToken from '../middleware/authAdminToken';
+import StudentValidate from '../middleware/studentValidate';
+import StaffValidate from '../middleware/staffValidate';
+import ClassValidate from '../middleware/classValidate';
 
 const router = express.router();
 
 router.route('/student')
-  .post(StudentController.signup);
+  .post(StudentValidate.signup, StudentController.signup);
 
 router.route('/student/login')
-  .post(StudentController.signin);
+  .post(StudentValidate.signin, StudentController.signin);
 
 router.route('/student/:id')
   .get(AuthToken, StudentController.getSingleStudent)
-  .put(AuthToken, StudentController.updateStudentInfo);
+  .put(AuthToken, StudentValidate.updateStudentInfo, StudentController.updateStudentInfo);
 
 router.route('/classStudents/:id')
   .get(AuthToken, StudentController.getClassStudents);
@@ -25,24 +28,24 @@ router.route('/studentPasswordRecovery')
   .post(StudentController.recoverPassword);
 
 route.route('/staff')
-  .post(StaffController.signup);
+  .post(StaffValidate.signup, StaffController.signup);
 
 router.route('/staff/login')
-  .post(StaffController.signin);
+  .post(StaffValidate.signin, StaffController.signin);
 
 router.route('/staff/:id')
   .get(AuthToken, StaffController.getSingleStaff)
-  .put(AuthToken, StaffController.updateStaffInfo);
+  .put(AuthToken, StaffValidate.updateStaffInfo, StaffController.updateStaffInfo);
 
 router.route('/staffPasswordRecovery')
   .post(StaffController.recoverPassword);
 
 router.route('/class')
-  .post(AuthAdminToken, ClassController.createClass)
+  .post(AuthAdminToken, ClassValidate.createClass, ClassController.createClass)
   .get(AuthToken, ClassController.getAllClasses);
 
 router.route('/class/:id')
-  .put(AuthToken, ClassController.updateClassInfo)
+  .put(AuthToken, ClassValidate.updateClass, ClassController.updateClassInfo)
   .get(AuthToken, ClassController.getSingleClass)
   .delete(AuthAdminToken, ClassController.deleteClass);
 

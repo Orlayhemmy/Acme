@@ -160,7 +160,7 @@ export default class StaffController {
    */
     static updateStaffInfo(req, res) {
       const { firstname, lastname, middlename, address, origin, mobile,
-      dob, password, staff_id, sex} = req.body;
+      dob, password, staff_id, sex, classId } = req.body;
       
       Staffs.findOne({
         where: {
@@ -180,6 +180,7 @@ export default class StaffController {
               dob: dob || user.dob,
               sex: sex || user.sex,
               password: hash || user.password,
+              classId: classId || user.classId
             }).then(() => res.status(200).send({
               message: 'Your information has been updated successfully',
             })).catch(err => res.status(500).send({

@@ -10,11 +10,10 @@ export default class ClassController {
  * @memberof ClassController
  */
   static createClass(req, res) {
-    const { classname, class_id } = req.body;
+    const { classname } = req.body;
 
     Class.create({
       classname,
-      class_id,
     }).then(() => {
       return res.status(201).send({
       message: 'Class created'
@@ -34,17 +33,16 @@ export default class ClassController {
  * @memberof ClassController
  */
   static updateClassInfo(req, res) {
-    const { class_id, classname, tutor_id } = req.body;
+    const { classname } = req.body;
     
     Class.findOne({
       where: {
-        class_id,
+        id: req.params.id,
       },
     }).then((foundClass) => {
       if (foundClass) {
         Class.update({
           classname: classname || foundClass.classname,
-          tutor_id: tutor_id || foundClass.tutor_id,
         }).then(() => res.status(200).send({
           message: 'Your information has been updated successfully',
         })).catch(err => res.status(500).send({
