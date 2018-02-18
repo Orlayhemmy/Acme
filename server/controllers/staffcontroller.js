@@ -11,7 +11,7 @@ export default class StaffController {
    */
     static signup(req, res) {
       const { firstname, lastname, middlename, address, origin, mobile,
-         dob, password, staff_id, sex} = req.body;
+         dob, password, staff_id, sex, classId, subjectId } = req.body;
   
       Staffs.findOne({
         where: {
@@ -44,13 +44,15 @@ export default class StaffController {
               staff_id: emp_id,
               sex,
               password: hash,
+              subjectId,
+              classId
             }).then(() => {
               Users.findOne({
                 where: {
                   email,
                 },
               }).then((newuser) => {
-                const payload = { id: newuser.id, staff_id, firstname };
+                const payload = { id: newuser.id, staff_id, firstname, classId, subjectId };
                 const token = jwt.sign(payload, process.env.SECRET, {
                   expiresIn: 60 * 60 * 12,
                 });
@@ -94,7 +96,7 @@ export default class StaffController {
         if (user && user.staff_id === login_staff_id) {
           const check = bcrypt.compareSync(login_password, user.password);
           if (check) {
-            const payload = { firstname, staff_id, id };
+            const payload = { firstname, staff_id, id, classId, subjectId };
             const token = jwt.sign(payload, process.env.SECRET, {
               expiresIn: 60 * 60 * 12,
             });

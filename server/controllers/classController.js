@@ -109,4 +109,29 @@ export default class ClassController {
         message: error.message,
       }));
   }
+/**
+ * 
+ * 
+ * @static deleteClass
+ * @param {any} req 
+ * @param {any} res 
+ * @returns 
+ * @memberof ClassController
+ */
+static deleteClass(req, res) {
+    const { id } = req.params;
+
+    return Class.findById(id).then((foundClass) => {
+      if (foundClass) {
+        return Class.destroy().then(() => res.status(200).send({
+          message: 'Class Deleted',
+        }));
+      }
+      return res.status(400).send({
+        message: 'Class does not exist',
+      });
+    }).catch(error => res.status(500).send({
+      message: error.message,
+    }));
+  }
 }

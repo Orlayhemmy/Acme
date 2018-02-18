@@ -195,8 +195,12 @@ export default class StudentController {
  * @param {any} res 
  * @memberof StudentController
  */
-  static getAllStudents(req, res) {
-    Students.findAll().then((users) => {
+  static getClassStudents(req, res) {
+    Students.findAll({
+      where: {
+        classId: req.params.classId,
+      }
+    }).then((users) => {
       if (users) {
         // show students
         return res.status(200).send({
@@ -205,7 +209,7 @@ export default class StudentController {
       }
       // No student found
       return res.status(404).send({
-        message: 'There are no registered students',
+        message: 'There are no registered students in the class',
       });
     }).catch(error => res.status(500).send({
       message: error.message,

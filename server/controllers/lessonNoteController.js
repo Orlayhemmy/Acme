@@ -74,10 +74,10 @@ export default class LessonNoteController {
    * @memberof ClassController
    */
     static getAllNotes(req, res) {
-      const { id } = req.body;
+      const { staff_id } = req.body;
       LessonNote.findAll({
         where: {
-          staffId: id,
+          staffId,
         }
       }).then((notes) => {
         if (notes) {
