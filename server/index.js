@@ -28,7 +28,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/v1/', userRoute);
 
-app.all('*/', (req, res) => res.status(404).send({ error: 'page not found' }));
+app.all('*/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/index.html'));
+});
 
 app.set('port', process.env.PORT || 4000);
 
