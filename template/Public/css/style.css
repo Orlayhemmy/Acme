@@ -237,13 +237,19 @@ p {
 	background: #f9243f;
 	color: #ffffff;
 }
-
+.divider {
+  margin-top: 1rem;
+}
 .dropdown a {
   color: #444444; }
 
 .dropdown a:hover, .dropdown a:active, .dropdown a:focus {
   background-color: #7376df;
   color: #fff; }
+
+.dropmr {
+  margin-right: 1.5rem;
+}
 
 .footer {
 	color: #616161;

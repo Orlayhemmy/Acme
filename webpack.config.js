@@ -1,7 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
 
-
 module.exports = {
   devtool: 'cheap-module-source-map',
   entry: [
@@ -24,12 +23,12 @@ module.exports = {
           plugins: ['react-html-attrs', 'transform-class-properties', 'transform-decorators-legacy']
         },
         include: [
-          path.join(__dirname, 'client')
+          path.join(__dirname, 'client'),
         ],
         exclude: /(node_modules|server|.vscode)/,
       },
       {
-        test:  /\.(sass|scss|css)$/,
+        test: /\.(sass|scss|css)$/,
         loaders: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
@@ -45,6 +44,6 @@ module.exports = {
     net: 'empty',
   },
   resolve: {
-    extensions: ['.jsx', '.js']
+    extensions: ['.jsx', '.js'],
   },
 };

@@ -1,5 +1,4 @@
 import React from 'react';
-// import Navbar from './navbar.jsx';
 // import Content from './Homepage/homeContent';
 // import Footer from './footer';
 

@@ -5,10 +5,13 @@ import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from '../webpack.config';
+
+
 import userRoute from './apiRoutes/routes';
 
 
 const app = express();
+
 const compiler = webpack(webpackConfig);
 
 app.use(webpackMiddleware(compiler, {
@@ -20,23 +23,31 @@ app.use(webpackMiddleware(compiler, {
 app.use(express.static(path.join(__dirname, '../template/Public')));
 app.use(webpackHotMiddleware(compiler));
 
-// app.get('*/', (req, res) => {
-//   res.send('hello world');
-// });
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/api/v1/', userRoute);
+
+app.use('/api/v1/', (req, res, next) => {
+  let err = null;
+  try {
+    decodeURIComponent(req.path);
+  } catch (e) {
+    err = e;
+  }
+  if (err) {
+    return res.status(404).send({ error: 'page not found' });
+  }
+  next(); 
+}, userRoute);
 
 app.all('*/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
-app.set('port', process.env.PORT || 4000);
+
+app.set('port', process.env.PORT || 4001);
 
 app.listen(app.get('port'), () => {
   console.log(`App started on port ${app.get('port')}`);
 });
-
 
 export default app;
