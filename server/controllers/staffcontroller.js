@@ -1,4 +1,11 @@
-import { Staffs } from '../models';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import env from 'dotenv';
+import models from '../models';
+
+const { Staffs } = models;
+
+env.config();
 
 export default class StaffController {
   /**
@@ -86,17 +93,17 @@ export default class StaffController {
      * @memberof StudentController
      */
     static signin(req, res) {
-      const { login_staff_id, login_password } = req.body;
+      const { loginId, loginPassword } = req.body;
   
       Staffs.findOne({
         where: {
-          staff_id: login_staff_id,
+          staff_id: loginId,
         },
       }).then((user) => {
-        if (user && user.staff_id === login_staff_id) {
-          const check = bcrypt.compareSync(login_password, user.password);
+        if (user && user.staff_id === loginId) {
+          const check = bcrypt.compareSync(loginPassword, user.password);
           if (check) {
-            const payload = { firstname, staff_id, id, classId, subjectId };
+            const payload = { firstname: user.firstname, id: user.id, classId: user.classId, subjectId: user.subjectId };
             const token = jwt.sign(payload, process.env.SECRET, {
               expiresIn: 60 * 60 * 12,
             });

@@ -1,6 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from'react-router-dom';
 import Footer from './footer';
 import loginInputValidate from '../shared/uservalidation';
+import { staffSignInRequest } from '../actions/authActions';
+
+@connect((store) => {
+  return {
+    auth: store.auth,
+  }
+})
 
 export default class Homepage extends React.Component {
   constructor() {
@@ -18,9 +27,8 @@ export default class Homepage extends React.Component {
   }
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state)
     if (this.isValid()) {
-      console.log('true')
+      this.props.dispatch(staffSignInRequest(this.state));
     }
   }
 
@@ -40,6 +48,9 @@ export default class Homepage extends React.Component {
 
   render() {
     const { loginId, loginPassword, errors, serverError } = this.state;
+    if (this.props.auth.isAuth) {
+      return <Redirect to="/dashboard" />;
+    }
     return (
       <div className="row">	
         <main className="col-xs-12 col-sm-8 col-lg-12 col-xl-12 pt-3 pl-4">	
@@ -51,7 +62,7 @@ export default class Homepage extends React.Component {
                     <div className="card-block">	
                       <form className="form-horizontal" onSubmit={this.onSubmit}>
                         <h3 className="mt-4 mb-4 text-center"><em className="fa fa-plus-circle"></em> Sign In</h3>
-                        <span className="help-block">{serverError}</span>
+                        <span className="help-block">{this.props.auth.message}</span>
                         <fieldset>
                           <span className="help-block">{errors.loginId}</span>
                           <div className="form-group">

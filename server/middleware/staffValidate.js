@@ -150,21 +150,21 @@ export default class Validation {
      * @memberof UserValidations
      */
   static signin(req, res, next) {
-    const { login_staff_id, login_password } = req.body;
+    const { loginId, loginPassword } = req.body;
 
     const errors = {};
-    if (login_staff_id === undefined || login_password === undefined) {
+    if (loginId === undefined || loginPassword === undefined) {
       return res.status(400).send({
-        message: 'Email or Password is undefined',
+        message: 'Your ID number or Password is undefined',
       });
     }
 
-    if (validator.isEmpty(login_staff_id)) {
-      errors.login_staff_id= 'Student ID is required';
+    if (validator.isEmpty(loginId)) {
+      errors.loginId= 'Staff ID is required';
     }
 
-    if (validator.isEmpty(login_password)) {
-      errors.login_password = 'Password is required';
+    if (validator.isEmpty(loginPassword)) {
+      errors.loginPassword = 'Password is required';
     }
 
     const isValid = Object.keys(errors).length === 0;

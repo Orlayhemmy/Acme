@@ -6,11 +6,12 @@ import Footer from './footer';
 
 export default class Dashboard extends React.Component {
   render() {
+    
     return (
       <div class="row">
         <Navbar />
         <main class="col-xs-12 col-sm-8 offset-sm-4 col-lg-9 offset-lg-3 col-xl-10 offset-xl-2 pt-3 pl-4">
-          <Header />
+          <Header header="Dashboard"/>
           <section class="row">
             <div class="col-sm-12">
               <section class="row">
