@@ -1,134 +1,96 @@
 import React from 'react';
 import ContentContainer from '../contentContainer';
 
-export default class Feedback extends React.Component {
+export default class Assessment extends React.Component {
   render() {
-    return (
-      <div>
-        <section class="row">
-          <div class="col-sm-12">
-            <section class="row">
-              <div class="col-md-12 col-lg-8">								
-                <div class="card mb-4">
-                  <div class="card-block">
-                    <h3 class="card-title">Notifications</h3>
-                                        
-                    <h6 class="card-subtitle mb-2 text-muted">What's New</h6>
-                    
-                    <div class="divider"></div>
-                    
-                    <div class="articles-container">
-                      <div class="article border-bottom">
-                        <div class="col-xs-12">
-                          <div class="row">
-                            <div class="col-2 date">
-                              <div class="large">30</div>
-                              
-                              <div class="text-muted">Jun</div>
-                            </div>
-                            
-                            <div class="col-10">
-                              <h4><a href="#">Adeyimika Oreoluwa</a></h4>
-                              
-                              <p>Gave a feedback to the questions you sent</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="clear"></div>
-                      </div>                        
-                      <div class="article">
-                        <div class="col-xs-12">
-                          <div class="row">
-                            <div class="col-2 date">
-                              <div class="large">30</div>
-                              
-                              <div class="text-muted">Jun</div>
-                            </div>
-                            
-                            <div class="col-10">
-                              <h4><a href="#">Anita Colson</a></h4>
-                              <p>Gave a feedback to the questions you sent</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="clear"></div>
-                      </div>
-                      <div class="article">
-                        <div class="col-xs-12">
-                          <div class="row">
-                            <div class="col-2 date">
-                              <div class="large">30</div>
-                              
-                              <div class="text-muted">Jun</div>
-                            </div>
-                            
-                            <div class="col-10">
-                              <h4><a href="#">Isaac John</a></h4>
-                              
-                              <p>Gave a feedback to the questions you sent</p>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div class="clear"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="col-md-12 col-lg-4">
-                <div class="card mb-4">
-                  <div class="card-block">										
-                    <h3 class="card-title">School Calendar</h3>
-                    <h6 class="card-subtitle mb-2 text-muted">What's coming up</h6>
-                    <ul class="timeline">
-                      <li>
-                        <div class="timeline-badge info"><em>05 May</em></div>
-                        
-                        <div class="timeline-panel">
-                          <div class="timeline-heading">
-                            <h5 class="timeline-title mt-2">Cultural Day</h5>
-                          </div>
-                          
-                          <div class="timeline-body">
-                            <p>A day for display of different Nigerian cultures by students</p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="timeline-badge primary"><em>17 May</em></div>
-                        
-                        <div class="timeline-panel">
-                          <div class="timeline-heading">
-                            <h5 class="timeline-title mt-2">Sport</h5>
-                          </div>
-                          
-                          <div class="timeline-body">
-                            <p>7th Annual interhouse sport</p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="timeline-badge warning"><em>07 Jun</em></div>
-                        
-                        <div class="timeline-panel">
-                          <div class="timeline-heading">
-                            <h5 class="timeline-title mt-2">Competition</h5>
-                          </div>
-                          
-                          <div class="timeline-body">
-                            <p>Association of private schools in Nigeria, Mathematics competition</p>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </section>
+    const assessment = (
+      <form class="form-horizontal" action="" method="post">
+        <h3 class="mt-4 mb-4"><em class="fa fa-plus-circle"></em> Add Note</h3>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-12 control-label no-padding" for="name">Week</label>
+            <div class="col-12 no-padding">
+              <select id="subject" class="form-control">
+                <option value="0">Select Week</option>
+              </select>
+            </div>
           </div>
-        </section>
+          <div class="form-group">
+            <label class="col-12 control-label no-padding" for="name">Subject</label>
+            <div class="col-12 no-padding">
+              <select id="subject" class="form-control">
+                <option value="0">Select Subject</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-12 control-label no-padding" for="name">Class</label>
+            <div class="col-12 no-padding">
+              <select id="class" class="form-control">
+                <option value="0">Select Class</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-12 widget-right no-padding">
+              <input id="view-sheet" type="button" class="btn btn-primary btn-md float-right" value="Submit" />
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    );
+
+    const archive = ( 
+      <div className="table-responsive">
+        <h3 className="mt-4 mb-4"><em class="fa fa-tasks"></em> Assessment Archive</h3>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>S/N</th>
+              
+              <th>Topic</th>
+              
+              <th>Class</th>
+              
+              <th>Remove/Delete</th>
+            </tr>
+          </thead>
+          
+          <tbody>
+            <tr>
+              <td>1</td>
+              
+              <td>Plotting of Graph</td>
+                                        
+              <td>Grade 9</td>
+              <td><i class="fa fa-recycle"></i></td>
+            </tr>
+            
+            <tr>
+              <td>2</td>
+              
+              <td>Factorization</td>
+              
+              <td>Grade 7</td>
+              <td><i class="fa fa-recycle"></i></td>
+            </tr>
+            
+            <tr>
+              <td>3</td>
+              
+              <td>Equations</td>
+              
+              <td>Grade 8</td>
+              
+              <td><i class="fa fa-recycle"></i></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>  
+    );
+    return (
+      <div className="card-block">
+        <ContentContainer contentFirst={assessment} contentSecond={archive}/>
       </div>
     );
   }

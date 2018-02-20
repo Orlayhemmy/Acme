@@ -18,7 +18,6 @@ export default class LessonNote extends React.Component {
       mainnoteHidden: !this.state.mainnoteHidden,
       othernotesHidden: !this.state.othernotesHidden,
     });
-    console.log(this.state);
   }
   render() {
     let contentToggler = (
@@ -39,7 +38,7 @@ export default class LessonNote extends React.Component {
       <div className="row">
         <Navbar />
         <main class="col-xs-12 col-sm-8 offset-sm-4 col-lg-9 offset-lg-3 col-xl-10 offset-xl-2 pt-3 pl-4">
-          <Header />
+          <Header header="Lesson Note"/>
           <section className="row">
             {contentToggler}		
           </section>

@@ -255,6 +255,11 @@ p {
 	color: #616161;
 }
 
+.help-block {
+  color: red;
+  font-style: italic;
+  font-size: 0.8em;
+}
 .sidebar {
   position: fixed;
   top: 0;
