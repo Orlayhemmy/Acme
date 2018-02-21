@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import env from 'dotenv';
 import models from '../models';
 
-const { Staffs } = models;
+const { Staffs, Class, Subjects, Department } = models;
 
 env.config();
 
@@ -16,118 +16,137 @@ export default class StaffController {
    * @param {any} res 
    * @memberof StudentController
    */
-    static signup(req, res) {
-      const { firstname, lastname, middlename, address, origin, mobile,
-         dob, password, staff_id, sex, classId, subjectId } = req.body;
-  
-      Staffs.findOne({
-        where: {
-          staff_id,
-        },
-      }).then((foundUser) => {
-        const error = staff_id;
-        if (foundUser) {
-          return res.status(400).send({
-            message: `The Staff Identification number ${error} is registered already`,
-          });
-        }
-        const saltRounds = 10;
-        bcrypt.genSalt(saltRounds, (err, salt) => {
-          bcrypt.hash(password, salt, (err, hash) => {
-            const fname = fullname.toLowerCase();
-            const lname = lastname.toLowerCase();
-            const mname = middlename.toLowerCase();
-            const origin_state = origin.toLowerCase();
-            const home = address.toLowerCase();
-            const emp_id = staff_id.toLowerCase();
-            Staffs.create({
-              firstname: fname,
-              lastname: lname,
-              middlename: mname,
-              address: home,
-              origin: state_origin,
-              mobile,
-              dob,
-              staff_id: emp_id,
-              sex,
-              password: hash,
-              subjectId,
-              classId
-            }).then(() => {
-              Users.findOne({
-                where: {
-                  email,
-                },
-              }).then((newuser) => {
-                const payload = { id: newuser.id, staff_id, firstname, classId, subjectId };
-                const token = jwt.sign(payload, process.env.SECRET, {
-                  expiresIn: 60 * 60 * 12,
-                });
-                req.body.token = token;
-                return res.status(201).send({
-                  message: 'You are now Signed Up',
-                  data: {
-                    staff_id,
-                    firstname,
-                    password,
-                  },
-                  token,
-                });
-              }).catch(error => res.status(500).send({
-                message: error.message,
-              }));
-            });
-          });
+  static signup(req, res) {
+    const { firstname, lastname, middlename, address, origin, mobile,
+        dob, password, staffId, sex, classId, subjectId, deptId } = req.body;
+    Staffs.findOne({
+      where: {
+        staffId,
+      },
+    }).then((foundUser) => {
+      const error = staffId;
+      if (foundUser) {
+        return res.status(400).send({
+          message: `The Staff Identification number ${error} is registered already`,
         });
-      }).catch(error => res.status(500).send({
-        message: error.message,
-      }));
-    }
-    
-    /**
-     * 
-     * 
-     * @static signin
-     * @param {any} req 
-     * @param {any} res 
-     * @memberof StudentController
-     */
-    static signin(req, res) {
-      const { loginId, loginPassword } = req.body;
-  
-      Staffs.findOne({
-        where: {
-          staff_id: loginId,
-        },
-      }).then((user) => {
-        if (user && user.staff_id === loginId) {
-          const check = bcrypt.compareSync(loginPassword, user.password);
-          if (check) {
-            const payload = { firstname: user.firstname, id: user.id, classId: user.classId, subjectId: user.subjectId };
-            const token = jwt.sign(payload, process.env.SECRET, {
-              expiresIn: 60 * 60 * 12,
-            });
-            req.body.token = token;
-            return res.status(200).send({
-              message: 'You are now logged In',
-              data: {
-                user,
+      }
+      const saltRounds = 10;
+      bcrypt.genSalt(saltRounds, (err, salt) => {
+        bcrypt.hash(password, salt, (err, hash) => {
+          const fname = firstname.toLowerCase();
+          const lname = lastname.toLowerCase();
+          const mname = middlename.toLowerCase();
+          const origin_state = origin.toLowerCase();
+          const home = address.toLowerCase();
+          const emp_id = staffId.toLowerCase();
+      
+          Staffs.create({
+            firstname: fname,
+            lastname: lname,
+            middlename: mname,
+            address: home,
+            origin: origin_state,
+            mobile,
+            dob,
+            staffId: emp_id,
+            sex,
+            password: hash,
+            subjectId,
+            classId,
+            deptId,
+          }).then(() => {
+            Staffs.findOne({
+              where: {
+                staffId,
               },
-              token,
-            });
-          }
-          return res.status(400).send({
-            message: 'Invalid email or password',
+              include: [{
+                model: Class,
+              },
+              {
+                model: Department,
+              },
+              {
+                model: Subjects,
+              }],
+            }).then((user) => {
+              const payload = { firstname: user.firstname, id: user.id, classId: user.classId, subjectId: user.subjectId, deptId: user.deptId, deptname: user.Department.dept_name };
+              const token = jwt.sign(payload, process.env.SECRET, {
+                expiresIn: 60 * 60 * 12,
+              });
+              req.body.token = token;
+              
+              return res.status(201).send({
+                message: 'You are now Signed Up',
+                data: {
+                  id: user.id,
+                  staffId: user.staffId,
+                },
+                token,
+              });
+            }).catch(error => res.status(500).send({
+              message: error.message,
+            }));
+          });
+        });
+      });
+    }).catch(error => res.status(500).send({
+      message: error.message,
+    }));
+  }
+    
+  /**
+   * 
+   * 
+   * @static signin
+   * @param {any} req 
+   * @param {any} res 
+   * @memberof StudentController
+   */
+  static signin(req, res) {
+    const { loginId, loginPassword } = req.body;
+ 
+    Staffs.findOne({
+      where: {
+        staffId: loginId,
+      },
+      include: [{
+        model: Class,
+      },
+      {
+        model: Department,
+      },
+      {
+        model: Subjects,
+      }],
+    }).then((user) => {
+      if (user && user.staffId === loginId) {
+        const check = bcrypt.compareSync(loginPassword, user.password);
+        if (check) {
+          const payload = { firstname: user.firstname, id: user.id, classId: user.classId, subjectId: user.subjectId, deptId: user.deptId, deptname: user.Department.dept_name };
+          const token = jwt.sign(payload, process.env.SECRET, {
+            expiresIn: 60 * 60 * 12,
+          });
+          req.body.token = token;
+          return res.status(200).send({
+            message: 'You are now logged In',
+            data: {
+              user,
+            },
+            token,
           });
         }
-        return res.status(404).send({
-          message: 'User not found, Please sign up if you are a new user',
+        return res.status(400).send({
+          message: 'Invalid email or password',
         });
-      }).catch(error => res.status(500).send({
-        status: 'Failed',
-        message: error.message,
-      }));
-    }
+      }
+      return res.status(404).send({
+        message: 'User not found, Please sign up if you are a new user',
+      });
+    }).catch(error => res.status(500).send({
+      status: 'Failed',
+      message: error.message,
+    }));
+  }
   /**
    * 
    * 
@@ -137,11 +156,11 @@ export default class StaffController {
    * @memberof StudentController
    */
     static recoverPassword(req, res) {
-      const { staff_id } = req.body;
+      const { staffId } = req.body;
   
       Staffs.findOne({
         where: {
-          staff_id,
+          staffId,
         },
       }).then((user) => {
         if (user) {
@@ -167,11 +186,11 @@ export default class StaffController {
    */
     static updateStaffInfo(req, res) {
       const { firstname, lastname, middlename, address, origin, mobile,
-      dob, password, staff_id, sex, classId } = req.body;
+      dob, password, staffId, sex, classId } = req.body;
       
       Staffs.findOne({
         where: {
-          staff_id,
+          staffId,
         },
       }).then((user) => {
         if (user) {
@@ -238,7 +257,7 @@ export default class StaffController {
     static getSingleStaff(req, res) {
       Staffs.findOne({
         where: {
-          staff_id: req.params.staff_id,
+          staffId: req.params.staffId,
         },
       }).then((employee) => {
           if (employee) {

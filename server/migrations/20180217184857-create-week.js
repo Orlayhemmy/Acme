@@ -2,7 +2,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Weeks', {
-      id: {
+      weekId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,

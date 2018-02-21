@@ -1,8 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+@connect((store) => {
+  return {
+    auth: store.auth,
+  }
+})
 
 export default class Header extends React.Component {
   render() {
+    let role;
+    const { id, deptname } = this.props.auth.user;
+    if (id == '1' || id > '4' && id < '10' ) {
+      role = 'Teacher';
+    } else {
+      role = this.props.auth.user.deptname;
+    }
+    console.log(role)
     return (
       <header className="page-header row justify-center">
         <div className="col-md-6 col-lg-8" >
@@ -12,7 +27,7 @@ export default class Header extends React.Component {
           <img src="/images/profile-pic.jpg" alt="profile photo" className="circle float-left profile-photo" width="50" height="auto"/> 
           <div className="username mt-1">
             <h4 className="mb-1">Username</h4>
-            <h6>Teacher</h6>
+            <h6>{role}</h6>
           </div>
           </Link>
           <div className="dropdown-menu dropdown-menu-right dropmr" aria-labelledby="dropdownMenuLink"><Link className="dropdown-item" to="#"><em className="fa fa-user-circle mr-1"></em> View Profile</Link>

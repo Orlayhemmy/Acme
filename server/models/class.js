@@ -1,5 +1,11 @@
 export default (sequelize, DataTypes) => {
   const Class = sequelize.define('Class', {
+    classId: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER,
+    },
     classname: {
       type: DataTypes.STRING,
       allowNull: false,

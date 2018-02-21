@@ -1,20 +1,20 @@
 export default (sequelize, DataTypes) => {
-  const Subjects = sequelize.define('Subjects', {
-    subjectId: {
+  const Department = sequelize.define('Department', {
+    deptId: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    subjectname: {
+    dept_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
   });
-  Subjects.associate = (models) => {
-    Subjects.hasMany(models.Staffs, {
-      foreignKey: 'subjectId',
+  Department.associate = (models) => {
+    Department.hasMany(models.Staffs, {
+      foreignKey: 'deptId',
     });
-  }
-  return Subjects;
+  };
+  return Department;
 };

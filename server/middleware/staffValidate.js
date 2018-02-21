@@ -20,14 +20,14 @@ export default class Validation {
   static signup(req, res, next) {
     const {
       firstname, lastname, middlename, address, origin, mobile,
-      dob, password, staff_id, sex, retypePass
+      dob, password, staffId, sex, retypePass,
     } = req.body;
 
     const errors = {};
 
     if (firstname === undefined || lastname === undefined || password === undefined || retypePass === undefined
     || middlename === undefined || address === undefined || origin === undefined || mobile === undefined 
-    || dob === undefined || staff_id === undefined || sex === undefined) {
+    || dob === undefined || staffId === undefined || sex === undefined) {
       return res.status(400).send({
         message: 'All or some fields are not defined',
       });
@@ -96,11 +96,11 @@ export default class Validation {
       if (!validator.isLength(mobile, { min: 11, max: 50 })) {
         errors.mobile = 'Mobile number cannot be less than 11 digits';
       }
-      if (!/^[0-9, ]+$/.test(lastname)) {
-        errors.fullname = 'Mobile number can only contain numbers';
+      if (!/^[0-9, ]+$/.test(mobile)) {
+        errors.mobile = 'Mobile number can only contain numbers';
       }
     } else {
-      errors.fullname = 'Mobile number cannot be blank';
+      errors.mobile = 'Mobile number cannot be blank';
     }
 
     // validate dob
@@ -108,13 +108,13 @@ export default class Validation {
       errors.dob = 'Date of birth cannot be blank';
     }
 
-    // validate student id
-    if (!validator.isEmpty(staff_id)) {
-      if (!/^[a-zA-Z0-9]+$/.test(staff_id)) {
-        errors.staff_id = 'Student identification number can only contain numbers and letters';
+    // validate staff id
+    if (!validator.isEmpty(staffId)) {
+      if (!/^[a-zA-Z0-9]+$/.test(staffId)) {
+        errors.staffId = 'Student identification number can only contain numbers and letters';
       }
     } else {
-      errors.staff_id = 'Lastname cannot be blank';
+      errors.staffId = 'Lastname cannot be blank';
     }
 
     //validate password
@@ -176,11 +176,11 @@ export default class Validation {
   }
 
   static recoverPassword(req, res, next) {
-    const { staff_id } = req.body;
+    const { staffId } = req.body;
     const error = {};
 
-    if (staff_id === undefined) {
-      error.staff_id = 'Student ID is required';
+    if (staffId === undefined) {
+      error.staffId = 'Student ID is required';
     }
 
     const isValid = Object.keys(error).length === 0;

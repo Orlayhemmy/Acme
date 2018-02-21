@@ -1,6 +1,6 @@
 export default (sequelize, DataTypes) => {
   const Staffs = sequelize.define('Staffs', {
-    staff_id: {
+    staffId: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -12,7 +12,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    middlename: DataTypes.STRING,
+    middlename: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     dob: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -36,17 +39,27 @@ export default (sequelize, DataTypes) => {
     },
     classId: {
       type: DataTypes.INTEGER,
-    }
+    },
+    subjectId: {
+      type: DataTypes.INTEGER,
+    },
+    deptId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   });
   Staffs.associate = (models) => {
     Staffs.belongsTo(models.Class, {
       foreignKey: 'classId',
     });
-    Staffs.hasOne(models.Subjects, {
-      foreignKey: 'staffId',
+    Staffs.belongsTo(models.Subjects, {
+      foreignKey: 'subjectId',
     });
     Staffs.hasMany(models.LessonNote, {
       foreignKey: 'staffId',
+    });
+    Staffs.belongsTo(models.Department, {
+      foreignKey: 'deptId',
     });
   };
   return Staffs;

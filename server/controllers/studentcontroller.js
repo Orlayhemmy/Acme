@@ -11,14 +11,14 @@ export default class StudentController {
  */
   static signup(req, res) {
     const { firstname, lastname, middlename, address, origin, mobile,
-       dob, password, student_id, sex } = req.body;
+       dob, password, studentId, sex } = req.body;
 
     Students.findOne({
       where: {
-        student_id,
+        studentId,
       },
     }).then((foundUser) => {
-      const error = student_id;
+      const error = studentId;
       if (foundUser) {
         return res.status(400).send({
           message: `The Admission number ${error} is registered already`,
@@ -27,12 +27,12 @@ export default class StudentController {
       const saltRounds = 10;
       bcrypt.genSalt(saltRounds, (err, salt) => {
         bcrypt.hash(password, salt, (err, hash) => {
-          const fname = fullname.toLowerCase();
+          const fname = firstname.toLowerCase();
           const lname = lastname.toLowerCase();
           const mname = middlename.toLowerCase();
           const origin_state = origin.toLowerCase();
           const home = address.toLowerCase();
-          const std_id = student_id.toLowerCase();
+          const std_id = studentId.toLowerCase();
           Students.create({
             firstname: fname,
             lastname: lname,
@@ -41,11 +41,11 @@ export default class StudentController {
             origin: state_origin,
             mobile,
             dob,
-            student_id: std_id,
+            studentId: std_id,
             sex,
             password: hash,
           }).then(() => {
-              const payload = { student_id, firstname };
+              const payload = { studentId, firstname };
               const token = jwt.sign(payload, process.env.SECRET, {
                 expiresIn: 60 * 60 * 12,
               });
@@ -53,7 +53,7 @@ export default class StudentController {
               return res.status(201).send({
                 message: 'You are now Signed Up',
                 data: {
-                  student_id,
+                  studentId,
                   firstname,
                   password,
                 },
@@ -78,17 +78,17 @@ export default class StudentController {
    * @memberof StudentController
    */
   static signin(req, res) {
-    const { login_student_id, login_password } = req.body;
+    const { login_studentId, login_password } = req.body;
 
     Students.findOne({
       where: {
-        student_id: login_student_id,
+        studentId: login_studentId,
       },
     }).then((user) => {
-      if (user && user.student_id.toLowerCase === login_student_id.toLowerCase) {
+      if (user && user.studentId.toLowerCase === login_studentId.toLowerCase) {
         const check = bcrypt.compareSync(login_password, user.password);
         if (check) {
-          const payload = { firstname, student_id };
+          const payload = { firstname, studentId };
           const token = jwt.sign(payload, process.env.SECRET, {
             expiresIn: 60 * 60 * 12,
           });
@@ -122,11 +122,11 @@ export default class StudentController {
  * @memberof StudentController
  */
   static recoverPassword(req, res) {
-    const { student_id } = req.body;
+    const { studentId } = req.body;
 
     Students.findOne({
       where: {
-        student_id,
+        studentId,
       },
     }).then((user) => {
       if (user) {
@@ -152,11 +152,11 @@ export default class StudentController {
  */
   static updateStudentInfo(req, res) {
     const { firstname, lastname, middlename, address, origin, mobile,
-    dob, password, student_id, sex} = req.body;
+    dob, password, studentId, sex} = req.body;
     
     Students.findOne({
       where: {
-        student_id,
+        studentId,
       },
     }).then((user) => {
       if (user) {
@@ -226,7 +226,7 @@ export default class StudentController {
   static getSingleStudent(req, res) {
     Staffs.findOne({
       where: {
-        student_id: req.params.student_id,
+        studentId: req.params.studentId,
       },
     }).then((user) => {
         if (user) {

@@ -1,14 +1,14 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Classes', {
-      classId: {
+    return queryInterface.createTable('Subjects', {
+      subjectId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      classname: {
+      subjectname: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -23,6 +23,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Classes');
+    return queryInterface.dropTable('Subjects');
   }
 };

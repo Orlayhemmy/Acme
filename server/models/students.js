@@ -1,6 +1,6 @@
 export default (sequelize, DataTypes) => {
   const Students = sequelize.define('Students', {
-    student_id: {
+    studentId: {
       type: DataTypes.STRING,
       allowNull: false,
     },

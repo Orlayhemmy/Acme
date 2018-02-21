@@ -7,7 +7,9 @@
     "start": "nodemon --watch server --exec babel-node -- server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate": "sequelize db:migrate",
-    "umigrate": "sequelize db:migrate:undo:all",
+    "unmigrate": "sequelize db:migrate:undo:all",
+    "seed": "sequelize db:seed:all",
+    "unseed": "sequelize db:seed:undo:all",
     "build": "webpack -d && webpack-dev-server --content-base client/ --inline --hot --port 4000 --history-api-fallback"
   },
   "author": "zitbase",

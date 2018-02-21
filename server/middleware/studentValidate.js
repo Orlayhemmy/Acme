@@ -20,14 +20,14 @@ export default class Validation {
   static signup(req, res, next) {
     const {
       firstname, lastname, middlename, address, origin, mobile,
-      dob, password, student_id, sex, retypePass
+      dob, password, studentId, sex, retypePass
     } = req.body;
 
     const errors = {};
 
     if (firstname === undefined || lastname === undefined || password === undefined || retypePass === undefined
     || middlename === undefined || address === undefined || origin === undefined || mobile === undefined 
-    || dob === undefined || student_id === undefined || sex === undefined) {
+    || dob === undefined || studentId === undefined || sex === undefined) {
       console.log(req.body);
       return res.status(400).send({
         message: 'All or some fields are not defined',
@@ -110,12 +110,12 @@ export default class Validation {
     }
 
     // validate student id
-    if (!validator.isEmpty(student_id)) {
-      if (!/^[a-zA-Z0-9]+$/.test(student_id)) {
-        errors.student_id = 'Student identification number can only contain numbers and letters';
+    if (!validator.isEmpty(studentId)) {
+      if (!/^[a-zA-Z0-9]+$/.test(studentId)) {
+        errors.studentId = 'Student identification number can only contain numbers and letters';
       }
     } else {
-      errors.student_id = 'Lastname cannot be blank';
+      errors.studentId = 'Lastname cannot be blank';
     }
 
     //validate password
@@ -151,17 +151,17 @@ export default class Validation {
      * @memberof UserValidations
      */
   static signin(req, res, next) {
-    const { login_student_id, login_password } = req.body;
+    const { login_studentId, login_password } = req.body;
 
     const errors = {};
-    if (login_student_id === undefined || login_password === undefined) {
+    if (login_studentId === undefined || login_password === undefined) {
       return res.status(400).send({
         message: 'student ID or Password is undefined',
       });
     }
 
-    if (validator.isEmpty(login_student_id)) {
-      errors.login_student_id= 'Student ID is required';
+    if (validator.isEmpty(login_studentId)) {
+      errors.login_studentId= 'Student ID is required';
     }
 
     if (validator.isEmpty(login_password)) {
@@ -177,11 +177,11 @@ export default class Validation {
   }
 
   static recoverPassword(req, res, next) {
-    const { student_id } = req.body;
+    const { studentId } = req.body;
     const error = {};
 
-    if (student_id === undefined) {
-      error.student_id = 'Student ID is required';
+    if (studentId === undefined) {
+      error.studentId = 'Student ID is required';
     }
 
     const isValid = Object.keys(error).length === 0;

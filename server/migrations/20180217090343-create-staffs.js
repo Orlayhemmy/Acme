@@ -6,59 +6,66 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
-      staff_id: {
+      staffId: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       firstname: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       lastname: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       middlename: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       dob: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
       },
       address: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       origin: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       mobile: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       sex: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       password: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       classId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+      },
+      subjectId: {
+        type: Sequelize.INTEGER,
+      },
+      deptId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
