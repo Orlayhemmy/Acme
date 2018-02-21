@@ -21,6 +21,9 @@ export default (sequelize, DataTypes) => {
     Class.hasMany(models.LessonNote, {
       foreignKey: 'classId',
     });
+    Class.hasMany(models.TeacherClasses, {
+      foreignKey: 'classId',
+    });
   };
   return Class;
 };

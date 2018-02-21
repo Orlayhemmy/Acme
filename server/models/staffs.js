@@ -61,6 +61,9 @@ export default (sequelize, DataTypes) => {
     Staffs.belongsTo(models.Department, {
       foreignKey: 'deptId',
     });
+    Staffs.hasMany(models.TeacherClasses, {
+      foreignKey: 'staffId',
+    });
   };
   return Staffs;
 };

@@ -17,7 +17,6 @@ export default class Header extends React.Component {
     } else {
       role = this.props.auth.user.deptname;
     }
-    console.log(role)
     return (
       <header className="page-header row justify-center">
         <div className="col-md-6 col-lg-8" >

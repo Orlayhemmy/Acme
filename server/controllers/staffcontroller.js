@@ -69,7 +69,15 @@ export default class StaffController {
                 model: Subjects,
               }],
             }).then((user) => {
-              const payload = { firstname: user.firstname, id: user.id, classId: user.classId, subjectId: user.subjectId, deptId: user.deptId, deptname: user.Department.dept_name };
+              const payload = { 
+                firstname: user.firstname, 
+                id: user.id, 
+                classId: user.classId, 
+                subjectId: user.subjectId, 
+                subject: user.Subject.subjectname, 
+                deptId: user.deptId, 
+                deptname: user.Department.dept_name, 
+              };
               const token = jwt.sign(payload, process.env.SECRET, {
                 expiresIn: 60 * 60 * 12,
               });
@@ -122,7 +130,16 @@ export default class StaffController {
       if (user && user.staffId === loginId) {
         const check = bcrypt.compareSync(loginPassword, user.password);
         if (check) {
-          const payload = { firstname: user.firstname, id: user.id, classId: user.classId, subjectId: user.subjectId, deptId: user.deptId, deptname: user.Department.dept_name };
+          const payload = { 
+            firstname: user.firstname, 
+            id: user.id, 
+            classId: user.classId, 
+            subjectId: user.subjectId, 
+            subject: user.Subject.subjectname, 
+            deptId: user.deptId, 
+            deptname: user.Department.dept_name, 
+          };
+
           const token = jwt.sign(payload, process.env.SECRET, {
             expiresIn: 60 * 60 * 12,
           });

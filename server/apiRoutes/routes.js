@@ -49,6 +49,9 @@ router.route('/class/:id')
   .get(AuthToken, ClassController.getSingleClass)
   .delete(AuthAdminToken, ClassController.deleteClass);
 
+router.route('/classes/:id')
+  .get(AuthToken, ClassController.getTeacherClasses);
+  
 router.route('/notes')
   .post(AuthToken, LessonNoteController.createLessonNote)
   .get(AuthToken, LessonNoteController.getAllNotes);

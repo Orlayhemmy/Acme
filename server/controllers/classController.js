@@ -1,4 +1,6 @@
-import { Class } from '../models';
+import models from '../models';
+
+const { Class, TeacherClasses } = models;
 
 export default class ClassController {
 /**
@@ -116,7 +118,7 @@ export default class ClassController {
  * @returns 
  * @memberof ClassController
  */
-static deleteClass(req, res) {
+  static deleteClass(req, res) {
     const { id } = req.params;
 
     return Class.findById(id).then((foundClass) => {
@@ -131,5 +133,31 @@ static deleteClass(req, res) {
     }).catch(error => res.status(500).send({
       message: error.message,
     }));
+  }
+
+  static getTeacherClasses(req, res) {
+    const { id } = req.params;
+
+    TeacherClasses.findAll({
+      where: {
+        staffId: id,
+      },
+      include: [{
+        model: Class,
+      }],
+    }).then((classes) => {
+      if (classes) {
+        return res.status(200).send({
+          classes,
+        });
+      }
+      return res.status(400).send({
+        message: 'You have not registered classes yet',
+      });
+    }).catch((error) => {
+      res.status(500).send({
+        message: error.message,
+      });
+    });
   }
 }

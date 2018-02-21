@@ -22,7 +22,7 @@ export default class LessonNote extends React.Component {
   render() {
     let contentToggler = (
       <div className="col-lg-12 mb-12">
-        <div className="card text-center">
+        <div className="card">
           <div className="card-header">
             <ul className="nav nav-tabs card-header-tabs">
               <li className="nav-item"><span className="nav-link active" onClick={this.toggleDiv.bind(this)}>Lesson Note</span></li>
