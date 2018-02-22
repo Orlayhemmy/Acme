@@ -3,29 +3,57 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import ContentContainer from '../contentContainer';
 import { getTeacherClasses } from '../../actions/classActions';
+import { createNoteValidate } from '../../shared/noteValidation';
+import { createNote } from '../../actions/noteActions';
+import { currentTerm } from '../../actions/termActions';
 
 @connect((store) => {
   return {
     auth: store.auth,
     classes: store.classes.classes,
-  }
+    term: store.term,
+  };
 })
 
 export default class LessonNote extends React.Component {
   constructor() {
     super();
-
+    this.state = {
+      classId: '',
+      weekId: '',
+      errors: {},
+    }
+    this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.isValid = this.isValid.bind(this);
   }
-
+  onChange(e) {
+    this.setState({
+      [e.target.id]: e.target.value,
+    });
+  }
+  isValid() {
+    this.state.termId = this.props.term.currentTerm;
+    this.state.staffId = this.props.auth.user.id;
+    const { isValid, errors } = createNoteValidate(this.state);
+    if (!isValid) {
+      this.setState({ errors });
+    }
+    return isValid;  
+  }
   onSubmit(e) {
     e.preventDefault();
-    
+    if (this.isValid()) {
+      this.props.dispatch(createNote(this.state));
+      window.open('/note', 'window', 'toolbar=no, menubar=no, resizable=yes');
+    }
   }
   componentWillMount() {
+    this.props.dispatch(currentTerm('1'));
     this.props.dispatch(getTeacherClasses(this.props.auth.user.id));
   }
   render() {
+    const { weekId, classId, errors } = this.state;
     const subjectClasses = _.map(this.props.classes, (subjectclass) => {
       return (
         <option key={subjectclass.id} value={subjectclass.classId}>{subjectclass.Class.classname}</option>
@@ -36,11 +64,12 @@ export default class LessonNote extends React.Component {
       <form class="form-horizontal" onSubmit={this.onSubmit}>
         <h3 class="mt-4 mb-4 text-center"><em class="fa fa-plus-circle"></em> Add Note</h3>
         <fieldset>
+          <div className="help-block">{errors.weekId}</div>
           <div class="form-group">
             <label class="col-12 control-label no-padding" for="name">Week</label>
             <div class="col-12 no-padding">
-              <select id="subject" class="form-control">
-                <option value="0">Select Week</option>
+              <select id="weekId" class="form-control" onChange={this.onChange}>
+                <option>Select Week</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -56,11 +85,12 @@ export default class LessonNote extends React.Component {
               </select>
             </div>
           </div>
+          <div className="help-block">{errors.classId}</div>
           <div class="form-group">
             <label class="col-12 control-label no-padding" for="name">Class</label>
             <div class="col-12 no-padding">
-              <select id="class" class="form-control">
-                <option value="0">Select Class</option>
+              <select id="classId" class="form-control" onChange={this.onChange}>
+                <option>Select Class</option>
                 {subjectClasses}
               </select>
             </div>

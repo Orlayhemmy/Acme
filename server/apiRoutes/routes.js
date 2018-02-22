@@ -8,6 +8,7 @@ import AuthAdminToken from '../middleware/authAdminToken';
 import StudentValidate from '../middleware/studentValidate';
 import StaffValidate from '../middleware/staffValidate';
 import ClassValidate from '../middleware/classValidate';
+import NoteValidate from '../middleware/noteValidate';
 
 const router = express.Router();
 
@@ -53,7 +54,7 @@ router.route('/classes/:id')
   .get(AuthToken, ClassController.getTeacherClasses);
   
 router.route('/notes')
-  .post(AuthToken, LessonNoteController.createLessonNote)
+  .post(AuthToken, NoteValidate.createNote, LessonNoteController.createLessonNote)
   .get(AuthToken, LessonNoteController.getAllNotes);
 
 router.route('/note/:id')

@@ -3,11 +3,11 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Subjects', [
-    {
-      subjectname: 'Mathematics',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
+      {
+        subjectname: 'Mathematics',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
       {
         subjectname: 'English Language',
       createdAt: new Date(),

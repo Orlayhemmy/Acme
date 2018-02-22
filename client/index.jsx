@@ -15,6 +15,7 @@ import LessonNote from './components/lessonNotePage';
 import Assessment from './components/assessmentPage';
 import Report from './components/reportPage';
 import SpreadSheet from './components/spreadSheetPage';
+import Note from './components/notePage';
 import setAuthToken from './utils/setAuthorizationToken';
 // import PasswordRecovery from './components/passwordRecoveryPage';
 // import Profile from './components/profile';
@@ -29,9 +30,9 @@ if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)));
 }
-// if (localStorage.eventId) {
-//   store.dispatch(setCurrentEvent(localStorage.eventId));
-// }
+if (localStorage.eventId) {
+  store.dispatch(setCurrentEvent(localStorage.eventId));
+}
 // if (localStorage.centerId) {
 //   store.dispatch(setCurrentCenter(localStorage.centerId));
 // }
@@ -48,6 +49,7 @@ ReactDOM.render(
         <Route exact path="/assessments" component={Assessment} />
         <Route exact path="/spreadsheet" component={SpreadSheet} />
         <Route exact path="/report" component={Report} />
+        <Route exact path="/note" component={Note} />
       </Switch>
     </Router>
   </Provider>

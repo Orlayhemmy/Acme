@@ -6,27 +6,71 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       termId: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       weekId: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       classId: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
-      subjectId: {
+      staffId: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       content: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true,
+      },
+      duration:  {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
+      topic:  {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      scope:  {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      activity:  {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      objectives:  {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      materials:  {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      behaviours:  {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      assessment:  {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      questions:  {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      reference:  {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      strategies:  {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,

@@ -11,7 +11,6 @@ env.config();
  * @returns {obj} Error on
  */
 const authToken = (req, res, next) => {
-  console.log(req.body, req.params);
   const token = req.body.token || req.headers['x-access-token'];
 
   if (token) {

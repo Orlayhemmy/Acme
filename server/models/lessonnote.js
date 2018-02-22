@@ -1,5 +1,11 @@
 export default (sequelize, DataTypes) => {
   const LessonNote = sequelize.define('LessonNote', {
+    noteId: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER,
+    },
     termId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -12,14 +18,58 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    subjectId:  {
+    staffId:  {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
     content:  {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    duration:  {
       type: DataTypes.INTEGER,
-      allowNull: false,
-    }
+      allowNull: true,
+    },
+    topic:  {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    scope:  {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    activity:  {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    objectives:  {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    materials:  {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    behaviours:  {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    assessment:  {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    questions:  {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    reference:  {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    strategies:  {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   });
   LessonNote.associate = (models) => {
     LessonNote.belongsTo(models.Term, {
