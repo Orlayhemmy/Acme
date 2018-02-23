@@ -70,6 +70,9 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    upload:  {
+      type: DataTypes.BOOLEAN,
+    },
   });
   LessonNote.associate = (models) => {
     LessonNote.belongsTo(models.Term, {

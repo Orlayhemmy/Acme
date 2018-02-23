@@ -54,8 +54,10 @@ router.route('/classes/:id')
   .get(AuthToken, ClassController.getTeacherClasses);
   
 router.route('/notes')
-  .post(AuthToken, NoteValidate.createNote, LessonNoteController.createLessonNote)
-  .get(AuthToken, LessonNoteController.getAllNotes);
+  .post(AuthToken, NoteValidate.createNote, LessonNoteController.createLessonNote);
+
+router.route('/weeknotes/:id')
+  .get(AuthToken, LessonNoteController.getWeekNotes);
 
 router.route('/note/:id')
   .put(AuthToken, LessonNoteController.updateLessonNote)

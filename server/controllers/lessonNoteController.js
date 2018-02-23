@@ -1,6 +1,6 @@
 import models from '../models';
 
-const { LessonNote } = models;
+const { LessonNote, Class } = models;
 
 export default class LessonNoteController {
   /**
@@ -36,16 +36,12 @@ export default class LessonNoteController {
   static updateLessonNote(req, res) {
     const {
       content, activity, duration, objectives, materials, behaviours,
-      assessment, scope, topic, questions, reference, strategies,
+      assessment, scope, topic, questions, reference, strategies, upload,
     } = req.body;
-
-    LessonNote.findOne({
-      where: {
-        noteId: req.params.id,
-      },
-    }).then((note) => {
+    const { id } = req.params;
+    LessonNote.findById(id).then((note) => {
       if (note) {
-        return LessonNote.update({
+        note.update({
           content: content || note.content,
           activity: activity || note.activity,
           duration: duration || note.duration,
@@ -58,6 +54,7 @@ export default class LessonNoteController {
           questions: questions || note.questions,
           reference: reference || note.reference,
           strategies: strategies || note.strategies,
+          upload: upload || note.upload,
         }).then(() => res.status(200).send({
           message: 'Your lesson note has been updated successfully',
         })).catch(err => res.status(500).send({
@@ -80,12 +77,16 @@ export default class LessonNoteController {
    * @param {any} res
    * @memberof ClassController
    */
-  static getAllNotes(req, res) {
-    const { staffId } = req.body;
+  static getWeekNotes(req, res) {
+    
     LessonNote.findAll({
       where: {
-        staffId,
+        staffId: req.decoded.id,
+        weekId: req.params.id,
       },
+      include: [{
+        model: Class,
+      }],
     }).then((notes) => {
       if (notes) {
         // show notes
@@ -97,9 +98,11 @@ export default class LessonNoteController {
       return res.status(404).send({
         message: 'No lesson not found',
       });
-    }).catch(error => res.status(500).send({
-      message: error.message,
-    }));
+    }).catch((error) => {
+      res.status(500).send({
+        message: error.message,
+      });
+    });
   }
   /**
    *
@@ -113,8 +116,11 @@ export default class LessonNoteController {
     const { id } = req.params;
     LessonNote.findOne({
       where: {
-        id,
+        noteId: id,
       },
+      include: [{
+        model: Class,
+      }]
     }).then((note) => {
       if (note) {
         return res.status(200).send({

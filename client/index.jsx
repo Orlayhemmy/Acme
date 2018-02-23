@@ -6,7 +6,6 @@ import jwt from 'jsonwebtoken';
 
 
 import store from './store';
-// import allReducers from './reducers/reducersIndex';
 import HomePage from './components/homepage';
 import Dashboard from './components/dashboard';
 import TestArea from './components/testArea';
@@ -17,21 +16,17 @@ import Report from './components/reportPage';
 import SpreadSheet from './components/spreadSheetPage';
 import Note from './components/notePage';
 import setAuthToken from './utils/setAuthorizationToken';
-// import PasswordRecovery from './components/passwordRecoveryPage';
-// import Profile from './components/profile';
 import { setCurrentUser } from './actions/authActions';
-// import { setCurrentEvent } from './actions/eventActions';
-// import { setCurrentCenter } from './actions/centerActions';
-// import style from './sass/style.scss';
-// import Image from './components/imageUpload';
+import { setCurrentNote } from './actions/noteActions';
+
 
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)));
 }
-if (localStorage.eventId) {
-  store.dispatch(setCurrentEvent(localStorage.eventId));
+if (localStorage.noteId) {
+  store.dispatch(setCurrentNote(localStorage.noteId));
 }
 // if (localStorage.centerId) {
 //   store.dispatch(setCurrentCenter(localStorage.centerId));

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Header from './header';
 import { writeNoteValidate } from '../shared/noteValidation';
-import { createNote, modifyNote } from '../actions/noteActions';
+import { createNote, modifyNote, getNote } from '../actions/noteActions';
 
 @connect((store) => {
   return {
@@ -34,6 +34,9 @@ export default class Note extends React.Component {
     this.isValid = this.isValid.bind(this);
     this.onClick = this.onClick.bind(this);
   }
+  componentWillMount() {
+    this.props.dispatch(getNote(this.props.note.id.id));
+  }
   onChange(e) {
     this.setState({
       [e.target.id]: e.target.value,
@@ -51,14 +54,14 @@ export default class Note extends React.Component {
     e.preventDefault();
 
     if (this.isValid()) {
-      // window.open('/note', 'window', 'toolbar=no, menubar=no, resizable=yes');
-    }
+      this.state.upload = 'true';
+      this.props.dispatch(modifyNote(this.props.note.id.id, this.state));
+     }
   }
   onClick() {
-    this.props.dispatch(modifyNote(this.state));
+    this.props.dispatch(modifyNote(this.props.note.id.id, this.state));
   }
   render() {
-    console.log(this.props.note.noteId)
     const { duration, objectives, activity, materials, behaviours, content, assessment,
     scope, topic, questions, reference, strategies, errors} = this.state;
     return (
@@ -79,22 +82,22 @@ export default class Note extends React.Component {
                           <td>Plotting of Graph</td>
                                                     
                           <th>Term</th>
-                          <td><i class="fa fa-recycle"></i></td>
+                          <td></td>
                         </tr>
                         
                         <tr>
                           <th>Week</th>
                           
-                          <td>Factorization</td>
+                          <td></td>
                           
                           <th>Class</th>
-                          <td><i class="fa fa-recycle"></i></td>
+                          <td></td>
                         </tr>
                         <tr>
                           <th>Duration</th>
                           <td>
                             <div className="help-block">{errors.duration}</div>
-                            <input type="text" id="duration"/>
+                            <input type="text" class="form-control" onChange={this.onChange} id="duration"/>
                           </td>
                         </tr>
                       </tbody>
@@ -104,7 +107,7 @@ export default class Note extends React.Component {
                       <label class="col-12 control-label no-padding" for="name">Topic</label>
                       
                       <div class="col-12 no-padding">
-                        <textarea id="topic" class="form-control"></textarea>
+                        <textarea id="topic" class="form-control" onChange={this.onChange}></textarea>
                       </div>
                     </div>
                     
@@ -113,7 +116,7 @@ export default class Note extends React.Component {
                       <label class="col-12 control-label no-padding" for="name">Definition of purpose and scope of topic</label>
                       
                       <div class="col-12 no-padding">
-                        <textarea id="scope" class="form-control"></textarea>
+                        <textarea id="scope" class="form-control" onChange={this.onChange}></textarea>
                       </div>
                     </div>
                     
@@ -122,7 +125,7 @@ export default class Note extends React.Component {
                       <label class="col-12 control-label no-padding" for="name">Questions</label>
                       
                       <div class="col-12 no-padding">
-                        <textarea id="questions" class="form-control"></textarea>
+                        <textarea id="questions" class="form-control" onChange={this.onChange}></textarea>
                       </div>
                     </div>
                     
@@ -131,7 +134,7 @@ export default class Note extends React.Component {
                       <label class="col-12 control-label no-padding" for="name">Reference Books/Resources</label>
                       
                       <div class="col-12 no-padding">
-                        <textarea id="reference" class="form-control"></textarea>
+                        <textarea id="reference" class="form-control" onChange={this.onChange}></textarea>
                       </div>
                     </div>
                     
@@ -140,7 +143,7 @@ export default class Note extends React.Component {
                       <label class="col-12 control-label no-padding" for="name">Instructional Materials</label>
                       
                       <div class="col-12 no-padding">
-                        <textarea id="materials" class="form-control"></textarea>
+                        <textarea id="materials" class="form-control" onChange={this.onChange}></textarea>
                       </div>
                     </div>
                     
@@ -149,7 +152,7 @@ export default class Note extends React.Component {
                       <label class="col-12 control-label no-padding" for="name">Behavioural objectives</label>
                       
                       <div class="col-12 no-padding">
-                        <textarea id="objectives" class="form-control"></textarea>
+                        <textarea id="objectives" class="form-control" onChange={this.onChange}></textarea>
                       </div>
                     </div>
                     
@@ -158,7 +161,7 @@ export default class Note extends React.Component {
                       <label class="col-12 control-label no-padding" for="name">Entry behaviour</label>
                       
                       <div class="col-12 no-padding">
-                        <textarea id="behaviours" class="form-control"></textarea>
+                        <textarea id="behaviours" class="form-control" onChange={this.onChange}></textarea>
                       </div>
                     </div>
                     
@@ -167,7 +170,7 @@ export default class Note extends React.Component {
                       <label class="col-12 control-label no-padding" for="name">Teaching strategies</label>
                       
                       <div class="col-12 no-padding">
-                        <textarea id="strategies" class="form-control"></textarea>
+                        <textarea id="strategies" class="form-control" onChange={this.onChange}></textarea>
                       </div>
                     </div>
                     
@@ -176,7 +179,7 @@ export default class Note extends React.Component {
                       <label class="col-12 control-label no-padding" for="name">Content</label>
                       
                       <div class="col-12 no-padding">
-                        <textarea id="content" class="ckeditor"></textarea>
+                        <textarea id="content" onChange={this.onChange} class="ckeditor"></textarea>
                       </div>
                     </div>
                     
@@ -185,7 +188,7 @@ export default class Note extends React.Component {
                       <label class="col-12 control-label no-padding" for="name">Class activity</label>
                       
                       <div class="col-12 no-padding">
-                        <textarea id="activity" class="form-control"></textarea>
+                        <textarea id="activity" class="form-control" onChange={this.onChange}></textarea>
                       </div>
                     </div>
                     
@@ -194,7 +197,7 @@ export default class Note extends React.Component {
                       <label class="col-12 control-label no-padding" for="name">Assessment</label>
                       
                       <div class="col-12 no-padding">
-                        <textarea id="assessment" class="form-control"></textarea>
+                        <textarea id="assessment" class="form-control" onChange={this.onChange}></textarea>
                       </div>
                     </div>
                     

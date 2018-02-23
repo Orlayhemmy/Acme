@@ -4,7 +4,7 @@ import _ from 'lodash';
 import ContentContainer from '../contentContainer';
 import { getTeacherClasses } from '../../actions/classActions';
 import { createNoteValidate } from '../../shared/noteValidation';
-import { createNote } from '../../actions/noteActions';
+import { createNote, getWeekNotes, getNote } from '../../actions/noteActions';
 import { currentTerm } from '../../actions/termActions';
 
 @connect((store) => {
@@ -12,6 +12,7 @@ import { currentTerm } from '../../actions/termActions';
     auth: store.auth,
     classes: store.classes.classes,
     term: store.term,
+    notes: store.note.notes,
   };
 })
 
@@ -22,16 +23,26 @@ export default class LessonNote extends React.Component {
       classId: '',
       weekId: '',
       errors: {},
+      historyWeek: '',
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.isValid = this.isValid.bind(this);
+    this.onClick = this.onClick.bind(this);
+    this.updateArchive = this.updateArchive.bind(this);
+  }
+  updateArchive(id) {
+    this.props.dispatch(getWeekNotes(id));
   }
   onChange(e) {
     this.setState({
       [e.target.id]: e.target.value,
     });
+    if (e.target.id == 'historyWeek') {
+      this.updateArchive(e.target.value);
+    }
   }
+  
   isValid() {
     this.state.termId = this.props.term.currentTerm;
     this.state.staffId = this.props.auth.user.id;
@@ -48,12 +59,17 @@ export default class LessonNote extends React.Component {
       window.open('/note', 'window', 'toolbar=no, menubar=no, resizable=yes');
     }
   }
+  onClick(e) {
+    this.props.dispatch(getNote(e.target.id))
+    window.open('/note', 'window', 'toolbar=no, menubar=no, resizable=yes');
+  }
   componentWillMount() {
     this.props.dispatch(currentTerm('1'));
     this.props.dispatch(getTeacherClasses(this.props.auth.user.id));
+    this.props.dispatch(getWeekNotes('2'))
   }
   render() {
-    const { weekId, classId, errors } = this.state;
+    const { weekId, classId, errors, historyWeek } = this.state;
     const subjectClasses = _.map(this.props.classes, (subjectclass) => {
       return (
         <option key={subjectclass.id} value={subjectclass.classId}>{subjectclass.Class.classname}</option>
@@ -103,20 +119,41 @@ export default class LessonNote extends React.Component {
         </fieldset>
       </form>
     );
-    
+ 
+    const lessonNotes = _.map(this.props.notes, (note) => {
+      return (
+        <tr key={note.noteId}>
+          <td id={note.noteId} onClick={this.onClick} className="text-left">{note.topic}</td>                 
+          <td>{note.Class.classname}</td>
+          <td><i class="fa fa-remove"></i></td>
+        </tr>
+      );
+    });
     const archive = ( 
       <div className="table-responsive text-center">
         <h3 className="mt-4 mb-4"><em class="fa fa-list"></em> Note Archive</h3>
         <div class="form-group">
-          <select id="history_week" class="form-control">
-            <option value="0">Current Week</option>
-          </select>
+          <div class="col-12 no-padding">
+            <select id="historyWeek" class="form-control" onChange={this.onChange}>
+              <option>Current Week</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+            </select>
+          </div>
         </div>
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>S/N</th>
-              
               <th>Topic</th>
               
               <th>Class</th>
@@ -125,33 +162,7 @@ export default class LessonNote extends React.Component {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              
-              <td>Plotting of Graph</td>
-                                        
-              <td>Grade 9</td>
-              <td><i class="fa fa-recycle"></i></td>
-            </tr>
-            
-            <tr>
-              <td>2</td>
-              
-              <td>Factorization</td>
-              
-              <td>Grade 7</td>
-              <td><i class="fa fa-recycle"></i></td>
-            </tr>
-            
-            <tr>
-              <td>3</td>
-              
-              <td>Equations</td>
-              
-              <td>Grade 8</td>
-              
-              <td><i class="fa fa-recycle"></i></td>
-            </tr>
+            {lessonNotes}
           </tbody>
         </table>
       </div>  
