@@ -9,7 +9,7 @@ export default class LessonNoteController {
    * @static  createLessonNote
    * @param {any} req
    * @param {any} res
-   * @memberof ClassController
+   * @memberof LessonNoteController
    */
   static createLessonNote(req, res) {
     const { termId, weekId, classId, staffId } = req.body;
@@ -31,7 +31,7 @@ export default class LessonNoteController {
    * @static updateLessonNote
    * @param {any} req
    * @param {any} res
-   * @memberof ClassController
+   * @memberof LessonNoteController
    */
   static updateLessonNote(req, res) {
     const {
@@ -75,7 +75,7 @@ export default class LessonNoteController {
    * @static getAllNotes
    * @param {any} req
    * @param {any} res
-   * @memberof ClassController
+   * @memberof LessonNoteController
    */
   static getWeekNotes(req, res) {
     
@@ -110,7 +110,7 @@ export default class LessonNoteController {
    * @static getSingleLessonNote
    * @param {any} req
    * @param {any} res
-   * @memberof ClassController
+   * @memberof LessonNoteController
    */
   static getSingleLessonNote(req, res) {
     const { id } = req.params;

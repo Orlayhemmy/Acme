@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+import bcrypt, { hash } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import env from 'dotenv';
 import models from '../models';
@@ -112,7 +112,6 @@ export default class StaffController {
    */
   static signin(req, res) {
     const { loginId, loginPassword } = req.body;
- 
     Staffs.findOne({
       where: {
         staffId: loginId,
@@ -128,6 +127,7 @@ export default class StaffController {
       }],
     }).then((user) => {
       if (user && user.staffId === loginId) {
+
         const check = bcrypt.compareSync(loginPassword, user.password);
         if (check) {
           const payload = { 
@@ -153,7 +153,7 @@ export default class StaffController {
           });
         }
         return res.status(400).send({
-          message: 'Invalid email or password',
+          message: 'Invalid id or password',
         });
       }
       return res.status(404).send({

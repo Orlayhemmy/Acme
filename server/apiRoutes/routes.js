@@ -3,12 +3,15 @@ import StudentController from '../controllers/studentcontroller';
 import StaffController from '../controllers/staffcontroller';
 import LessonNoteController from '../controllers/lessonNoteController';
 import ClassController from '../controllers/classController';
+import AssignmentController from '../controllers/assignmentController';
+import FeedbackController from '../controllers/feedbackController';
 import AuthToken from '../middleware/authenticateToken';
 import AuthAdminToken from '../middleware/authAdminToken';
 import StudentValidate from '../middleware/studentValidate';
 import StaffValidate from '../middleware/staffValidate';
 import ClassValidate from '../middleware/classValidate';
 import NoteValidate from '../middleware/noteValidate';
+import AssignmentValidate from '../middleware/assignmentValidate';
 
 const router = express.Router();
 
@@ -63,5 +66,27 @@ router.route('/note/:id')
   .put(AuthToken, LessonNoteController.updateLessonNote)
   .get(AuthToken, LessonNoteController.getSingleLessonNote)
   .delete(AuthToken, LessonNoteController.deleteNote);
+
+router.route('/assignments')
+  .post(AuthToken, AssignmentValidate, AssignmentController.createAssignment);
+
+router.route('/weekassignments/:id')
+  .get(AuthToken, AssignmentController.getWeekAssignments);
+
+router.route('/assignment/:id')
+  .put(AuthToken, AssignmentController.updateAssignment)
+  .get(AuthToken, AssignmentController.getSingleAssignment)
+  .delete(AuthToken, AssignmentController.deleteAssignment);
+
+router.route('/feedbacks')
+  .post(AuthToken, FeedbackController.createFeedback);
+
+router.route('/weekfeedbacks/:id')
+  .get(AuthToken, FeedbackController.getWeekFeedbacks);
+
+router.route('/feedback/:id')
+  .put(AuthToken, FeedbackController.updateFeedback)
+  .get(AuthToken, FeedbackController.getSingleFeedback)
+  .delete(AuthToken, FeedbackController.deleteFeedback);
 
 export default router;

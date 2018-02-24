@@ -43,6 +43,9 @@ export default (sequelize, DataTypes) => {
     Students.belongsTo(models.Class, {
       foreignKey: 'classId',
     });
+    Students.hasMany(models.Feedback, {
+      foreignKey: 'studentId',
+    });
   };
   return Students;
 };
