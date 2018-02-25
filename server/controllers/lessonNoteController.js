@@ -12,12 +12,13 @@ export default class LessonNoteController {
    * @memberof LessonNoteController
    */
   static createLessonNote(req, res) {
-    const { termId, weekId, classId, staffId } = req.body;
+    const { termId, weekId, classId, staffId, topic } = req.body;
     return LessonNote.create({
       termId,
       weekId,
       classId,
       staffId,
+      topic,
     }).then((note) => res.status(201).send({
       message: 'Lesson note saved successfully',
       noteId: note.noteId,
@@ -161,4 +162,31 @@ export default class LessonNoteController {
     }));
   }
 
+  static getHODWeekNotes(req, res) {
+    
+    LessonNote.findAll({
+      where: {
+        hodId: req.decoded.id,
+        weekId: req.params.id,
+      },
+      include: [{
+        model: Class,
+      }],
+    }).then((hodnotes) => {
+      if (hodnotes) {
+        // show notes
+        return res.status(200).send({
+          hodnotes,
+        });
+      }
+      // No lesson note found
+      return res.status(404).send({
+        message: 'No lesson not found',
+      });
+    }).catch((error) => {
+      res.status(500).send({
+        message: error.message,
+      });
+    });
+  }
 }

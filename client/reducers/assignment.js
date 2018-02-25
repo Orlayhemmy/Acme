@@ -6,6 +6,9 @@ const initialState = {
   status: '',
   message: '',
   isAssess: false,
+  assignment: {
+    Class: {},
+  },
 };
 export default (state = initialState, action = {}) => {
   switch (action.type) {
@@ -19,7 +22,7 @@ export default (state = initialState, action = {}) => {
         message: '',
       };
     }
-    case 'ASSIGNMENT_CREATED': {
+    case 'CREATE_ASSIGNMENT_SUCCESS': {
       const { message, assignmentId } = action.payload;
       return {
         ...state,
@@ -29,7 +32,7 @@ export default (state = initialState, action = {}) => {
         assignmentId,
       };
     }
-    case 'ASSIGNMENT_FAIL': {
+    case 'CREATE_ASSIGNMENT_FAILS': {
       const { status } = action.payload;
       const { message } = action.payload.data;
       return {
@@ -67,7 +70,7 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'GET_ASSIGNMENT_SUCCESS': {
-      const assignment = action.payload.data;
+      const { assignment } = action.payload.data;
       return {
         ...state,
         loading: false,

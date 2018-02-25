@@ -12,15 +12,16 @@ export default class AssignmentController {
    * @memberof AssignmentController
    */
   static createAssignment(req, res) {
-    const { termId, weekId, classId, staffId } = req.body;
+    const { termId, weekId, classId, staffId, topic } = req.body;
     return Assignment.create({
       termId,
       weekId,
       classId,
       staffId,
-    }).then(assess => res.status(201).send({
+      topic,
+    }).then(assignment => res.status(201).send({
       message: 'Assignment created',
-      assignmentId: assess.assignmentId,
+      assignmentId: assignment.assignmentId,
     })).catch(error => res.status(500).send({
       message: error.message,
     }));
@@ -35,14 +36,15 @@ export default class AssignmentController {
    */
   static updateAssignment(req, res) {
     const {
-      content, upload,
+      content, upload, topic,
     } = req.body;
     const { id } = req.params;
-    Assignment.findById(id).then((assess) => {
-      if (assess) {
-        assess.update({
-          content: content || assess.content,
-          upload: upload || assess.upload,
+    Assignment.findById(id).then((assignment) => {
+      if (assignment) {
+        assignment.update({
+          content: content || assignment.content,
+          upload: upload || assignment.upload,
+          topic: topic || assignment.topic,
         }).then(() => res.status(200).send({
           message: 'Your Assignment has been updated successfully',
         })).catch(err => res.status(500).send({
@@ -76,11 +78,11 @@ export default class AssignmentController {
       include: [{
         model: Class,
       }],
-    }).then((assess) => {
-      if (assess) {
-        // show assess
+    }).then((assignments) => {
+      if (assignments) {
+        // show assignment
         return res.status(200).send({
-          assess,
+          assignments,
         });
       }
       // No Assignment found
@@ -112,11 +114,11 @@ export default class AssignmentController {
       include: [{
         model: Class,
       }],
-    }).then((assess) => {
-      if (assess) {
-        // show assess
+    }).then((assignments) => {
+      if (assignments) {
+        // show assignment
         return res.status(200).send({
-          assess,
+          assignments,
         });
       }
       // No Assignment found
@@ -146,10 +148,10 @@ export default class AssignmentController {
       include: [{
         model: Class,
       }]
-    }).then((assess) => {
-      if (assess) {
+    }).then((assignment) => {
+      if (assignment) {
         return res.status(200).send({
-          assess,
+          assignment,
         });
       }
       return res.status(400).send({
@@ -163,7 +165,7 @@ export default class AssignmentController {
   /**
    *
    *
-   * @static deleteassess
+   * @static deleteassignment
    * @param {any} req
    * @param {any} res
    * @returns
@@ -172,8 +174,8 @@ export default class AssignmentController {
   static deleteAssignment(req, res) {
     const { id } = req.params;
 
-    return Assignment.findById(id).then((assess) => {
-      if (assess) {
+    return Assignment.findById(id).then((assignment) => {
+      if (assignment) {
         return Assignment.destroy().then(() => res.status(200).send({
           message: 'Assignment Deleted',
         }));

@@ -64,13 +64,16 @@ router.route('/notes')
 router.route('/weeknotes/:id')
   .get(AuthToken, LessonNoteController.getWeekNotes);
 
+router.route('/hodweeknotes/:id')
+  .get(AuthToken, LessonNoteController.getHODWeekNotes);
+
 router.route('/note/:id')
   .put(AuthToken, LessonNoteController.updateLessonNote)
   .get(AuthToken, LessonNoteController.getSingleLessonNote)
   .delete(AuthToken, LessonNoteController.deleteNote);
 
 router.route('/assignments')
-  .post(AuthToken, AssignmentValidate, AssignmentController.createAssignment);
+  .post(AuthToken, AssignmentValidate.createAssignment, AssignmentController.createAssignment);
 
 router.route('/weekassignments/:id')
   .get(AuthToken, AssignmentController.getWeekAssignments);

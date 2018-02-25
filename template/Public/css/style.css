@@ -314,7 +314,9 @@ p {
     width: 85%;
     text-align: center;
     border-radius: .3rem; }
-
+.table td {
+  cursor: pointer;
+}
 #wrapper.toggled .sidebar-nav {
   display: none; }
 

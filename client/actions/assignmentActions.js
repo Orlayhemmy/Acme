@@ -23,12 +23,12 @@ export function createAssignment(data) {
   return (dispatch) => {
     dispatch({ type: 'CREATE_ASSIGNMENT' });
     axios.post('api/v1/assignments', data).then((response) => {
-      dispatch({ type: 'ASSIGNMENT_CREATED', payload: response.data });
+      dispatch({ type: 'CREATE_ASSIGNMENT_SUCCESS', payload: response.data });
       const id = response.data.assignmentId;
       localStorage.setItem('assignmentId', id);
       dispatch(setCurrentAssignment(id));
     }).catch((err) => {
-      dispatch({ type: 'ASSIGNMENT_FAIL', payload: err.response });
+      dispatch({ type: 'CREATE_ASSIGNMENT_FAILS', payload: err.response });
     });
   };
 }

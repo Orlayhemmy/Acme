@@ -5,13 +5,14 @@ import ContentContainer from '../contentContainer';
 import { getTeacherClasses } from '../../actions/classActions';
 import { createAssignmentValidate } from '../../shared/assignmentValidation';
 import { createAssignment, getWeekAssignments, getAssignment } from '../../actions/assignmentActions';
-import { currentTerm } from '../../actions/termActions';
+
 
 @connect((store) => {
   return {
     auth: store.auth,
     classes: store.classes.classes,
     term: store.term,
+    week: store.week,
     assignments: store.assignment.assignments,
   };
 })
@@ -24,6 +25,7 @@ export default class Assignment extends React.Component {
       weekId: '',
       errors: {},
       historyWeek: '',
+      topic: '',
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -44,7 +46,7 @@ export default class Assignment extends React.Component {
   }
   
   isValid() {
-    this.state.termId = this.props.term.currentTerm;
+    this.state.termId = this.props.term.id.value;
     this.state.staffId = this.props.auth.user.id;
     const { isValid, errors } = createAssignmentValidate(this.state);
     if (!isValid) {
@@ -56,6 +58,7 @@ export default class Assignment extends React.Component {
     e.preventDefault();
     if (this.isValid()) {
       this.props.dispatch(createAssignment(this.state));
+      this.props.dispatch(getWeekAssignments(this.props.week.id.value));
       window.open('/assignment', 'window', 'toolbar=no, menubar=no, resizable=yes');
     }
   }
@@ -64,12 +67,11 @@ export default class Assignment extends React.Component {
     window.open('/assignment', 'window', 'toolbar=no, menubar=no, resizable=yes');
   }
   componentWillMount() {
-    this.props.dispatch(currentTerm('1'));
     this.props.dispatch(getTeacherClasses(this.props.auth.user.id));
-    this.props.dispatch(getWeekAssignments('2'))
+    this.props.dispatch(getWeekAssignments(this.props.week.id.value))
   }
   render() {
-    const { weekId, classId, errors, historyWeek } = this.state;
+    const { weekId, classId, errors, historyWeek, topic } = this.state;
     const subjectClasses = _.map(this.props.classes, (subjectclass) => {
       return (
         <option key={subjectclass.id} value={subjectclass.classId}>{subjectclass.Class.classname}</option>
@@ -101,6 +103,7 @@ export default class Assignment extends React.Component {
               </select>
             </div>
           </div>
+          
           <div className="help-block">{errors.classId}</div>
           <div class="form-group">
             <label class="col-12 control-label no-padding" for="name">Class</label>
@@ -109,6 +112,13 @@ export default class Assignment extends React.Component {
                 <option>Select Class</option>
                 {subjectClasses}
               </select>
+            </div>
+          </div>
+          <div className="help-block">{errors.topic}</div>
+          <div class="form-group">
+            <label class="col-12 control-label no-padding" for="name">Topic</label>  
+            <div class="col-12 no-padding">
+              <input  type="text" id="topic" class="form-control" onChange={this.onChange}/>
             </div>
           </div>
           <div class="form-group">

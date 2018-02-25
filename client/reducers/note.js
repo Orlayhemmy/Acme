@@ -6,6 +6,9 @@ const initialState = {
   status: '',
   message: '',
   isNote: false,
+  note: {
+    Class: {},
+  },
 };
 export default (state = initialState, action = {}) => {
   switch (action.type) {
@@ -19,17 +22,19 @@ export default (state = initialState, action = {}) => {
         message: '',
       };
     }
-    case 'LESSON_NOTE_CREATED': {
-      const { message, noteId } = action.payload;
+    case 'CREATE_NOTE_SUCCESS': {
+      const { message, noteId } = action.payload.data;
+      const { status } = action.payload;
       return {
         ...state,
         loading: true,
         loaded: false,
         message,
         noteId,
+        status,
       };
     }
-    case 'LESSON_NOTE_FAIL': {
+    case 'CREATE_NOTE_FAILS': {
       const { status } = action.payload;
       const { message } = action.payload.data;
       return {
@@ -67,7 +72,7 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'GET_NOTE_SUCCESS': {
-      const note = action.payload.data;
+      const { note } = action.payload.data;
       return {
         ...state,
         loading: false,

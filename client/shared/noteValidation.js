@@ -2,7 +2,7 @@ import validator from 'validator';
 import isEmpty from 'lodash/isEmpty';
 
 export function createNoteValidate(data) {
-  const { classId, weekId } = data;
+  const { classId, weekId, topic } = data;
   const errors = {};
 
   if (validator.isEmpty(classId)) {
@@ -17,6 +17,10 @@ export function createNoteValidate(data) {
   }
   if (!validator.isInt(weekId)) {
     errors.weekId = 'Select a week';
+  }
+
+  if (validator.isEmpty(topic)) {
+    errors.topic = 'The note must have a topic';
   }
 
   return { errors, isValid: isEmpty(errors) };

@@ -1,16 +1,20 @@
-;
+import isEmpty from 'lodash/isEmpty';
 
 export default class Validation {
 
   static createAssignment(req, res, next) {
-    const { weekId, classId } = req.body;
+    const { weekId, classId, topic } = req.body;
     const errors = {}
 
-    if (weekId == '') {
+    if (isEmpty(weekId)) {
       errors.weekId = 'Select a week';
     }
-    if (classId == '') {
+    if (isEmpty(classId)) {
       errors.classId = 'Select a class';
+    }
+
+    if (isEmpty(topic)) {
+      errors.topic = 'Give assignment a topic';
     }
 
     const isValid = Object.keys(errors).length === 0;

@@ -12,7 +12,9 @@ import { createNote, getWeekNotes, getNote } from '../../actions/noteActions';
     auth: store.auth,
     classes: store.classes.classes,
     term: store.term,
+    week: store.week,
     notes: store.note.notes,
+    note: store.note,
   };
 })
 
@@ -24,6 +26,7 @@ export default class LessonNote extends React.Component {
       weekId: '',
       errors: {},
       historyWeek: '',
+      topic: '',
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -44,7 +47,7 @@ export default class LessonNote extends React.Component {
   }
   
   isValid() {
-    this.state.termId = this.props.term.currentTerm;
+    this.state.termId = this.props.term.id.value;
     this.state.staffId = this.props.auth.user.id;
     const { isValid, errors } = createNoteValidate(this.state);
     if (!isValid) {
@@ -56,19 +59,21 @@ export default class LessonNote extends React.Component {
     e.preventDefault();
     if (this.isValid()) {
       this.props.dispatch(createNote(this.state));
+      this.props.dispatch(getWeekNotes(this.props.week.id.value));
       window.open('/note', 'window', 'toolbar=no, menubar=no, resizable=yes');
     }
   }
   onClick(e) {
-    this.props.dispatch(getNote(e.target.id))
+    this.props.dispatch(getNote(e.target.id));
     window.open('/note', 'window', 'toolbar=no, menubar=no, resizable=yes');
   }
+
   componentWillMount() {
     this.props.dispatch(getTeacherClasses(this.props.auth.user.id));
-    this.props.dispatch(getWeekNotes('2'))
+    this.props.dispatch(getWeekNotes(this.props.week.id.value));
   }
   render() {
-    const { weekId, classId, errors, historyWeek } = this.state;
+    const { weekId, classId, errors, historyWeek, topic } = this.state;
     const subjectClasses = _.map(this.props.classes, (subjectclass) => {
       return (
         <option key={subjectclass.id} value={subjectclass.classId}>{subjectclass.Class.classname}</option>
@@ -108,6 +113,13 @@ export default class LessonNote extends React.Component {
                 <option>Select Class</option>
                 {subjectClasses}
               </select>
+            </div>
+          </div>
+          <div className="help-block">{errors.topic}</div>
+          <div class="form-group">
+            <label class="col-12 control-label no-padding" for="name">Topic</label>  
+            <div class="col-12 no-padding">
+              <input  type="text" id="topic" class="form-control" onChange={this.onChange}/>
             </div>
           </div>
           <div class="form-group">

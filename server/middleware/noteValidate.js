@@ -63,7 +63,7 @@ export default class Validation {
   }
 
   static createNote(req, res, next) {
-    const { weekId, classId } = req.body;
+    const { weekId, classId, topic } = req.body;
     const errors = {}
 
     if (weekId == '') {
@@ -72,6 +72,10 @@ export default class Validation {
     if (classId == '') {
       errors.classId = 'Select a class';
     }
+
+    if (topic == '') {
+      errors.classId = 'The note must have a topic';
+    }   
 
     const isValid = Object.keys(errors).length === 0;
     if (!isValid) {

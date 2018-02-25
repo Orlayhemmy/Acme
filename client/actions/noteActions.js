@@ -23,12 +23,12 @@ export function createNote(data) {
   return (dispatch) => {
     dispatch({ type: 'CREATE_LESSON_NOTE' });
     axios.post('api/v1/notes', data).then((response) => {
-      dispatch({ type: 'LESSON_NOTE_CREATED', payload: response.data });
+      dispatch({ type: 'CREATE_NOTE_SUCCESS', payload: response });
       const id = response.data.noteId;
       localStorage.setItem('noteId', id);
       dispatch(setCurrentNote(id));
     }).catch((err) => {
-      dispatch({ type: 'LESSON_NOTE_FAIL', payload: err.response });
+      dispatch({ type: 'CREATE_NOTE_FAILS', payload: err.response });
     });
   };
 }

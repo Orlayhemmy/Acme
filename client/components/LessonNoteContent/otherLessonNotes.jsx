@@ -39,7 +39,6 @@ export default class OtherNotes extends React.Component {
     window.open('/note', 'window', 'toolbar=no, menubar=no, resizable=yes');
   }
   componentWillMount() {
-    this.props.dispatch(currentTerm('1'));
     this.props.dispatch(getWeekNotes('2'))
   }
   render() {
