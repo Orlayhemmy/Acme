@@ -5,6 +5,8 @@ import LessonNoteController from '../controllers/lessonNoteController';
 import ClassController from '../controllers/classController';
 import AssignmentController from '../controllers/assignmentController';
 import FeedbackController from '../controllers/feedbackController';
+import WeekController from '../controllers/weekController';
+import TermController from '../controllers/termController';
 import AuthToken from '../middleware/authenticateToken';
 import AuthAdminToken from '../middleware/authAdminToken';
 import StudentValidate from '../middleware/studentValidate';
@@ -88,5 +90,17 @@ router.route('/feedback/:id')
   .put(AuthToken, FeedbackController.updateFeedback)
   .get(AuthToken, FeedbackController.getSingleFeedback)
   .delete(AuthToken, FeedbackController.deleteFeedback);
+
+router.route('/term')
+  .get(TermController.getTerm);
+
+router.route('/term/:id')
+  .put(AuthToken, TermController.currentTerm);
+
+router.route('/week')
+  .get(WeekController.getWeek);
+
+router.route('/week/:id')
+  .put(AuthToken, WeekController.currentWeek);
 
 export default router;

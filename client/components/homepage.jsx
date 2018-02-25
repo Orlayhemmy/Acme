@@ -4,8 +4,8 @@ import { Redirect } from'react-router-dom';
 import Footer from './footer';
 import loginInputValidate from '../shared/uservalidation';
 import { staffSignInRequest } from '../actions/authActions';
-import { currentTerm } from '../actions/termActions';
-import { currentWeek } from '../actions/weekActions';
+import { getCurrentTerm } from '../actions/termActions';
+import { getCurrentWeek } from '../actions/weekActions';
 
 @connect((store) => {
   return {
@@ -29,8 +29,8 @@ export default class Homepage extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(currentTerm(1));
-    this.props.dispatch(currentWeek(2));
+    this.props.dispatch(getCurrentTerm());
+    this.props.dispatch(getCurrentWeek());
   }
   onSubmit(e) {
     e.preventDefault();

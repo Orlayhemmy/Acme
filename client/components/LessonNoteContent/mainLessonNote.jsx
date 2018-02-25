@@ -5,7 +5,7 @@ import ContentContainer from '../contentContainer';
 import { getTeacherClasses } from '../../actions/classActions';
 import { createNoteValidate } from '../../shared/noteValidation';
 import { createNote, getWeekNotes, getNote } from '../../actions/noteActions';
-import { currentTerm } from '../../actions/termActions';
+
 
 @connect((store) => {
   return {
@@ -64,7 +64,6 @@ export default class LessonNote extends React.Component {
     window.open('/note', 'window', 'toolbar=no, menubar=no, resizable=yes');
   }
   componentWillMount() {
-    this.props.dispatch(currentTerm('1'));
     this.props.dispatch(getTeacherClasses(this.props.auth.user.id));
     this.props.dispatch(getWeekNotes('2'))
   }

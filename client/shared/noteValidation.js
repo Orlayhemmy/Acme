@@ -8,8 +8,14 @@ export function createNoteValidate(data) {
   if (validator.isEmpty(classId)) {
     errors.classId = 'Select a class';
   }
+  if (!validator.isInt(classId)) {
+    errors.classId = 'Select a class';
+  }
 
   if (validator.isEmpty(weekId)) {
+    errors.weekId = 'Select a week';
+  }
+  if (!validator.isInt(weekId)) {
     errors.weekId = 'Select a week';
   }
 

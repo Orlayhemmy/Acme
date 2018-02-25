@@ -15,9 +15,12 @@ import Assessment from './components/assessmentPage';
 import Report from './components/reportPage';
 import SpreadSheet from './components/spreadSheetPage';
 import Note from './components/notePage';
+import Settings from './components/settings';
 import setAuthToken from './utils/setAuthorizationToken';
 import { setCurrentUser } from './actions/authActions';
 import { setCurrentNote } from './actions/noteActions';
+import { setCurrentTerm } from './actions/termActions';
+import { setCurrentWeek } from './actions/weekActions';
 
 
 
@@ -27,6 +30,12 @@ if (localStorage.jwtToken) {
 }
 if (localStorage.noteId) {
   store.dispatch(setCurrentNote(localStorage.noteId));
+}
+if (localStorage.termId) {
+  store.dispatch(setCurrentTerm(localStorage.termId));
+}
+if (localStorage.weekId) {
+  store.dispatch(setCurrentWeek(localStorage.weekId));
 }
 // if (localStorage.centerId) {
 //   store.dispatch(setCurrentCenter(localStorage.centerId));
@@ -45,6 +54,7 @@ ReactDOM.render(
         <Route exact path="/spreadsheet" component={SpreadSheet} />
         <Route exact path="/report" component={Report} />
         <Route exact path="/note" component={Note} />
+        <Route exact path="/settings" component={Settings} />
       </Switch>
     </Router>
   </Provider>
