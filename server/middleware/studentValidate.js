@@ -151,21 +151,21 @@ export default class Validation {
      * @memberof UserValidations
      */
   static signin(req, res, next) {
-    const { login_studentId, login_password } = req.body;
+    const { loginId, loginPassword } = req.body;
 
     const errors = {};
-    if (login_studentId === undefined || login_password === undefined) {
+    if (loginId === undefined || loginPassword === undefined) {
       return res.status(400).send({
         message: 'student ID or Password is undefined',
       });
     }
 
-    if (validator.isEmpty(login_studentId)) {
-      errors.login_studentId= 'Student ID is required';
+    if (validator.isEmpty(loginId)) {
+      errors.loginId= 'Student ID is required';
     }
 
-    if (validator.isEmpty(login_password)) {
-      errors.login_password = 'Password is required';
+    if (validator.isEmpty(loginPassword)) {
+      errors.loginPassword = 'Password is required';
     }
 
     const isValid = Object.keys(errors).length === 0;

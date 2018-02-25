@@ -11,6 +11,7 @@ import { currentTerm } from '../../actions/termActions';
     auth: store.auth,
     classes: store.classes.classes,
     term: store.term,
+    week: store.week,
     assignments: store.assignment.assignments,
     feedbacks: store.feedback.feedbacks,
   };
@@ -33,8 +34,7 @@ export default class Feedback extends React.Component {
     window.open('/assignment', 'window', 'toolbar=no, menubar=no, resizable=yes');
   }
   componentWillMount() {
-    this.props.dispatch(currentTerm('1'));
-    this.props.dispatch(getWeekFeedbacks(1));
+    this.props.dispatch(getWeekFeedbacks(this.props.week.id.value));
   }
   render() {
     const { weekId, classId, errors, historyWeek } = this.state;

@@ -11,7 +11,7 @@ module.exports = {
       origin: 'Ekiti',
       mobile: '08034343434',
       sex: 'male',
-      password: 'colson',
+      password: '$2a$10$Bmuaah35zYVHNAk1MbuzmeST4BzkPVfymSCvmGY4P.5u3vUy1vLla',
       classId: '1',
       studentId: 'yss240',
       createdAt: new Date(),

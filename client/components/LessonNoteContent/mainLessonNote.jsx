@@ -49,6 +49,7 @@ export default class LessonNote extends React.Component {
   isValid() {
     this.state.termId = this.props.term.id.value;
     this.state.staffId = this.props.auth.user.id;
+    this.state.subjectId = this.props.auth.user.subjectId;
     const { isValid, errors } = createNoteValidate(this.state);
     if (!isValid) {
       this.setState({ errors });
@@ -60,9 +61,11 @@ export default class LessonNote extends React.Component {
     if (this.isValid()) {
       this.props.dispatch(createNote(this.state));
       this.props.dispatch(getWeekNotes(this.props.week.id.value));
+
       window.open('/note', 'window', 'toolbar=no, menubar=no, resizable=yes');
     }
   }
+  
   onClick(e) {
     this.props.dispatch(getNote(e.target.id));
     window.open('/note', 'window', 'toolbar=no, menubar=no, resizable=yes');

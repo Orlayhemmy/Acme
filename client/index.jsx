@@ -17,12 +17,15 @@ import SpreadSheet from './components/spreadSheetPage';
 import Note from './components/notePage';
 import Settings from './components/settings';
 import WriteAssessment from './components/writeAssessment';
+import StudentDashboard from './components/studentDashboard';
+import StudentNote from './components/studentNotePage';
 import setAuthToken from './utils/setAuthorizationToken';
 import { setCurrentUser } from './actions/authActions';
 import { setCurrentNote } from './actions/noteActions';
 import { setCurrentTerm } from './actions/termActions';
 import { setCurrentWeek } from './actions/weekActions';
 import { setCurrentAssignment } from './actions/assignmentActions';
+
 
 
 
@@ -61,6 +64,8 @@ ReactDOM.render(
         <Route exact path="/note" component={Note} />
         <Route exact path="/settings" component={Settings} />
         <Route exact path="/assignment" component={WriteAssessment} />
+        <Route exact path="/studentdashboard" component={StudentDashboard} />
+        <Route exact path="/studentnote" component={StudentNote} />
       </Switch>
     </Router>
   </Provider>

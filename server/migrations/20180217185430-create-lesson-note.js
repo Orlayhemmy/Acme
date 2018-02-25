@@ -24,51 +24,59 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      subjectId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       content: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      duration:  {
+      duration: {
         type: Sequelize.INTEGER,
         allowNull: true,
       },
-      topic:  {
+      topic: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      scope:  {
+      scope: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      activity:  {
+      activity: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      objectives:  {
+      objectives: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      materials:  {
+      materials: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      behaviours:  {
+      behaviours: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      assessment:  {
+      assessment: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      questions:  {
+      questions: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      reference:  {
+      reference: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      strategies:  {
+      strategies: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      preview: {
         type: Sequelize.STRING,
         allowNull: true,
       },

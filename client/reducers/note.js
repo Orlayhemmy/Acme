@@ -8,6 +8,7 @@ const initialState = {
   isNote: false,
   note: {
     Class: {},
+    Subject: {},
   },
 };
 export default (state = initialState, action = {}) => {

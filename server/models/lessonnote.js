@@ -10,67 +10,75 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    weekId:  {
+    weekId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    classId:  {
+    classId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    staffId:  {
+    staffId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    content:  {
+    subjectId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    content: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    duration:  {
+    duration: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    topic:  {
+    topic: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    scope:  {
+    scope: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    activity:  {
+    activity: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    objectives:  {
+    objectives: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    materials:  {
+    materials: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    behaviours:  {
+    behaviours: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    assessment:  {
+    assessment: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    questions:  {
+    questions: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    reference:  {
+    reference: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    strategies:  {
+    strategies: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    upload:  {
+    preview: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    upload: {
       type: DataTypes.BOOLEAN,
     },
   });
@@ -86,6 +94,9 @@ export default (sequelize, DataTypes) => {
     });
     LessonNote.belongsTo(models.Staffs, {
       foreignKey: 'staffId',
+    });
+    LessonNote.belongsTo(models.Subjects, {
+      foreignKey: 'subjectId',
     });
   }
   return LessonNote;

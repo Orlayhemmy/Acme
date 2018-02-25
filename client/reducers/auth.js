@@ -3,6 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 
 const initialState = {
   isAuth: false,
+  isStudent: false,
   user: {},
   loading: '',
   loaded: '',
@@ -16,13 +17,14 @@ export default (state = initialState, action = {}) => {
 
     case 'SET_CURRENT_USER': {
       const { newUser } = action.payload;
-      const { firstname, id, classId, deptId, deptname, subjectId, subject } = newUser;
+      const { firstname, id, classId, deptId, deptname, subjectId, subject, isStudent } = newUser;
       const user = {
-        firstname, id, classId, deptId, deptname, subjectId, subject
+        firstname, id, classId, deptId, deptname, subjectId, subject,
       }
       return {
         isAuth: !isEmpty(newUser),
         user,
+        isStudent: newUser.isStudent,
       };
     }
     case 'USER_LOGIN': {

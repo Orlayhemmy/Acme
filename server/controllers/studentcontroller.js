@@ -1,4 +1,9 @@
-import { Students } from '../models';
+import bcrypt, { hash } from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import env from 'dotenv';
+import models from '../models';
+
+const { Students } = models;
 
 export default class StudentController {
 /**
@@ -78,17 +83,17 @@ export default class StudentController {
    * @memberof StudentController
    */
   static signin(req, res) {
-    const { login_studentId, login_password } = req.body;
+    const { loginId, loginPassword } = req.body;
 
     Students.findOne({
       where: {
-        studentId: login_studentId,
+        studentId: loginId,
       },
     }).then((user) => {
-      if (user && user.studentId.toLowerCase === login_studentId.toLowerCase) {
-        const check = bcrypt.compareSync(login_password, user.password);
+      if (user && user.studentId.toLowerCase === loginId.toLowerCase) {
+        const check = bcrypt.compareSync(loginPassword, user.password);
         if (check) {
-          const payload = { firstname, studentId };
+          const payload = { firstname: user.firstname, id: user.id, classId: user.classId, isStudent: true };
           const token = jwt.sign(payload, process.env.SECRET, {
             expiresIn: 60 * 60 * 12,
           });
@@ -102,7 +107,7 @@ export default class StudentController {
           });
         }
         return res.status(400).send({
-          message: 'Invalid email or password',
+          message: 'Invalid Id or password',
         });
       }
       return res.status(404).send({

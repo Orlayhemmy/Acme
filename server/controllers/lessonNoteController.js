@@ -1,6 +1,6 @@
 import models from '../models';
 
-const { LessonNote, Class } = models;
+const { LessonNote, Class, Staffs, Subjects } = models;
 
 export default class LessonNoteController {
   /**
@@ -12,12 +12,13 @@ export default class LessonNoteController {
    * @memberof LessonNoteController
    */
   static createLessonNote(req, res) {
-    const { termId, weekId, classId, staffId, topic } = req.body;
+    const { termId, weekId, classId, staffId, subjectId, topic } = req.body;
     return LessonNote.create({
       termId,
       weekId,
       classId,
       staffId,
+      subjectId,
       topic,
     }).then((note) => res.status(201).send({
       message: 'Lesson note saved successfully',
@@ -87,6 +88,9 @@ export default class LessonNoteController {
       },
       include: [{
         model: Class,
+      },
+      {
+        model: Subjects,
       }],
     }).then((notes) => {
       if (notes) {
