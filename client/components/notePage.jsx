@@ -35,17 +35,23 @@ export default class Note extends React.Component {
     this.onClick = this.onClick.bind(this);
     this.updateContent = this.updateContent.bind(this);
   }
-  componentWillMount() {
-    this.props.dispatch(getNote(this.props.note.id.id));
-  }
+  // componentWillMount() {
+  //   this.props.dispatch(getNote(this.props.note.id.id));
+  // }
+
+  // componentDidMount() {
+  //   let item = document.getElementById('topic');
+  //   item.value += this.props.note.note.topic;
+  //   console.log(this.props.note.note)
+  // }
   onChange(e) {
     this.setState({
       [e.target.id]: e.target.value,
     });
-    if (e.target.id === 'content') {
-      console.log('content')
-      let timer= setInterval(this.updateContent(), 100);
-    }
+    // if (e.target.id === 'content') {
+    //   console.log('content')
+    //   let timer= setInterval(this.updateContent(), 100);
+    // }
     // if (e.target.id === 'content') {
     //   let newContent = e.ckeditor.getData();
     //   this.setState({
@@ -53,13 +59,16 @@ export default class Note extends React.Component {
     //   });
     // }
   }
-  updateContent() {
-    console.log('yes')
-    let newContent =  CKEDITOR.replace('ckeditor');      
-    this.setState({
-      content: newContent.getData(),
-    });
+  updateContent(e) {
+    
   }
+  // updateContent() {
+  //   console.log('yes')
+  //   let newContent =  CKEDITOR.replace('ckeditor');      
+  //   this.setState({
+  //     content: newContent.getData(),
+  //   });
+  // }
   isValid() {    
     const { isValid, errors } = writeNoteValidate(this.state);
     if (!isValid) {
@@ -111,7 +120,7 @@ export default class Note extends React.Component {
                           <td>{note.weekId}</td>
                           
                           <th>Class</th>
-                          <td>{note.Class.classname}</td>
+                          <td></td>
                         </tr>
                         <tr>
                           <th>Duration</th>
@@ -126,7 +135,7 @@ export default class Note extends React.Component {
                     <div class="form-group">
                       <label class="col-12 control-label no-padding" for="name">Topic</label> 
                       <div class="col-12 no-padding">
-                        <textarea id="topic" class="form-control" onChange={this.onChange}></textarea>
+                        <textarea id="topic" onLoadedData={this.updateContent} class="form-control" onChange={this.onChange}></textarea>
                       </div>
                     </div>
                     

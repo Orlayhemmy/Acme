@@ -47,11 +47,17 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'SET_CURRENT_NOTE': {
-      const id = action.payload;
+      const { newNote } = action.payload;
+      const { duration, objectives, activity, materials, behaviours, content, assessment,
+      scope, topic, questions, reference, strategies, classname, termId, weekId } = newNote;
+      const note = { 
+        duration, objectives, activity, materials, behaviours, content, assessment,
+        scope, topic, questions, reference, strategies, classname, termId, weekId,
+      }
       return {
         ...state,
-        isNote: !isEmpty(id),
-        id,
+        isNote: !isEmpty(newNote),
+        note,
       };
     }
     case 'GET_LESSON_NOTE': {
@@ -73,12 +79,12 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'GET_NOTE_SUCCESS': {
-      const { note } = action.payload.data;
+      const { message } = action.payload.data;
       return {
         ...state,
         loading: false,
         loaded: true,
-        note,
+        message,
       };
     }
     case 'MODIFY_LESSON_NOTE': {

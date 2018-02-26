@@ -35,8 +35,8 @@ if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)));
 }
-if (localStorage.noteId) {
-  store.dispatch(setCurrentNote(localStorage.noteId));
+if (localStorage.note) {
+  store.dispatch(setCurrentNote(jwt.decode(localStorage.note)));
 }
 if (localStorage.termId) {
   store.dispatch(setCurrentTerm(localStorage.termId));

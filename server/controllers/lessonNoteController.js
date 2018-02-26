@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+import env from 'dotenv';
 import models from '../models';
 
 const { LessonNote, Class, Staffs, Subjects } = models;
@@ -129,8 +131,30 @@ export default class LessonNoteController {
       }]
     }).then((note) => {
       if (note) {
+        const payload = {
+          topic: note.topic,
+          content: note.content,
+          activity: note.activity,
+          duration: note.duration,
+          objectives: note.objectives,
+          materials: note.materials,
+          behaviours: note.behaviours,
+          assessment: note.assessment,
+          scope: note.scope,
+          questions: note.questions,
+          reference: note.reference,
+          strategies: note.strategies,
+          classname: note.Class.classname,
+          termId: note.termId,
+          weekId: note.weekId,
+        };
+        const token = jwt.sign(payload, process.env.SECRET, {
+          expiresIn: 60 * 60 * 12,
+        });
+        req.body.token = token;
         return res.status(200).send({
-          note,
+          token,
+          message: 'Lesson note found',
         });
       }
       return res.status(400).send({

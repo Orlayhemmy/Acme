@@ -1,8 +1,9 @@
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 
-export function setCurrentNote(id) {
+export function setCurrentNote(newNote) {
   return (dispatch) => {
-    dispatch({ type: 'SET_CURRENT_NOTE', payload: { id } })
+    dispatch({ type: 'SET_CURRENT_NOTE', payload: { newNote } })
   };
 }
 
@@ -11,8 +12,9 @@ export function getNote(id) {
     dispatch({ type: 'GET_LESSON_NOTE' });
     axios.get(`api/v1/note/${id}`).then((response) => {
       dispatch({ type: 'GET_NOTE_SUCCESS', payload: response });
-      localStorage.setItem('noteId', id);
-      dispatch(setCurrentNote(id));
+      const { token } = response.data;
+      localStorage.setItem('note', token);
+      dispatch(setCurrentNote(jwt.decode(token)));
     }).catch((err) => {
       dispatch({ type: 'GET_NOTE_FAILS', payload: err.response });
     });

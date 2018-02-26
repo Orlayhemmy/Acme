@@ -59,7 +59,6 @@ export default class TestArea extends React.Component {
   }
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state)
     if (this.isValid()) {
       this.props.dispatch(createTest(this.state));
       this.props.dispatch(getTermTests(this.props.term.id.value));
@@ -67,6 +66,7 @@ export default class TestArea extends React.Component {
     }
   }
   render() {
+    const { pathname } = this.props.location;
     const { errors, title, classId, classHistory } = this.state;
     const subjectClasses = _.map(this.props.classes, (subjectclass) => {
       return (
@@ -141,7 +141,7 @@ export default class TestArea extends React.Component {
     );
     return (
       <div className="row">
-        <Navbar />
+        <Navbar path={pathname}/>
         <main className="col-xs-12 col-sm-8 offset-sm-4 col-lg-9 offset-lg-3 col-xl-10 offset-xl-2 pt-3 pl-4">
           <Header header="Test Area"/>
           <ContentContainer contentFirst={newTest} contentSecond={archive}/>
