@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 export function createTestValidate(data) {
   const { classId, topic } = data;
   const errors = {};
-
+  console.log(data);
   if (validator.isEmpty(classId)) {
     errors.classId = 'Select a class';
   }

@@ -44,10 +44,10 @@ export function modifyTest(id, data) {
   };
 }
 
-export function getWeekTests(id) {
+export function getTermTests(id) {
   return (dispatch) => {
     dispatch({ type: 'GET_TESTS' });
-    axios.get(`api/v1/weektests/${id}`).then((response) => {
+    axios.get(`api/v1/termtests/${id}`).then((response) => {
       dispatch({ type: 'GET_TESTS_SUCCESS', payload: response });
     }).catch((err) => {
       dispatch({ type: 'GET_TESTS_FAIL', payload: err.response });

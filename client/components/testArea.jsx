@@ -6,11 +6,14 @@ import Footer from './footer';
 import ContentContainer from './contentContainer';
 import { getTeacherClasses } from '../actions/classActions';
 import { createTestValidate } from '../shared/testValidation';
+import { getTermTests, createTest } from '../actions/testActions';
 
 @connect((store) => {
   return {
     auth: store.auth,
     classes: store.classes.classes,
+    term: store.term,
+    test: store.test
   };
 })
 
@@ -30,11 +33,11 @@ export default class Dashboard extends React.Component {
     this.updateArchive = this.updateArchive.bind(this);
   }
   updateArchive(id) {
-    this.props.dispatch(getWeekAssignments(id));
+    this.props.dispatch(getTermTests(id));
   }
   componentWillMount() {
     this.props.dispatch(getTeacherClasses(this.props.auth.user.id));
-    // this.props.dispatch(getCBT(this.props.week.id.value))
+    this.props.dispatch(getTermTests(this.props.term.id.value))
   }
   onChange(e) {
     this.setState({
@@ -56,10 +59,11 @@ export default class Dashboard extends React.Component {
   }
   onSubmit(e) {
     e.preventDefault();
+    console.log(this.state)
     if (this.isValid()) {
       this.props.dispatch(createTest(this.state));
-      // this.props.dispatch(getCBT(this.props.week.id.value));
-      window.open('/assignment', 'window', 'toolbar=no, menubar=no, resizable=yes');
+      this.props.dispatch(getTermTests(this.props.term.id.value));
+      window.open('/newtest', 'window', 'toolbar=no, menubar=no, resizable=yes');
     }
   }
   render() {
@@ -73,10 +77,11 @@ export default class Dashboard extends React.Component {
       <form class="form-horizontal" onSubmit={this.onSubmit}>
         <h3 class="mt-4 mb-4 text-center"><em class="fa fa-plus-circle"></em> Add test</h3>
         <fieldset>
+        <div className="help-block">{errors.classId}</div>
           <div class="form-group">
             <label class="col-12 control-label no-padding" for="name">Class</label>
             <div class="col-12 no-padding">
-              <select id="classId" class="form-control">
+              <select id="classId" onChange={this.onChange} class="form-control">
                 <option>Select Class</option>
                 {subjectClasses}
               </select>
@@ -98,14 +103,25 @@ export default class Dashboard extends React.Component {
       </form>
     );
 
+    const testHistory = _.map(this.props.test.tests, (test) => {
+      return (
+        <tr key={test.testId}>
+          <td>{test.title}</td>
+                                    
+          <td>{test.Class.classname}</td>
+          
+          <td id={test.testId}><Link to ="/testquestions"><em class="fa fa-eye"></em></Link></td>
+          <td><em class="fa fa-upload"></em></td>
+          <td><i class="fa fa-recycle"></i></td>
+        </tr>
+      );
+    });
     const archive = ( 
       <div className="table-responsive">
         <h3 className="mt-4 mb-4 text-center"><em class="fa fa-edit"></em> Tests Archive</h3>
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>S/N</th>
-              
               <th>Title</th>
               
               <th>Class</th>
@@ -118,40 +134,7 @@ export default class Dashboard extends React.Component {
           </thead>
           
           <tbody class="text-center">
-            <tr>
-              <td>1</td>
-              
-              <td>Welcome test</td>
-                                        
-              <td>Grade 9</td>
-              
-              <td><a href="questions.html"><em class="fa fa-eye"></em></a></td>
-              <td><em class="fa fa-upload"></em></td>
-              <td><i class="fa fa-recycle"></i></td>
-            </tr>
-            
-            <tr>
-              <td>2</td>
-              
-              <td>Factorization</td>
-              
-              <td>Grade 7</td>
-              <td><em class="fa fa-eye"></em></td>
-              <td><em class="fa fa-upload"></em></td>
-              <td><i class="fa fa-recycle"></i></td>
-            </tr>
-            
-            <tr>
-              <td>3</td>
-              
-              <td>Equations</td>
-              
-              <td>Grade 8</td>
-              <td><em class="fa fa-eye"></em></td>
-              <td><em class="fa fa-upload"></em></td>
-              
-              <td><i class="fa fa-recycle"></i></td>
-            </tr>
+            {testHistory}
           </tbody>
         </table>
       </div>  

@@ -6,6 +6,7 @@ import term from './term';
 import week from './week';
 import assignment from './assignment';
 import feedback from './feedback';
+import test from './test';
 
 
 export default combineReducers({
@@ -16,4 +17,5 @@ export default combineReducers({
   week,
   assignment,
   feedback,
+  test,
 });
