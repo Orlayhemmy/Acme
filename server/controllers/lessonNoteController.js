@@ -40,6 +40,7 @@ export default class LessonNoteController {
       content, activity, duration, objectives, materials, behaviours,
       assessment, scope, topic, questions, reference, strategies, upload,
     } = req.body;
+    console.log(req.body)
     const { id } = req.params;
     LessonNote.findById(id).then((note) => {
       if (note) {
@@ -56,6 +57,7 @@ export default class LessonNoteController {
           questions: questions || note.questions,
           reference: reference || note.reference,
           strategies: strategies || note.strategies,
+          preview: topic || note.preview,
           upload: upload || note.upload,
         }).then(() => res.status(200).send({
           message: 'Your lesson note has been updated successfully',

@@ -260,6 +260,12 @@ p {
   font-style: italic;
   font-size: 0.8em;
 }
+
+.notice h2 {
+  color: #a0a0a0;
+  font-size: 3.8rem;
+  border-bottom: none;
+}
 .sidebar {
   position: fixed;
   top: 0;

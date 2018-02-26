@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import isEmpty from 'lodash/isEmpty';
 import Navbar from './sidenavbar';
 import Header from './header';
 import Footer from './footer';
@@ -18,25 +19,41 @@ export default class LessonNote extends React.Component {
   constructor() {
     super();
     this.state = {
- 
+      weekId: '',
     }
+    this.updateArchive = this.updateArchive.bind(this);
+  }
+  updateArchive(e) {
+    this.props.dispatch(getWeekNotes(e.target.id));
   }
   componentWillMount() {
     this.props.dispatch(getWeekNotes(this.props.week.id.value))
   }
   render() {
+    let content;
     const { notes } = this.props.note;
-    const content = _.map(notes, (note) => {
-      <div class="col-lg-4 mb-4">
-        <div class="card card-inverse card-primary">
-          <div class="card-header">{note.Subject.subjectname}</div>
-          <div class="card-block">
-            <p><b>{note.topic}</b>
-            <br/>{note.preview}</p>
+    if (isEmpty(notes)) {
+      content = (
+        <div className="col-lg-12 mb-4 mt-4 text-center">
+          <div className="notice">
+            <h2><b>No Lesson Note Uploaded</b></h2>
+          </div>
+        </div>  
+      );
+    } else {
+      content = _.map(notes, (note) => {
+        <div class="col-lg-4 mb-4">
+          <div class="card card-inverse card-primary">
+            <div class="card-header">{note.Subject.subjectname}</div>
+            <div class="card-block">
+              <p><b>{note.topic}</b>
+              <br/>{note.preview}</p>
+            </div>
           </div>
         </div>
-      </div>
-    })
+      });
+    }
+   
     return (
       <div className="row">
         <Navbar />
@@ -53,8 +70,20 @@ export default class LessonNote extends React.Component {
                       <div class="divider"></div>
                       <div class="col-lg-2">
                         <div class="form-group">
-                          <select id="weekId" class="form-control">
-                            <option>Current Week</option>
+                          <select id="weekId" onChange={this.updateArchive} class="form-control">
+                            <option value={this.props.week.id.value}>Current Week</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
                           </select>
                         </div>
                       </div>
@@ -66,7 +95,7 @@ export default class LessonNote extends React.Component {
                 </div>
               </section>
             </div>
-            </section>
+          </section>
           <Footer />
         </main>
       </div>

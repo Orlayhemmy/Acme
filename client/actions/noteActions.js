@@ -35,6 +35,7 @@ export function createNote(data) {
 
 export function modifyNote(id, data) {
   return (dispatch) => {
+    console.log(data)
     dispatch({ type: 'MODIFY_LESSON_NOTE' });
     axios.put(`api/v1/note/${id}`, data).then((response) => {
       dispatch({ type: 'MODIFY_NOTE_SUCCESS', payload: response });

@@ -75,7 +75,7 @@ export default (sequelize, DataTypes) => {
       allowNull: true,
     },
     preview: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(33),
       allowNull: true,
     },
     upload: {

@@ -12,10 +12,14 @@ export default class Header extends React.Component {
   render() {
     let role;
     const { id, deptname } = this.props.auth.user;
-    if (id == '1' || id > '4' && id < '10' ) {
-      role = 'Teacher';
+    if (this.props.auth.isStudent) {
+      role = 'Student';
     } else {
-      role = this.props.auth.user.deptname;
+      if (id == '1' || id > '4' && id < '10' ) {
+        role = 'Teacher';
+      } else {
+        role = this.props.auth.user.deptname;
+      }
     }
     return (
       <header className="page-header row justify-center">

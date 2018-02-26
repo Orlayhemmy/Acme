@@ -33,6 +33,7 @@ export default class Note extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.isValid = this.isValid.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.updateContent = this.updateContent.bind(this);
   }
   componentWillMount() {
     this.props.dispatch(getNote(this.props.note.id.id));
@@ -40,6 +41,23 @@ export default class Note extends React.Component {
   onChange(e) {
     this.setState({
       [e.target.id]: e.target.value,
+    });
+    if (e.target.id === 'content') {
+      console.log('content')
+      let timer= setInterval(this.updateContent(), 100);
+    }
+    // if (e.target.id === 'content') {
+    //   let newContent = e.ckeditor.getData();
+    //   this.setState({
+    //     content: newContent,
+    //   });
+    // }
+  }
+  updateContent() {
+    console.log('yes')
+    let newContent =  CKEDITOR.replace('ckeditor');      
+    this.setState({
+      content: newContent.getData(),
     });
   }
   isValid() {    
@@ -57,7 +75,10 @@ export default class Note extends React.Component {
      }
   }
   onClick() {
-    this.props.dispatch(modifyNote(this.props.note.id.id, this.state));
+    
+    this.state.preview = this.state.content.substring(0, 130) + '...';
+    console.log(this.state);
+    // this.props.dispatch(modifyNote(this.props.note.id.id, this.state));
   }
   render() {
     const { note } = this.props.note;
@@ -105,7 +126,7 @@ export default class Note extends React.Component {
                     <div class="form-group">
                       <label class="col-12 control-label no-padding" for="name">Topic</label> 
                       <div class="col-12 no-padding">
-                        <textarea id="topic" class="form-control" onChange={this.onChange}>{note.topic}</textarea>
+                        <textarea id="topic" class="form-control" onChange={this.onChange}></textarea>
                       </div>
                     </div>
                     
@@ -171,13 +192,13 @@ export default class Note extends React.Component {
                         <textarea id="strategies" class="form-control" onChange={this.onChange}>{note.strategies}</textarea>
                       </div>
                     </div>
-                    
-                    <div className="help-block">{errors.content}</div>
+                  
+                   <div className="help-block">{errors.content}</div>
                     <div class="form-group">
                       <label class="col-12 control-label no-padding" for="name">Content</label>
                       
                       <div class="col-12 no-padding">
-                        <textarea id="content" onChange={this.onChange} class="ckeditor">{note.content}</textarea>
+                        <textarea id="content" onChange={this.onChange} className="form-control" name="ckeditor"></textarea>
                       </div>
                     </div>
                     

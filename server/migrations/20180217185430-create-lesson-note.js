@@ -77,7 +77,7 @@ module.exports = {
         allowNull: true,
       },
       preview: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(33),
         allowNull: true,
       },
       upload:  {
