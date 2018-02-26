@@ -18,6 +18,9 @@ export default (sequelize, DataTypes) => {
     Term.hasMany(models.LessonNote, {
       foreignKey: 'termId',
     });
+    Term.hasMany(models.Test, {
+      foreignKey: 'termId',
+    });
   }
   return Term;
 }
