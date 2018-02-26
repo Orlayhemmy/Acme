@@ -12,7 +12,7 @@ export default class Navbar extends React.Component {
   staffMenu() {
     return (
       <ul className="nav nav-pills flex-column sidebar-nav">
-        <li className="nav-item"><Link className="nav-link active" to="/dashboard"><em className="fa fa-dashboard"></em> Dashboard <span className="sr-only">(current)</span></Link></li>
+        <li className="nav-item"><Link className="nav-link" to="/dashboard"><em className="fa fa-dashboard"></em> Dashboard</Link></li>
         <li className="nav-item"><Link className="nav-link" to="/registration"><em className="fa fa-registered"></em> Role</Link></li>
         <li className="nav-item"><Link className="nav-link" to="/lessonnote"><em className="fa fa-list"></em> Lesson Note</Link></li>
         <li className="nav-item"><Link className="nav-link" to="/assessments"><em className="fa fa-tasks"></em> Assessments </Link></li>
@@ -28,7 +28,7 @@ export default class Navbar extends React.Component {
   studentMenu() {
     return (
       <ul className="nav nav-pills flex-column sidebar-nav">
-        <li className="nav-item"><Link className="nav-link active" to="/studentdashboard"><em className="fa fa-dashboard"></em> Dashboard <span className="sr-only">(current)</span></Link></li>
+        <li className="nav-item"><Link className="nav-link" to="/studentdashboard"><em className="fa fa-dashboard"></em> Dashboard <span className="sr-only">(current)</span></Link></li>
         <li className="nav-item"><Link className="nav-link" to="/studentnote"><em className="fa fa-clone"></em> Note</Link></li>
         <li className="nav-item"><Link className="nav-link" to="/studentassessments"><em className="fa fa-tasks"></em> Assessments </Link></li>
         <li className="nav-item"><Link className="nav-link" to="/studentlibrary"><em className="fa fa-book"></em> Library</Link></li>

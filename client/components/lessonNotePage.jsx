@@ -36,7 +36,7 @@ export default class LessonNote extends React.Component {
     );
     return (
       <div className="row">
-        <Navbar />
+        <Navbar note='nav-link active'/>
         <main class="col-xs-12 col-sm-8 offset-sm-4 col-lg-9 offset-lg-3 col-xl-10 offset-xl-2 pt-3 pl-4">
           <Header header="Lesson Note"/>
           <section className="row">
