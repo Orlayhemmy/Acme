@@ -19,12 +19,14 @@ import Settings from './components/settings';
 import WriteAssessment from './components/writeAssessment';
 import StudentDashboard from './components/studentDashboard';
 import StudentNote from './components/studentNotePage';
+import NewTest from './components/newTest';
 import setAuthToken from './utils/setAuthorizationToken';
 import { setCurrentUser } from './actions/authActions';
 import { setCurrentNote } from './actions/noteActions';
 import { setCurrentTerm } from './actions/termActions';
 import { setCurrentWeek } from './actions/weekActions';
 import { setCurrentAssignment } from './actions/assignmentActions';
+import { setCurrentTest } from './actions/testActions';
 
 
 
@@ -45,6 +47,9 @@ if (localStorage.weekId) {
 if (localStorage.assignmentId) {
   store.dispatch(setCurrentAssignment(localStorage.assignmentId));
 }
+if (localStorage.testId) {
+  store.dispatch(setCurrentTest(localStorage.testId));
+}
 // if (localStorage.centerId) {
 //   store.dispatch(setCurrentCenter(localStorage.centerId));
 // }
@@ -64,6 +69,7 @@ ReactDOM.render(
         <Route exact path="/note" component={Note} />
         <Route exact path="/settings" component={Settings} />
         <Route exact path="/assignment" component={WriteAssessment} />
+        <Route exact path="/newtest" component={NewTest} />
         <Route exact path="/studentdashboard" component={StudentDashboard} />
         <Route exact path="/studentnote" component={StudentNote} />
       </Switch>

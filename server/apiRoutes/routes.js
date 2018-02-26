@@ -110,12 +110,12 @@ router.route('/week/:id')
 router.route('/test')
   .post(AuthToken, TestController.createTest);
 
-router.route('/termtests')
+router.route('/termtests/:id')
   .get(AuthToken, TestController.getTermTests);
 
 router.route('/test/:id')
   .put(AuthToken, TestController.updateTest)
   .get(AuthToken, TestController.getSingleTest)
   .delete(AuthToken, TestController.deleteTest);
-  
+
 export default router;

@@ -17,7 +17,7 @@ import { getTermTests, createTest } from '../actions/testActions';
   };
 })
 
-export default class Dashboard extends React.Component {
+export default class TestArea extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -25,7 +25,7 @@ export default class Dashboard extends React.Component {
       weekId: '',
       errors: {},
       classHistory: '',
-      topic: '',
+      title: '',
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -67,7 +67,7 @@ export default class Dashboard extends React.Component {
     }
   }
   render() {
-    const { errors, topic, classId, classHistory } = this.state;
+    const { errors, title, classId, classHistory } = this.state;
     const subjectClasses = _.map(this.props.classes, (subjectclass) => {
       return (
         <option key={subjectclass.id} value={subjectclass.classId}>{subjectclass.Class.classname}</option>
@@ -87,11 +87,11 @@ export default class Dashboard extends React.Component {
               </select>
             </div>
           </div>
-          <div className="help-block">{errors.topic}</div>
+          <div className="help-block">{errors.title}</div>
             <div class="form-group">
               <label class="col-12 control-label no-padding" for="name">Title</label>  
               <div class="col-12 no-padding">
-                <input  type="text" id="topic" class="form-control" onChange={this.onChange}/>
+                <input  type="text" id="title" class="form-control" onChange={this.onChange}/>
               </div>
             </div>
           <div class="form-group">
