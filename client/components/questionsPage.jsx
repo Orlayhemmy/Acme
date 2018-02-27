@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import Header from './header';
 import { writeTestValidate, modifyTestValidate } from '../shared/testValidation';
 import { createTest, modifyTest, getTest } from '../actions/testActions';
@@ -9,39 +9,33 @@ import { createTest, modifyTest, getTest } from '../actions/testActions';
   return {
     auth: store.auth,
     test: store.test,
+    questions: store.question,
   };
 })
 
-export default class Test extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      duration: '',
-      title: '',
-      intro: '',
-      errors: {},
-    }
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.isValid = this.isValid.bind(this);
-    this.updateContent = this.updateContent.bind(this);
-  }
-  componentDidMount() {
-    const { test } = this.props.test;
-    this.setState({
-      duration: test.duration || '',
-      intro: test.intro || '',
-      title: test.title || '',
-    });
-  }
+export default class Questions extends React.Component {
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     duration: '',
+  //     title: '',
+  //     intro: '',
+  //     errors: {},
+  //   }
+  //   this.onChange = this.onChange.bind(this);
+  //   this.onSubmit = this.onSubmit.bind(this);
+  //   this.isValid = this.isValid.bind(this);
+  //   this.updateContent = this.updateContent.bind(this);
+  // }
+  
   onChange(e) {
     this.setState({
       [e.target.id]: e.target.value,
     });
-    if (e.target.id === 'content') {
-      console.log('content')
-      let timer= setInterval(this.updateContent(), 100);
-    }
+    // if (e.target.id === 'content') {
+    //   console.log('content')
+    //   let timer= setInterval(this.updateContent(), 100);
+    // }
     // if (e.target.id === 'content') {
     //   let newContent = e.ckeditor.getData();
     //   this.setState({
@@ -49,70 +43,71 @@ export default class Test extends React.Component {
     //   });
     // }
   }
-  updateContent() {
-    let newContent =  CKEDITOR.replace('ckeditor');      
-    this.setState({
-      content: newContent.getData(),
-    });
-  }
-  isValid() {    
-    const { isValid, errors } = modifyTestValidate(this.state);
-    if (!isValid) {
-      this.setState({ errors });
-    }
-    return isValid;  
-  }
-  onSubmit(e) {
-    e.preventDefault();
-    if (this.isValid()) {
-      this.props.dispatch(modifyTest(this.props.test.test.id, this.state));
-     }
-  }
-  componentDidUpdate() {
-    if (this.props.test.status === 200) {
-      alert(this.props.test.message);
-    }
+  // updateContent() {
+  //   let newContent =  CKEDITOR.replace('ckeditor');      
+  //   this.setState({
+  //     content: newContent.getData(),
+  //   });
+  // }
+  // isValid() {    
+  //   const { isValid, errors } = modifyTestValidate(this.state);
+  //   if (!isValid) {
+  //     this.setState({ errors });
+  //   }
+  //   return isValid;  
+  // }
+  // onSubmit(e) {
+  //   e.preventDefault();
+  //   if (this.isValid()) {
+  //     this.props.dispatch(modifyTest(this.props.test.test.id, this.state));
+  //    }
+  // }
+  componentWillMount() {
+    this.props.dispatch(getTestQuestions(this.props.test.testId));
   }
 
   render() {
-    if (this.props.test.status === 200) {
-      return <Redirect to="/questions" />
-    }
-    const { test } = this.props.test;
+    const { questions } = this.props.question;
     const { duration, intro, title, errors } = this.state;
+    const headerTitle = this.props.test.title + 'questions';
+    const Questions = _.map(questions, (question) => {
+      <tr>
+        <td></td>
+        <td>{question.content}</td>
+        <td>{question.createdAt}</td>
+        <td>{question.point}</td>
+        <td><em className="fa fa-eye"></em></td>
+        <td><em className="fa fa-pencil"></em></td>
+        <td><em className="fa fa-trash"></em></td>
+      </tr>
+    });
     return (
       <div class="row">			
         <main class="col-xs-12 col-sm-12 col-lg-12 col-xl-12 pl-4">
-          <Header header="Test Introduction"/>
+          <Header header={headerTitle}/>
           <section class="row">
 					<div class="col-sm-12 col-md-8">
 						<div class="card mb-6">	
 							<div class="card-block">
                 <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>S/N</th>
+                      
+                      <th>Questions</th>
+                      <th>Point</th>
+                      <th>Date added</th>
+                      <th>Preview</th>
+                      <th>Edit</th>
+                      <th>Delete</th>
+                    </tr>
+                  </thead>
                   <tbody>
-                    <tr>
-                      <th>Session</th>
-                      
-                      <td>Plotting of Graph</td>
-                                                
-                      <th>Term</th>
-                      <td>{test.termId}</td>
-                    </tr>
-                    
-                    <tr>
-                      
-                      <th>Class</th>
-                      
-                      <td>{test.classname}</td>
-                      <th>Duration</th>
-                      <td>
-                        <input type="text" class="form-control" onChange={this.onChange} id="duration" value={duration}/>
-                        <div className="help-block">{errors.duration}</div>
-                      </td>
-                    </tr>
+                    {Questions}
                   </tbody>
                 </table>
-                <form class="form-horizontal" onSubmit={this.onSubmit}>
+                <Link to="/addquestion.html"><p>Add new question</p></Link>
+                {/* <form class="form-horizontal" onSubmit={this.onSubmit}>
                   <fieldset>
                     <div className="help-block">{errors.title}</div>
                     <div class="form-group">
@@ -139,7 +134,7 @@ export default class Test extends React.Component {
                       </div>
                     </div>
                   </fieldset>
-                </form>
+                </form> */}
 							
 							</div>					
 						</div>

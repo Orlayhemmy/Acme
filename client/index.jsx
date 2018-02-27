@@ -20,6 +20,7 @@ import WriteAssessment from './components/writeAssessment';
 import StudentDashboard from './components/studentDashboard';
 import StudentNote from './components/studentNotePage';
 import NewTest from './components/newTest';
+import Questions from './components/questionsPage';
 import setAuthToken from './utils/setAuthorizationToken';
 import { setCurrentUser } from './actions/authActions';
 import { setCurrentNote } from './actions/noteActions';
@@ -72,6 +73,7 @@ ReactDOM.render(
         <Route exact path="/newtest" component={NewTest} />
         <Route exact path="/studentdashboard" component={StudentDashboard} />
         <Route exact path="/studentnote" component={StudentNote} />
+        <Route exact path="/testquestions" component={Questions} />
       </Switch>
     </Router>
   </Provider>
