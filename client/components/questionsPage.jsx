@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import Header from './header';
 import Footer from './footer';
-// mport { writeTestValidate, modifyTestValidate } from '../shared/testValidation';
-import { getTestQuestions } from '../actions/questionActions';
+import Popup from './popup';
+import { getTestQuestions, getQuestion } from '../actions/questionActions';
 
 @connect((store) => {
   return {
@@ -63,6 +63,9 @@ export default class Questions extends React.Component {
   //     this.props.dispatch(modifyTest(this.props.test.test.id, this.state));
   //    }
   // }
+  onClick(e) {
+    this.props.dispatch(getQuestion(e.target.id));
+  }
   componentWillMount() {
     this.props.dispatch(getTestQuestions(this.props.test.test.id));
   }
@@ -75,12 +78,12 @@ export default class Questions extends React.Component {
       let data = question.createdAt;
       let creationDate = data.replace(/-/g,'/').replace('Z','').replace('T',' ');
       return (
-        <tr>
+        <tr key={question.questionId}>
           <td></td>
           <td class="text-left">{question.content}</td>
           <td>{creationDate}</td>
           <td>{question.point}</td>
-          <td onClick><em className="fa fa-eye"></em></td>
+          <td><span data-toggle="modal" data-target="#popup"><em onClick={this.onClick.bind(this)} id={question.questionId} className="fa fa-eye"></em></span></td>
           <td><em className="fa fa-pencil"></em></td>
           <td><em className="fa fa-trash"></em></td>
         </tr>
@@ -146,6 +149,7 @@ export default class Questions extends React.Component {
 						</div>
 						
 					</div>
+          <Popup />
 				</section>
         <Footer />
         </main>

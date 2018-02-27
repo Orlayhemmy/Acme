@@ -47,8 +47,8 @@ export default (state = initialState, action = {}) => {
     }
     case 'SET_CURRENT_QUESTION': {
       const { newQuestion } = action.payload;
-      const { duration, title, termId, classname, intro, id } = newQuestion;
-      const question = { duration, title, termId, classname, intro, id }
+      const { content, opt_a, opt_b, opt_c, opt_d, answer, id } = newQuestion;
+      const question = { content, opt_a, opt_b, opt_c, opt_d, answer, id  }
       return {
         ...state,
         isQuestion: !isEmpty(newQuestion),
@@ -74,12 +74,14 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'GET_QUESTION_SUCCESS': {
-      const { question } = action.payload.data;
+      const { status } = action.payload;
+      const { message } = action.payload.data;
       return {
         ...state,
         loading: false,
         loaded: true,
-        question,
+        status,
+        message,
       };
     }
     case 'GET_CLASS_QUESTIONS': {

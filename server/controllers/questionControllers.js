@@ -144,17 +144,15 @@ export default class QuestionController {
       where: {
         questionId: id,
       },
-      include: [{
-        model: Class,
-      }]
     }).then((question) => {
       if (question) {
         const payload = {
-          termId: question.termId,
-          classname: question.Class.classname,
-          intro: question.intro,
-          title: question.title,
-          duration: question.duration,
+          content: question.content,
+          opt_a: question.opt_a,
+          opt_b: question.opt_b,
+          opt_c: question.opt_c,
+          opt_d: question.opt_d,
+          answer: question.answer,
           id: question.questionId,
         }
         const token = jwt.sign(payload, process.env.SECRET, {

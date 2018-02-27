@@ -29,6 +29,7 @@ import { setCurrentTerm } from './actions/termActions';
 import { setCurrentWeek } from './actions/weekActions';
 import { setCurrentAssignment } from './actions/assignmentActions';
 import { setCurrentTest } from './actions/testActions';
+import { setCurrentQuestion } from './actions/questionActions';
 
 
 
@@ -51,6 +52,9 @@ if (localStorage.assignment) {
 }
 if (localStorage.test) {
   store.dispatch(setCurrentTest(jwt.decode(localStorage.test)));
+}
+if (localStorage.question) {
+  store.dispatch(setCurrentQuestion(jwt.decode(localStorage.question)));
 }
 // if (localStorage.centerId) {
 //   store.dispatch(setCurrentCenter(localStorage.centerId));

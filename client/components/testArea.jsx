@@ -33,6 +33,7 @@ export default class TestArea extends React.Component {
     this.isValid = this.isValid.bind(this);
     this.updateArchive = this.updateArchive.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.viewQuestions = this.viewQuestions.bind(this);
   }
   updateArchive(id) {
     this.props.dispatch(getTermTests(id));
@@ -69,6 +70,10 @@ export default class TestArea extends React.Component {
       this.props.dispatch(getTermTests(this.props.term.id.value));
       window.open('/newtest', 'window', 'toolbar=no, menubar=no, resizable=yes');
     }
+  }
+  viewQuestions(e) {
+    this.props.dispatch(getTest(e.target.id));
+    window.open('/testquestions', 'window', 'toolbar=no, menubar=no, resizable=yes');
   }
   render() {
     const { pathname } = this.props.location;
@@ -115,7 +120,7 @@ export default class TestArea extends React.Component {
                                     
           <td>{test.Class.classname}</td>
           
-          <td id={test.testId}><Link to ="/testquestions"><em class="fa fa-eye"></em></Link></td>
+          <td><em onClick={this.viewQuestions} id={test.testId} class="fa fa-eye"></em></td>
           <td><em class="fa fa-upload"></em></td>
           <td><i class="fa fa-recycle"></i></td>
         </tr>

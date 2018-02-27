@@ -1,25 +1,25 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 
-// export function setCurrentQuestion(newQuestion) {
-//   return (dispatch) => {
-//     dispatch({ type: 'SET_CURRENT_QUESTION', payload: { newQuestion } })
-//   };
-// }
+export function setCurrentQuestion(newQuestion) {
+  return (dispatch) => {
+    dispatch({ type: 'SET_CURRENT_QUESTION', payload: { newQuestion } })
+  };
+}
 
-// export function getQuestion(id) {
-//   return (dispatch) => {
-//     dispatch({ type: 'GET_QUESTION' });
-//     axios.get(`api/v1/question/${id}`).then((response) => {
-//       dispatch({ type: 'GET_QUESTION_SUCCESS', payload: response });
-//       const { token } = response.data;
-//       localStorage.setItem('question', token);
-//       dispatch(setCurrentQuestion(jwt.decode(token)));
-//     }).catch((err) => {
-//       dispatch({ type: 'GET_QUESTION_FAILS', payload: err.response });
-//     });
-//   };
-// }
+export function getQuestion(id) {
+  return (dispatch) => {
+    dispatch({ type: 'GET_QUESTION' });
+    axios.get(`api/v1/question/${id}`).then((response) => {
+      dispatch({ type: 'GET_QUESTION_SUCCESS', payload: response });
+      const { token } = response.data;
+      localStorage.setItem('question', token);
+      dispatch(setCurrentQuestion(jwt.decode(token)));
+    }).catch((err) => {
+      dispatch({ type: 'GET_QUESTION_FAILS', payload: err.response });
+    });
+  };
+}
 
 export function createQuestion(data) {
   return (dispatch) => {
