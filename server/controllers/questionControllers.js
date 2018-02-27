@@ -39,17 +39,17 @@ export default class QuestionController {
    * @memberof QuestionController
    */
   static updateQuestion(req, res) {
-    const {
-      upload, title, duration, intro,
-    } = req.body;
+    const { answer, opt_a, opt_b, opt_c, opt_d, content, point } = req.body;
     const { id } = req.params;
     Question.findById(id).then((question) => {
       if (question) {
         question.update({
-          intro: intro || question.intro,
-          upload: upload || question.upload,
-          duration: duration || question.duration,
-          title: title || question.title,
+          answer: answer || question.answer,
+          content: content || question.content,
+          opt_a: opt_a || question.opt_a,
+          opt_b: opt_b || question.opt_b,
+          opt_c: opt_c || question.opt_c,
+          opt_d: opt_d || question.opt_d,
         }).then(() => res.status(200).send({
           message: 'Your Question has been updated successfully',
         })).catch(err => res.status(500).send({

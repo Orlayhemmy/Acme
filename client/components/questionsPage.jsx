@@ -84,7 +84,7 @@ export default class Questions extends React.Component {
           <td>{creationDate}</td>
           <td>{question.point}</td>
           <td><span data-toggle="modal" data-target="#popup"><em onClick={this.onClick.bind(this)} id={question.questionId} className="fa fa-eye"></em></span></td>
-          <td><em className="fa fa-pencil"></em></td>
+          <td><Link to="/editquestion"><em onClick={this.onClick.bind(this)} id={question.questionId} className="fa fa-edit"></em></Link></td>
           <td><em className="fa fa-trash"></em></td>
         </tr>
       ) 

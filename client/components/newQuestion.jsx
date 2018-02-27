@@ -62,9 +62,72 @@ export default class NewQuestion extends React.Component {
 					<div class="col-sm-12 col-md-8">
 						<div class="card mb-6">	
 							<div class="card-block">
-                  							
+                <form class="form-horizontal" onSubmit={this.onSubmit}>
+                  <fieldset>
+                                    
+                    <div class="form-group">
+                      <label class="col-12 control-label no-padding" for="name">Question</label>
+                      <div className="help-block">{errors.content}</div>
+                      <div class="col-12 no-padding">
+                        <textarea id="content" class="form-control" onChange={this.onChange} name="ckeditor"></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-12 control-label no-padding" for="name">Point</label>
+                      <div className="help-block">{errors.point}</div>
+                      <div class="col-2 no-padding">
+                        <input type="text" id="point" class="form-control" onChange={this.onChange}/>
+                      </div>
+                    </div>
+                    <label class="col-lg-12 control-label no-padding" for="name">Options</label>
+                    <div className="help-block">{errors.answer}</div>
+                    <div class="form-group">
+                      <label class="control-label no-padding" for="name">A</label>
+                      <div className="help-block">{errors.opt_a}</div>
+                      <div class="form-check-inline col-lg-6">
+                        <input type="text" id="opt_a" class="form-control" onChange={this.onChange}/>
+                      </div>
+                      <input type="radio" name="answer" id="answer" onChange={this.onChange} value="a" />
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label no-padding" for="name">B</label>
+                      <div className="help-block">{errors.opt_b}</div>
+                      <div class="form-check-inline col-lg-6">
+                        <input type="text" id="opt_b" class="form-control" onChange={this.onChange}/>
+                      </div>
+                      <input type="radio" name="answer" id="answer" onChange={this.onChange} value="b" />
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label no-padding" for="name">C</label>
+                      <div className="help-block">{errors.opt_c}</div>
+                      <div class="form-check-inline col-lg-6">
+                        <input type="text" id="opt_c" class="form-control" onChange={this.onChange}/>
+                      </div>
+                      <input type="radio" name="answer" id="answer" onChange={this.onChange} value="c" />
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label no-padding" for="name">D</label>
+                      <div className="help-block">{errors.opt_d}</div>
+                      <div class="form-check-inline col-lg-6">
+                        <input type="text" id="opt_d" class="form-control" onChange={this.onChange}/>
+                      </div>
+                      <input type="radio" name="answer" id="answer" onChange={this.onChange} value="d" />
+                    </div>
+                    <div class="form-group">
+                      <div class="widget-right no-padding">
+                        <input id="next" type="submit" class="btn btn-primary btn-md float-right" value="Next" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="widget-left no-padding">
+                        <input id="finish" type="submit" class="btn btn-primary btn-md float-left" value="Finish" />
+                      </div>
+                    </div>
+                  </fieldset>
+                </form>							
 							</div>					
-						</div>	
+						</div>
+						
 					</div>
 				</section>
         <Footer />

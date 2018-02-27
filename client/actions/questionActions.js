@@ -32,16 +32,16 @@ export function createQuestion(data) {
   };
 }
 
-// export function modifyQuestion(id, data) {
-//   return (dispatch) => {
-//     dispatch({ type: 'MODIFY_QUESTION' });
-//     axios.put(`api/v1/question/${id}`, data).then((response) => {
-//       dispatch({ type: 'MODIFY_QUESTION_SUCCESS', payload: response });
-//     }).catch((err) => {
-//       dispatch({ type: 'MODIFY_QUESTION_FAIL', payload: err.response });
-//     });
-//   };
-// }
+export function modifyQuestion(id, data) {
+  return (dispatch) => {
+    dispatch({ type: 'MODIFY_QUESTION' });
+    axios.put(`api/v1/question/${id}`, data).then((response) => {
+      dispatch({ type: 'MODIFY_QUESTION_SUCCESS', payload: response });
+    }).catch((err) => {
+      dispatch({ type: 'MODIFY_QUESTION_FAIL', payload: err.response });
+    });
+  };
+}
 
 export function getTestQuestions(id) {
   return (dispatch) => {
