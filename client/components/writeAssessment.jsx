@@ -24,8 +24,12 @@ export default class assignment extends React.Component {
     this.isValid = this.isValid.bind(this);
     this.onClick = this.onClick.bind(this);
   }
-  componentWillMount() {
-    this.props.dispatch(getAssignment(this.props.assignment.id.id));
+  componentDidMount() {
+    const { assignment } = this.props.assignment;
+    this.setState({
+      topic: note.topic,
+      content: note.content,
+    });
   }
   onChange(e) {
     this.setState({
@@ -47,10 +51,14 @@ export default class assignment extends React.Component {
      }
   }
   onClick() {
+    if (isEmpty(this.state.content)) {
+      this.state.preview = '...';
+    } else {
+      this.state.preview = this.state.content.substring(0, 130) + '...';
+    }
     this.props.dispatch(modifyAssignment(this.props.assignment.id.id, this.state));
   }
   render() {
-    const { assignment } =  this.props.assignment;
     const { topic, content, errors} = this.state;
     return (
       <div class="row">			
@@ -79,7 +87,7 @@ export default class assignment extends React.Component {
                           <td>{assignment.weekId}</td>
                           
                           <th>Class</th>
-                          <td>{assignment.Class.classname}</td>
+                          <td>{assignment.classname}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -87,7 +95,7 @@ export default class assignment extends React.Component {
                     <div class="form-group">
                       <label class="col-12 control-label no-padding" for="name">Topic</label> 
                       <div class="col-12 no-padding">
-                        <textarea id="topic" class="form-control" onChange={this.onChange}></textarea>
+                        <textarea id="topic" class="form-control" onChange={this.onChange} defaultValue={topic}></textarea>
                       </div>
                     </div>
                     
@@ -96,7 +104,7 @@ export default class assignment extends React.Component {
                       <label class="col-12 control-label no-padding" for="name">Content</label>
                       
                       <div class="col-12 no-padding">
-                        <textarea id="content" onChange={this.onChange} class="ckeditor"></textarea>
+                        <textarea id="content" onChange={this.onChange} class="ckeditor" defaultValue={content}></textarea>
                       </div>
                     </div>                    
                     

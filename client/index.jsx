@@ -44,8 +44,8 @@ if (localStorage.termId) {
 if (localStorage.weekId) {
   store.dispatch(setCurrentWeek(localStorage.weekId));
 }
-if (localStorage.assignmentId) {
-  store.dispatch(setCurrentAssignment(localStorage.assignmentId));
+if (localStorage.assignment) {
+  store.dispatch(setCurrentAssignment(jwt.decode(localStorage.assignment)));
 }
 if (localStorage.testId) {
   store.dispatch(setCurrentTest(localStorage.testId));

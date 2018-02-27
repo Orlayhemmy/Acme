@@ -27,11 +27,14 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     },
     content: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
-    upload:  {
+    upload: {
       type: DataTypes.BOOLEAN,
+    },
+    preview: {
+      type: DataTypes.STRING(133),
     },
   });
   Assignment.associate = (models) => {

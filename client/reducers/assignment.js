@@ -44,11 +44,15 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'SET_CURRENT_ASSIGNMENT': {
-      const id = action.payload;
+      const { newAssignment } = action.payload;
+      const { content, topic, classname, termId, weekId } = newAssignment;
+      const assignment = { 
+        content, topic, classname, termId, weekId,
+      }
       return {
         ...state,
-        isAssess: !isEmpty(id),
-        id,
+        isAssess: !isEmpty(newAssignment),
+        assignment,
       };
     }
     case 'GET_ASSIGNMENT': {
@@ -70,12 +74,12 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'GET_ASSIGNMENT_SUCCESS': {
-      const { assignment } = action.payload.data;
+      const { message } = action.payload.data;
       return {
         ...state,
         loading: false,
         loaded: true,
-        assignment,
+        message,
       };
     }
     case 'GET_CLASS_ASSIGNMENTS': {

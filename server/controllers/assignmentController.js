@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+import env from 'dotenv';
 import models from '../models';
 
 const { Assignment, Class } = models;
@@ -36,7 +38,7 @@ export default class AssignmentController {
    */
   static updateAssignment(req, res) {
     const {
-      content, upload, topic,
+      content, upload, topic, preview,
     } = req.body;
     const { id } = req.params;
     Assignment.findById(id).then((assignment) => {
@@ -45,6 +47,7 @@ export default class AssignmentController {
           content: content || assignment.content,
           upload: upload || assignment.upload,
           topic: topic || assignment.topic,
+          preview: preview || assignment.preview,
         }).then(() => res.status(200).send({
           message: 'Your Assignment has been updated successfully',
         })).catch(err => res.status(500).send({
@@ -150,8 +153,20 @@ export default class AssignmentController {
       }]
     }).then((assignment) => {
       if (assignment) {
+        const payload = {
+          content: assignment.content,
+          topic: assignment.topic,
+          classname: assignment.Class.classname,
+          termId: assignment.termId,
+          weekId: assignment.weekId,
+        }
+        const token = jwt.sign(payload, process.env.SECRET, {
+          expiresIn: 60 * 60 * 12,
+        });
+        req.body.token = token;
         return res.status(200).send({
-          assignment,
+          token,
+          message: 'Assignment found',
         });
       }
       return res.status(400).send({

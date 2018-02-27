@@ -29,12 +29,15 @@ module.exports = {
         allowNull: false,
       },
       content: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true,
       },
       upload: {
         type: Sequelize.BOOLEAN,
         DefaultValue: false,
+      },
+      preview: {
+        type: Sequelize.STRING(133),
       },
       createdAt: {
         allowNull: false,

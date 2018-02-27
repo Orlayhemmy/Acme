@@ -1,8 +1,9 @@
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 
-export function setCurrentAssignment(id) {
+export function setCurrentAssignment(newAssignment) {
   return (dispatch) => {
-    dispatch({ type: 'SET_CURRENT_ASSIGNMENT', payload: { id } })
+    dispatch({ type: 'SET_CURRENT_ASSIGNMENT', payload: { newAssignment } })
   };
 }
 
@@ -11,8 +12,9 @@ export function getAssignment(id) {
     dispatch({ type: 'GET_ASSIGNMENT' });
     axios.get(`api/v1/assignment/${id}`).then((response) => {
       dispatch({ type: 'GET_ASSIGNMENT_SUCCESS', payload: response });
-      localStorage.setItem('assignmentId', id);
-      dispatch(setCurrentAssignment(id));
+      const { token } = response.data;
+      localStorage.setItem('assignment', token);
+      dispatch(setCurrentAssignment(jwt.decode(token)));
     }).catch((err) => {
       dispatch({ type: 'GET_ASSIGNMENT_FAILS', payload: err.response });
     });
