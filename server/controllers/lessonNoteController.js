@@ -147,6 +147,7 @@ export default class LessonNoteController {
           classname: note.Class.classname,
           termId: note.termId,
           weekId: note.weekId,
+          id: note.noteId,
         };
         const token = jwt.sign(payload, process.env.SECRET, {
           expiresIn: 60 * 60 * 12,

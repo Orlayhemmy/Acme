@@ -49,9 +49,9 @@ export default (state = initialState, action = {}) => {
     case 'SET_CURRENT_NOTE': {
       const { newNote } = action.payload;
       const { duration, objectives, activity, materials, behaviours, content, assessment,
-      scope, topic, questions, reference, strategies, classname, termId, weekId } = newNote;
+      scope, topic, questions, reference, strategies, classname, termId, weekId, id } = newNote;
       const note = { 
-        duration, objectives, activity, materials, behaviours, content, assessment,
+        id, duration, objectives, activity, materials, behaviours, content, assessment,
         scope, topic, questions, reference, strategies, classname, termId, weekId,
       }
       return {

@@ -31,11 +31,11 @@ export function writeNoteValidate(data) {
     scope, topic, questions, reference, strategies } = data;
 
     const errors = {};
-
+    let timer = duration.toString();
   if (validator.isEmpty(activity)) {
     errors.activity = 'Class activity cannot be blank';
   }
-  if (validator.isEmpty(duration)) {
+  if (validator.isEmpty(timer)) {
     errors.duration = 'Set duration for class';
   }
   if (validator.isEmpty(objectives)) {

@@ -25,8 +25,13 @@ export default class Test extends React.Component {
     this.isValid = this.isValid.bind(this);
     this.updateContent = this.updateContent.bind(this);
   }
-  componentWillMount() {
-    this.props.dispatch(getTest(this.props.test.id.id));
+  componentDidMount() {
+    const { test } = this.props.test;
+    this.setState({
+      duration: test.duration || '',
+      intro: test.intro || '',
+      title: test.title || '',
+    });
   }
   onChange(e) {
     this.setState({
@@ -59,8 +64,13 @@ export default class Test extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
-      this.props.dispatch(modifyTest(this.props.test.id.id, this.state));
+      this.props.dispatch(modifyTest(this.props.test.test.id, this.state));
      }
+  }
+  componentDidUpdate() {
+    if (this.props.test.status === 200) {
+
+    }
   }
 
   render() {
@@ -74,13 +84,37 @@ export default class Test extends React.Component {
 					<div class="col-sm-12 col-md-8">
 						<div class="card mb-6">	
 							<div class="card-block">
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <th>Session</th>
+                      
+                      <td>Plotting of Graph</td>
+                                                
+                      <th>Term</th>
+                      <td>{test.termId}</td>
+                    </tr>
+                    
+                    <tr>
+                      
+                      <th>Class</th>
+                      
+                      <td>{test.classname}</td>
+                      <th>Duration</th>
+                      <td>
+                        <input type="text" class="form-control" onChange={this.onChange} id="duration" value={duration}/>
+                        <div className="help-block">{errors.duration}</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
                 <form class="form-horizontal" onSubmit={this.onSubmit}>
                   <fieldset>
                     <div className="help-block">{errors.title}</div>
                     <div class="form-group">
-                      <label class="col-12 control-label no-padding" for="name">Topic</label> 
+                      <label class="col-12 control-label no-padding" for="name">Title</label> 
                       <div class="col-12 no-padding">
-                        <textarea id="title" class="form-control" onChange={this.onChange}></textarea>
+                        <textarea id="title" class="form-control" onChange={this.onChange} value={title}></textarea>
                       </div>
                     </div>
                     
@@ -89,18 +123,11 @@ export default class Test extends React.Component {
                       <label class="col-12 control-label no-padding" for="name">Introduction</label>
                       
                       <div class="col-12 no-padding">
-                        <textarea id="intro" class="form-control" onChange={this.onChange}>{test.intro}</textarea>
+                        <textarea id="intro" class="form-control" onChange={this.onChange} value ={intro}></textarea>
                       </div>
                     </div>
                     
-                    <div className="help-block">{errors.duration}</div>
-                    <div class="form-group">
-                      <label class="col-12 control-label no-padding" for="name">Duration</label>
-                      
-                      <div class="col-12 no-padding">
-                        <input type="text" id="duration" class="form-control" onChange={this.onChange} value={test.duration}/>
-                      </div>
-                    </div>
+                    
 
                     <div class="form-group">
                       <div class="col-12 widget-right no-padding">

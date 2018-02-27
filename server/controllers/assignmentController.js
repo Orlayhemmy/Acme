@@ -159,6 +159,7 @@ export default class AssignmentController {
           classname: assignment.Class.classname,
           termId: assignment.termId,
           weekId: assignment.weekId,
+          id: assignment.assignmentId,
         }
         const token = jwt.sign(payload, process.env.SECRET, {
           expiresIn: 60 * 60 * 12,

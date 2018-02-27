@@ -27,8 +27,8 @@ export default class assignment extends React.Component {
   componentDidMount() {
     const { assignment } = this.props.assignment;
     this.setState({
-      topic: note.topic,
-      content: note.content,
+      topic: note.topic || '',
+      content: note.content || '',
     });
   }
   onChange(e) {

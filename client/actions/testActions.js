@@ -1,8 +1,9 @@
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 
-export function setCurrentTest(id) {
+export function setCurrentTest(newTest) {
   return (dispatch) => {
-    dispatch({ type: 'SET_CURRENT_TEST', payload: { id } })
+    dispatch({ type: 'SET_CURRENT_TEST', payload: { newTest } })
   };
 }
 
@@ -11,8 +12,9 @@ export function getTest(id) {
     dispatch({ type: 'GET_TEST' });
     axios.get(`api/v1/test/${id}`).then((response) => {
       dispatch({ type: 'GET_TEST_SUCCESS', payload: response });
-      localStorage.setItem('testId', id);
-      dispatch(setCurrentTest(id));
+      const { token } = response.data;
+      localStorage.setItem('test', token);
+      dispatch(setCurrentTest(jwt.decode(token)));
     }).catch((err) => {
       dispatch({ type: 'GET_TEST_FAILS', payload: err.response });
     });

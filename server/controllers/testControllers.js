@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+import env from 'dotenv';
 import models from '../models';
 
 const { Test, Class } = models;
@@ -35,15 +37,16 @@ export default class TestController {
    */
   static updateTest(req, res) {
     const {
-      content, upload, topic,
+      upload, title, duration, intro,
     } = req.body;
     const { id } = req.params;
     Test.findById(id).then((test) => {
       if (test) {
         test.update({
-          content: content || test.content,
+          intro: intro || test.intro,
           upload: upload || test.upload,
-          topic: topic || test.topic,
+          duration: duration || test.duration,
+          title: title || test.title,
         }).then(() => res.status(200).send({
           message: 'Your Test has been updated successfully',
         })).catch(err => res.status(500).send({
@@ -103,7 +106,6 @@ export default class TestController {
    * @memberof TestController
    */
   static getTermTests(req, res) {
-    
     Test.findAll({
       where: {
         staffId: req.decoded.id,
@@ -148,8 +150,21 @@ export default class TestController {
       }]
     }).then((test) => {
       if (test) {
+        const payload = {
+          termId: test.termId,
+          classname: test.Class.classname,
+          intro: test.intro,
+          title: test.title,
+          duration: test.duration,
+          id: test.testId,
+        }
+        const token = jwt.sign(payload, process.env.SECRET, {
+          expiresIn: 60 * 60 * 12,
+        });
+        req.body.token = token;
         return res.status(200).send({
-          test,
+          message: 'Test Found',
+          token,
         });
       }
       return res.status(400).send({

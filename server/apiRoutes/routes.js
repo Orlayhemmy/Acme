@@ -107,7 +107,7 @@ router.route('/week')
 router.route('/week/:id')
   .put(AuthToken, WeekController.currentWeek);
 
-router.route('/test')
+router.route('/tests')
   .post(AuthToken, TestController.createTest);
 
 router.route('/termtests/:id')

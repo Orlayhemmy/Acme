@@ -19,7 +19,7 @@ export default class Validation {
       if (!validator.isLength(classname, { min: 2, max: 20 })) {
         errors.classname = 'classname cannot be less than 2 characters';
       }
-      if (!/^[a-zA-Z ]+$/.test(classname)) {
+      if (!/^[a-zA-Z0-9 ]+$/.test(classname)) {
         errors.classname = 'classname can only contain letters and numbers';
       }
     } else {
@@ -45,7 +45,7 @@ export default class Validation {
           if (!validator.isLength(classname, { min: 2, max: 20 })) {
             errors.classname = 'classname cannot be less than 2 characters';
           }
-          if (!/^[a-zA-Z ]+$/.test(classname)) {
+          if (!/^[a-zA-Z0-9 ]+$/.test(classname)) {
             errors.classname = 'classname can only contain letters and numbers';
           }
         } 

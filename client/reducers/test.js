@@ -5,7 +5,7 @@ const initialState = {
   loaded: '',
   status: '',
   message: '',
-  isAssess: false,
+  isTest: false,
   test: {
     Class: {},
   },
@@ -44,11 +44,13 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'SET_CURRENT_TEST': {
-      const id = action.payload;
+      const { newTest } = action.payload;
+      const { duration, title, termId, classname, intro, id } = newTest;
+      const test = { duration, title, termId, classname, intro, id }
       return {
         ...state,
-        isAssess: !isEmpty(id),
-        id,
+        isTest: !isEmpty(newTest),
+        test,
       };
     }
     case 'GET_TEST': {
@@ -115,12 +117,14 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'MODIFY_TEST_SUCCESS': {
-      const { message } = action.payload;
+      const { status } = action.payload;
+      const { message } = action.payload.data;
       return { 
         ...state,
-        loading: true,
-        loaded: false,
+        loading: false,
+        loaded: true,
         message,
+        status,
       };
     }
     case 'MODIFY_TEST_FAIL': {

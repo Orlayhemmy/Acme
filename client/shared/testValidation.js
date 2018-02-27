@@ -3,6 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 
 export function createTestValidate(data) {
   const { classId, title } = data;
+  
   const errors = {};
   if (validator.isEmpty(classId)) {
     errors.classId = 'Select a class';
@@ -21,11 +22,12 @@ export function createTestValidate(data) {
 export function modifyTestValidate(data) {
   const { duration, intro, title } = data;
   const errors = {};
-  if (validator.isEmpty(duration)) {
-    errors.duration = 'Select a class';
+  let timer = duration.toString();
+  if (validator.isEmpty(timer)) {
+    errors.duration = 'Test must have duration';
   }
-  if (!validator.isInt(duration)) {
-    errors.duration = 'Select a class';
+  if (!/^[0-9]+$/.test(timer)) {
+    errors.duration = 'Specify duration in minutes. Numbers only';
   }
 
   if (validator.isEmpty(title)) {
@@ -33,7 +35,7 @@ export function modifyTestValidate(data) {
   }
 
   if (validator.isEmpty(intro)) {
-    errors.title = 'The test must have an introduction';
+    errors.intro = 'The test must have an introduction';
   }
 
   return { errors, isValid: isEmpty(errors) };

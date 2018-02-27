@@ -47,8 +47,8 @@ if (localStorage.weekId) {
 if (localStorage.assignment) {
   store.dispatch(setCurrentAssignment(jwt.decode(localStorage.assignment)));
 }
-if (localStorage.testId) {
-  store.dispatch(setCurrentTest(localStorage.testId));
+if (localStorage.test) {
+  store.dispatch(setCurrentTest(jwt.decode(localStorage.test)));
 }
 // if (localStorage.centerId) {
 //   store.dispatch(setCurrentCenter(localStorage.centerId));

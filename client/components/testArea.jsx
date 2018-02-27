@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Navbar from './sidenavbar';
 import Header from './header';
 import Footer from './footer';
 import ContentContainer from './contentContainer';
 import { getTeacherClasses } from '../actions/classActions';
 import { createTestValidate } from '../shared/testValidation';
-import { getTermTests, createTest } from '../actions/testActions';
+import { getTermTests, createTest, getTest } from '../actions/testActions';
 
 @connect((store) => {
   return {
@@ -31,6 +32,7 @@ export default class TestArea extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.isValid = this.isValid.bind(this);
     this.updateArchive = this.updateArchive.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
   updateArchive(id) {
     this.props.dispatch(getTermTests(id));
@@ -47,7 +49,10 @@ export default class TestArea extends React.Component {
       this.updateArchive(e.target.value);
     }
   }
-  
+  onClick(e) {
+    this.props.dispatch(getTest(e.target.id));
+    window.open('/newtest', 'window', 'toolbar=no, menubar=no, resizable=yes');
+  }
   isValid() {
     this.state.termId = this.props.term.id.value;
     this.state.staffId = this.props.auth.user.id;
@@ -106,7 +111,7 @@ export default class TestArea extends React.Component {
     const testHistory = _.map(this.props.test.tests, (test) => {
       return (
         <tr key={test.testId}>
-          <td>{test.title}</td>
+          <td id={test.testId} onClick={this.onClick}>{test.title}</td>
                                     
           <td>{test.Class.classname}</td>
           

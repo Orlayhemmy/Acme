@@ -40,18 +40,18 @@ export default class Note extends React.Component {
   componentDidMount() {
     const { note } = this.props.note;
     this.setState({
-      topic: note.topic,
-      duration: note.duration,
-      scope: note.scope,
-      questions: note.questions,
-      reference: note.reference,
-      materials: note.materials,
-      objectives: note.objectives,
-      behaviours: note.behaviours,
-      strategies: note.strategies,
-      content: note.content,
-      activity: note.activity,
-      assessment: note.assessment,
+      topic: note.topic || '',
+      duration: note.duration || '',
+      scope: note.scope || '',
+      questions: note.questions || '',
+      reference: note.reference || '',
+      materials: note.materials || '',
+      objectives: note.objectives || '',
+      behaviours: note.behaviours || '',
+      strategies: note.strategies || '',
+      content: note.content || '',
+      activity: note.activity || '',
+      assessment: note.assessment || '',
     });
   }
   onChange(e) {
