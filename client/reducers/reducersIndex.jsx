@@ -7,6 +7,7 @@ import week from './week';
 import assignment from './assignment';
 import feedback from './feedback';
 import test from './test';
+import question from './question';
 
 
 export default combineReducers({
@@ -18,4 +19,5 @@ export default combineReducers({
   assignment,
   feedback,
   test,
+  question,
 });

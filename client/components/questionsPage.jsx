@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import Header from './header';
-import { writeTestValidate, modifyTestValidate } from '../shared/testValidation';
-import { createTest, modifyTest, getTest } from '../actions/testActions';
+// mport { writeTestValidate, modifyTestValidate } from '../shared/testValidation';
+import { getTestQuestions } from '../actions/questionActions';
 
 @connect((store) => {
   return {

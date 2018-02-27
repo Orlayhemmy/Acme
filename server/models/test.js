@@ -39,6 +39,9 @@ export default (sequelize, DataTypes) => {
     Test.belongsTo(models.Staffs, {
       foreignKey: 'staffId',
     });
+    Test.hasMany(models.Question, {
+      foreignKey: 'testId',
+    });
   }
   return Test;
 }

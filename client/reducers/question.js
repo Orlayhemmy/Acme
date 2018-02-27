@@ -9,6 +9,7 @@ const initialState = {
   question: {
     Class: {},
   },
+  questions: [],
 };
 export default (state = initialState, action = {}) => {
   switch (action.type) {

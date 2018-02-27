@@ -7,7 +7,8 @@ import AssignmentController from '../controllers/assignmentController';
 import FeedbackController from '../controllers/feedbackController';
 import WeekController from '../controllers/weekController';
 import TermController from '../controllers/termController';
-import TestController from '../controllers/testControllers'
+import TestController from '../controllers/testControllers';
+import QuestionController from '../controllers/questionControllers';
 import AuthToken from '../middleware/authenticateToken';
 import AuthAdminToken from '../middleware/authAdminToken';
 import StudentValidate from '../middleware/studentValidate';
@@ -117,5 +118,16 @@ router.route('/test/:id')
   .put(AuthToken, TestController.updateTest)
   .get(AuthToken, TestController.getSingleTest)
   .delete(AuthToken, TestController.deleteTest);
+
+router.route('/questions')
+  .post(AuthToken, QuestionController.createQuestion);
+
+router.route('/testquestions/:id')
+  .get(AuthToken, QuestionController.getTestQuestions);
+
+router.route('/question/:id')
+  .put(AuthToken, QuestionController.updateQuestion)
+  .get(AuthToken, QuestionController.getSingleQuestion)
+  .delete(AuthToken, QuestionController.deleteQuestion);
 
 export default router;
