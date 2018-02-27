@@ -27,6 +27,7 @@ export default class TestArea extends React.Component {
       errors: {},
       classHistory: '',
       title: '',
+      upload: '',
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -37,8 +38,11 @@ export default class TestArea extends React.Component {
     this.uploadTest = this.uploadTest.bind(this);
   }
   uploadTest(e) {
-    this.state.upload = true;
-    this.props.dispatch(modifyTest(e.target.id, this.state.upload));
+    const data = {
+      upload: true,
+    }
+    this.props.dispatch(modifyTest(e.target.id, data));
+    this.props.dispatch(getTermTests(this.props.term.id.value));
   }
   updateArchive(id) {
     this.props.dispatch(getTermTests(id));

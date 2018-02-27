@@ -36,6 +36,7 @@ export function createTest(data) {
 }
 
 export function modifyTest(id, data) {
+  console.log(data)
   return (dispatch) => {
     dispatch({ type: 'MODIFY_TEST' });
     axios.put(`api/v1/test/${id}`, data).then((response) => {

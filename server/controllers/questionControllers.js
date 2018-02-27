@@ -50,6 +50,7 @@ export default class QuestionController {
           opt_b: opt_b || question.opt_b,
           opt_c: opt_c || question.opt_c,
           opt_d: opt_d || question.opt_d,
+          point: point || question.point,
         }).then(() => res.status(200).send({
           message: 'Your Question has been updated successfully',
         })).catch(err => res.status(500).send({

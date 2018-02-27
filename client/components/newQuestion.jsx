@@ -48,6 +48,7 @@ export default class NewQuestion extends React.Component {
     e.preventDefault();
     if (this.isValid()) {
       this.state.testId = this.props.test.test.id;
+      console.log(this.state)
       this.props.dispatch(createQuestion(this.state));
      }
      <Redirect to="/addquestion" />

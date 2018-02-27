@@ -34,7 +34,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.CHAR(1),
       allowNull: false,
     },
-    
+    point: {
+      type: DataTypes.CHAR(1),
+      allowNull: false,
+    },
   });
   Question.associate = (models) => {
     Question.belongsTo(models.Test, {
