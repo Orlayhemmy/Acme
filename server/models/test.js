@@ -23,10 +23,14 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     },
     intro: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.TEXT,
     },
     duration: {
       type: DataTypes.INTEGER,
+    },
+    upload: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   });
   Test.associate = (models) => {

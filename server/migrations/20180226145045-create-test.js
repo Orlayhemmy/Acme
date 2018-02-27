@@ -25,10 +25,14 @@ module.exports = {
         allowNull: false,
       },
       intro: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       duration: {
         type: Sequelize.INTEGER
+      },
+      upload: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,
@@ -37,7 +41,7 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
     });
   },
   down: (queryInterface, Sequelize) => {

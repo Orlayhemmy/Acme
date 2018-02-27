@@ -7,7 +7,7 @@ import Footer from './footer';
 import ContentContainer from './contentContainer';
 import { getTeacherClasses } from '../actions/classActions';
 import { createTestValidate } from '../shared/testValidation';
-import { getTermTests, createTest, getTest } from '../actions/testActions';
+import { getTermTests, createTest, getTest, modifyTest } from '../actions/testActions';
 
 @connect((store) => {
   return {
@@ -34,6 +34,11 @@ export default class TestArea extends React.Component {
     this.updateArchive = this.updateArchive.bind(this);
     this.onClick = this.onClick.bind(this);
     this.viewQuestions = this.viewQuestions.bind(this);
+    this.uploadTest = this.uploadTest.bind(this);
+  }
+  uploadTest(e) {
+    this.state.upload = true;
+    this.props.dispatch(modifyTest(e.target.id, this.state.upload));
   }
   updateArchive(id) {
     this.props.dispatch(getTermTests(id));
@@ -76,6 +81,7 @@ export default class TestArea extends React.Component {
     window.open('/testquestions', 'window', 'toolbar=no, menubar=no, resizable=yes');
   }
   render() {
+    const divColor = "color-orange";
     const { pathname } = this.props.location;
     const { errors, title, classId, classHistory } = this.state;
     const subjectClasses = _.map(this.props.classes, (subjectclass) => {
@@ -114,6 +120,12 @@ export default class TestArea extends React.Component {
     );
 
     const testHistory = _.map(this.props.test.tests, (test) => {
+      let uploadColor;
+      if (test.upload) {
+        uploadColor = "fa fa-upload";
+      } else {
+        uploadColor = "fa fa-download";
+      }
       return (
         <tr key={test.testId}>
           <td id={test.testId} onClick={this.onClick}>{test.title}</td>
@@ -121,8 +133,8 @@ export default class TestArea extends React.Component {
           <td>{test.Class.classname}</td>
           
           <td><em onClick={this.viewQuestions} id={test.testId} class="fa fa-eye"></em></td>
-          <td><em class="fa fa-upload"></em></td>
-          <td><i class="fa fa-recycle"></i></td>
+          <td><em onClick={this.uploadTest} id={test.testId} class={uploadColor}></em></td>
+          <td><i class="fa fa-trash"></i></td>
         </tr>
       );
     });
@@ -154,7 +166,7 @@ export default class TestArea extends React.Component {
         <Navbar path={pathname}/>
         <main className="col-xs-12 col-sm-8 offset-sm-4 col-lg-9 offset-lg-3 col-xl-10 offset-xl-2 pt-3 pl-4">
           <Header header="Test Area"/>
-          <ContentContainer contentFirst={newTest} contentSecond={archive}/>
+          <ContentContainer contentFirst={newTest} contentSecond={archive} background={divColor}/>
           <Footer />
         </main>
       </div>

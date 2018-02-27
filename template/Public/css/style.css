@@ -237,6 +237,12 @@ p {
 	background: #f9243f;
 	color: #ffffff;
 }
+.text-red {
+  color: #f9243f;
+}
+.text-green {
+  color: #5cb85c;
+}
 .divider {
   margin-top: 1rem;
 }

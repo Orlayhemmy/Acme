@@ -71,7 +71,7 @@ export default class Questions extends React.Component {
   }
 
   render() {
-    const { questions } = this.props.question;
+    const { questions, question } = this.props.question;
     
     const headerTitle = this.props.test.test.title + ' Questions';
     const Questions = _.map(questions, (question) => {
@@ -89,6 +89,16 @@ export default class Questions extends React.Component {
         </tr>
       ) 
     });
+    const popupContent = (
+      <div>
+        <p><h4>{question.content}</h4></p>
+        <p>A. {question.opt_a}</p>
+        <p>B. {question.opt_b}</p>
+        <p>C. {question.opt_c}</p>
+        <p>D. {question.opt_d}</p>
+        <p> The right option is <b>{question.answer}</b></p>
+      </div>
+    );
     return (
       <div class="row">			
         <main class="col-xs-12 col-sm-12 col-lg-12 col-xl-12 pl-4">
@@ -116,40 +126,11 @@ export default class Questions extends React.Component {
                   </tbody>
                 </table>
                 <Link to="/addquestion"><p>Add new question</p></Link>
-                {/* <form class="form-horizontal" onSubmit={this.onSubmit}>
-                  <fieldset>
-                    <div className="help-block">{errors.title}</div>
-                    <div class="form-group">
-                      <label class="col-12 control-label no-padding" for="name">Title</label> 
-                      <div class="col-12 no-padding">
-                        <textarea id="title" class="form-control" onChange={this.onChange} value={title}></textarea>
-                      </div>
-                    </div>
-                    
-                    <div className="help-block">{errors.intro}</div>
-                    <div class="form-group">
-                      <label class="col-12 control-label no-padding" for="name">Introduction</label>
-                      
-                      <div class="col-12 no-padding">
-                        <textarea id="intro" class="form-control" onChange={this.onChange} value ={intro}></textarea>
-                      </div>
-                    </div>
-                    
-                    
-
-                    <div class="form-group">
-                      <div class="col-12 widget-right no-padding">
-                        <input type="submit" class="btn btn-primary btn-md float-right" value="Next" />
-                      </div>
-                    </div>
-                  </fieldset>
-                </form> */}
-							
 							</div>					
 						</div>
 						
 					</div>
-          <Popup />
+          <Popup content={popupContent}/>
 				</section>
         <Footer />
         </main>
