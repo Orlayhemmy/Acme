@@ -21,19 +21,16 @@ import jwt from 'jsonwebtoken';
 //   };
 // }
 
-// export function createQuestion(data) {
-//   return (dispatch) => {
-//     dispatch({ type: 'CREATE_QUESTION' });
-//     axios.post('api/v1/questions', data).then((response) => {
-//       dispatch({ type: 'CREATE_QUESTION_SUCCESS', payload: response.data });
-//       const id = response.data.questionId;
-//       localStorage.setItem('questionId', id);
-//       dispatch(setCurrentQuestion(id));
-//     }).catch((err) => {
-//       dispatch({ type: 'CREATE_QUESTION_FAILS', payload: err.response });
-//     });
-//   };
-// }
+export function createQuestion(data) {
+  return (dispatch) => {
+    dispatch({ type: 'CREATE_QUESTION' });
+    axios.post('api/v1/questions', data).then((response) => {
+      dispatch({ type: 'CREATE_QUESTION_SUCCESS', payload: response });
+    }).catch((err) => {
+      dispatch({ type: 'CREATE_QUESTION_FAILS', payload: err.response });
+    });
+  };
+}
 
 // export function modifyQuestion(id, data) {
 //   return (dispatch) => {
@@ -49,7 +46,7 @@ import jwt from 'jsonwebtoken';
 export function getTestQuestions(id) {
   return (dispatch) => {
     dispatch({ type: 'GET_QUESTIONS' });
-    axios.get(`api/v1/questions/${id}`).then((response) => {
+    axios.get(`api/v1/testquestions/${id}`).then((response) => {
       dispatch({ type: 'GET_QUESTIONS_SUCCESS', payload: response });
     }).catch((err) => {
       dispatch({ type: 'GET_QUESTIONS_FAIL', payload: err.response });

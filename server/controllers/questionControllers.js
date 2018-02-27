@@ -14,15 +14,18 @@ export default class QuestionController {
    * @memberof QuestionController
    */
   static createQuestion(req, res) {
-    const { termId, classId, staffId, title } = req.body;
+    const { answer, opt_a, opt_b, opt_c, opt_d, testId, content, point } = req.body;
     return Question.create({
-      termId,
-      classId,
-      staffId,
-      title,
-    }).then(question => res.status(201).send({
+      answer,
+      opt_a,
+      opt_b,
+      opt_c,
+      opt_d,
+      testId,
+      content,
+      point,
+    }).then(() => res.status(201).send({
       message: 'Question created',
-      questionId: question.questionId,
     })).catch(error => res.status(500).send({
       message: error.message,
     }));

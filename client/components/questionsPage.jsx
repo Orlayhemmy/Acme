@@ -64,38 +64,43 @@ export default class Questions extends React.Component {
   //    }
   // }
   componentWillMount() {
-    this.props.dispatch(getTestQuestions(this.props.test.testId));
+    this.props.dispatch(getTestQuestions(this.props.test.test.id));
   }
 
   render() {
     const { questions } = this.props.question;
+    
     const headerTitle = this.props.test.test.title + ' Questions';
     const Questions = _.map(questions, (question) => {
-      <tr>
-        <td></td>
-        <td>{question.content}</td>
-        <td>{question.createdAt}</td>
-        <td>{question.point}</td>
-        <td><em className="fa fa-eye"></em></td>
-        <td><em className="fa fa-pencil"></em></td>
-        <td><em className="fa fa-trash"></em></td>
-      </tr>
+      let data = question.createdAt;
+      let creationDate = data.replace(/-/g,'/').replace('Z','').replace('T',' ');
+      return (
+        <tr>
+          <td></td>
+          <td class="text-left">{question.content}</td>
+          <td>{creationDate}</td>
+          <td>{question.point}</td>
+          <td onClick><em className="fa fa-eye"></em></td>
+          <td><em className="fa fa-pencil"></em></td>
+          <td><em className="fa fa-trash"></em></td>
+        </tr>
+      ) 
     });
     return (
       <div class="row">			
         <main class="col-xs-12 col-sm-12 col-lg-12 col-xl-12 pl-4">
           <Header header={headerTitle}/>
           <section class="row">
-					<div class="col-sm-12 col-md-8">
+					<div class="col-sm-12 col-md-12">
 						<div class="card mb-6">	
 							<div class="card-block">
                 <h3 class="mt-4 mb-4">Questions</h3>
-                <table class="table table-striped">
+                <table class="table table-striped text-center">
                   <thead>
                     <tr>
                       <th>S/N</th>
                       
-                      <th>Questions</th>
+                      <th class="text-left">Questions</th>
                       <th>Point</th>
                       <th>Date added</th>
                       <th>Preview</th>

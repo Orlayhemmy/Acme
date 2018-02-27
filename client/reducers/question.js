@@ -24,13 +24,14 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'CREATE_QUESTION_SUCCESS': {
-      const { message, questionId } = action.payload;
+      const { status } = action.payload;
+      const { message } = action.payload.data;
       return {
         ...state,
         loading: true,
         loaded: false,
         message,
-        questionId,
+        status,
       };
     }
     case 'CREATE_QUESTION_FAILS': {

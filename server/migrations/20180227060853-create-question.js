@@ -16,6 +16,30 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      opt_a: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
+      opt_b: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
+      opt_c: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
+      opt_d: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
+      point: {
+        type: Sequelize.CHAR(1),
+        allowNull: false,
+      },
+      answer: {
+        type: Sequelize.CHAR(1),
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

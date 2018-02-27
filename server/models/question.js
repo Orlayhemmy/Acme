@@ -13,7 +13,28 @@ export default (sequelize, DataTypes) => {
     content: {
       type: DataTypes.TEXT,
       allowNull: false,
-    }
+    },
+    opt_a: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    opt_b: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    opt_c: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    opt_d: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    answer: {
+      type: DataTypes.CHAR(1),
+      allowNull: false,
+    },
+    
   });
   Question.associate = (models) => {
     Question.belongsTo(models.Test, {
