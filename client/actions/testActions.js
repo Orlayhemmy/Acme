@@ -26,9 +26,9 @@ export function createTest(data) {
     dispatch({ type: 'CREATE_TEST' });
     axios.post('api/v1/tests', data).then((response) => {
       dispatch({ type: 'CREATE_TEST_SUCCESS', payload: response.data });
-      const id = response.data.testId;
-      localStorage.setItem('testId', id);
-      dispatch(setCurrentTest(id));
+      const { token } = response.data;
+      localStorage.setItem('test', token);
+      dispatch(setCurrentTest(jwt.decode(token)));
     }).catch((err) => {
       dispatch({ type: 'CREATE_TEST_FAILS', payload: err.response });
     });

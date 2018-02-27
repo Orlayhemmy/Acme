@@ -76,7 +76,7 @@ export default class Test extends React.Component {
 
   render() {
     if (this.props.test.status === 200) {
-      return <Redirect to="/questions" />
+      return <Redirect to="/testquestions" />
     }
     const { test } = this.props.test;
     const { duration, intro, title, errors } = this.state;

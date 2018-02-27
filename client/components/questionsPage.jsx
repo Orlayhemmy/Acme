@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import Header from './header';
+import Footer from './footer';
 // mport { writeTestValidate, modifyTestValidate } from '../shared/testValidation';
 import { getTestQuestions } from '../actions/questionActions';
 
@@ -9,7 +10,7 @@ import { getTestQuestions } from '../actions/questionActions';
   return {
     auth: store.auth,
     test: store.test,
-    questions: store.question,
+    question: store.question,
   };
 })
 
@@ -68,8 +69,7 @@ export default class Questions extends React.Component {
 
   render() {
     const { questions } = this.props.question;
-    const { duration, intro, title, errors } = this.state;
-    const headerTitle = this.props.test.title + 'questions';
+    const headerTitle = this.props.test.test.title + ' Questions';
     const Questions = _.map(questions, (question) => {
       <tr>
         <td></td>
@@ -89,6 +89,7 @@ export default class Questions extends React.Component {
 					<div class="col-sm-12 col-md-8">
 						<div class="card mb-6">	
 							<div class="card-block">
+                <h3 class="mt-4 mb-4">Questions</h3>
                 <table class="table table-striped">
                   <thead>
                     <tr>
@@ -106,7 +107,7 @@ export default class Questions extends React.Component {
                     {Questions}
                   </tbody>
                 </table>
-                <Link to="/addquestion.html"><p>Add new question</p></Link>
+                <Link to="/addquestion"><p>Add new question</p></Link>
                 {/* <form class="form-horizontal" onSubmit={this.onSubmit}>
                   <fieldset>
                     <div className="help-block">{errors.title}</div>
@@ -141,6 +142,7 @@ export default class Questions extends React.Component {
 						
 					</div>
 				</section>
+        <Footer />
         </main>
       </div>
     );

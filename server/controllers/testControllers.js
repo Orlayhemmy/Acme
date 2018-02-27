@@ -20,10 +20,24 @@ export default class TestController {
       classId,
       staffId,
       title,
-    }).then(test => res.status(201).send({
-      message: 'Test created',
-      testId: test.testId,
-    })).catch(error => res.status(500).send({
+    }).then((test) => {
+      const payload = {
+        termId: test.termId,
+        intro: test.intro,
+        title: test.title,
+        duration: test.duration,
+        id: test.testId,
+      }
+      const token = jwt.sign(payload, process.env.SECRET, {
+        expiresIn: 60 * 60 * 12,
+      });
+      req.body.token = token;
+      return res.status(201).send({
+        message: 'Test created',
+        testId: test.testId,
+        token,
+      });
+    }).catch(error => res.status(500).send({
       message: error.message,
     }));
   }
