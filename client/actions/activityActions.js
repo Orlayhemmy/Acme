@@ -3,11 +3,11 @@ import axios from 'axios';
 
 export function getAllActivities() {
   return (dispatch) => {
-    dispatch({ type: 'GET_ACTIVITY' });
+    dispatch({ type: 'GET_ACTIVITIES' });
     axios.get('api/v1/activities').then((response) => {
-      dispatch({ type: 'GET_ACTIVITY_SUCCESS', payload: response });
+      dispatch({ type: 'GET_ACTIVITIES_SUCCESS', payload: response });
     }).catch((err) => {
-      dispatch({ type: 'GET_ACTIVITY_FAILS', payload: err.response });
+      dispatch({ type: 'GET_ACTIVITIES_FAILS', payload: err.response });
     });
   };
 }

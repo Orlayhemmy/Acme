@@ -1,5 +1,7 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
+import { createActivity } from './activityActions';
+
 
 export function setCurrentTest(newTest) {
   return (dispatch) => {
@@ -41,6 +43,11 @@ export function createTest(data, termId) {
       localStorage.setItem('test', token);
       dispatch(setCurrentTest(jwt.decode(token)));
       dispatch(getTermTests(termId));
+      const act = {
+        description: `You created a test :${data.title}`,
+        title: data.title,
+      }
+      dispatch(createActivity(act));
     }).catch((err) => {
       dispatch({ type: 'CREATE_TEST_FAILS', payload: err.response });
     });

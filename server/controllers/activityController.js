@@ -1,8 +1,7 @@
-import jwt from 'jsonwebtoken';
-import env from 'dotenv';
+
 import models from '../models';
 
-const { Activity, Class } = models;
+const { StaffActivity } = models;
 
 export default class ActivityController {
   /**
@@ -14,9 +13,11 @@ export default class ActivityController {
    * @memberof ActivityController
    */
   static createActivity(req, res) {
-    const { description } = req.body;
-    return Activity.create({
+    const { description, title } = req.body;
+    return StaffActivity.create({
       description,
+      title,
+      staffId: req.decoded.id,
     }).then(() => {
       return res.status(201).send({
         message: 'Activity created',
@@ -35,7 +36,7 @@ export default class ActivityController {
    * @memberof ActivityController
    */
   static getAllActivities(req, res) {
-    Activity.findAll({
+    StaffActivity.findAll({
       where: {
         staffId: req.decoded.id,
       },
@@ -69,7 +70,7 @@ export default class ActivityController {
   static deleteActivity(req, res) {
     const { id } = req.params;
 
-    return Activity.findById(id).then((activity) => {
+    return StaffActivity.findById(id).then((activity) => {
       if (activity) {
         return activity.destroy().then(() => res.status(200).send({
           message: 'Activity Deleted',

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
+import { createActivity } from './activityActions';
 
 export function setCurrentNote(newNote) {
   return (dispatch) => {
@@ -41,6 +42,11 @@ export function createNote(data, weekId) {
       localStorage.setItem('note', token);
       dispatch(setCurrentNote(jwt.decode(token)));
       dispatch(getWeekNotes(weekId));
+      const act = {
+        description: `You created a lesson note :${data.topic}`,
+        title: data.topic,
+      }
+      dispatch(createActivity(act));
     }).catch((err) => {
       dispatch({ type: 'CREATE_NOTE_FAILS', payload: err.response });
     });

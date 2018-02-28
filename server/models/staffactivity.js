@@ -13,6 +13,9 @@ export default (sequelize, DataTypes) => {
     description: {
       type: DataTypes.STRING,
     },
+    title: {
+      type: DataTypes.STRING,
+    },
   });
   StaffActivity.associate = (models) => {
     StaffActivity.belongsTo(models.Staffs, {

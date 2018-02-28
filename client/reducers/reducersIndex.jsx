@@ -8,6 +8,7 @@ import assignment from './assignment';
 import feedback from './feedback';
 import test from './test';
 import question from './question';
+import activity from './activity';
 
 
 export default combineReducers({
@@ -20,4 +21,5 @@ export default combineReducers({
   feedback,
   test,
   question,
+  activity,
 });

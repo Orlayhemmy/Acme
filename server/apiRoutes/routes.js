@@ -132,7 +132,7 @@ router.route('/question/:id')
   .delete(AuthToken, QuestionController.deleteQuestion);
 
 router.route('/activities')
-  .post(ActivityController.createActivity)
+  .post(AuthToken, ActivityController.createActivity)
   .get(AuthToken, ActivityController.getAllActivities);
 
 router.route('/activity/:id')

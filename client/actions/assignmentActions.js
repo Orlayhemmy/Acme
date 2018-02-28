@@ -1,5 +1,7 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
+import { createActivity } from './activityActions';
+
 
 export function setCurrentAssignment(newAssignment) {
   return (dispatch) => {
@@ -41,6 +43,11 @@ export function createAssignment(data, weekId) {
       localStorage.setItem('assignment', token);
       dispatch(setCurrentAssignment(jwt.decode(token)));
       dispatch(getWeekAssignments(weekId));
+      const act = {
+        description: `You created an assignment :${data.topic}`,
+        title: data.topic,
+      }
+      dispatch(createActivity(act));
     }).catch((err) => {
       dispatch({ type: 'CREATE_ASSIGNMENT_FAILS', payload: err.response });
     });

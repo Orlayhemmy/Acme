@@ -11,6 +11,9 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
+      title: {
+        type: Sequelize.STRING
+      },
       staffId: {
         allowNull: false,
         type: Sequelize.INTEGER

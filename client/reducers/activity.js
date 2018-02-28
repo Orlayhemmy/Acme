@@ -1,4 +1,3 @@
-import isEmpty from 'lodash/isEmpty';
 
 const initialState = {
   loading: '',
@@ -60,7 +59,7 @@ export default (state = initialState, action = {}) => {
         message,
       };
     }
-    case 'GET_ACTIVITYIES_SUCCESS': {
+    case 'GET_ACTIVITIES_SUCCESS': {
       const { status } = action.payload;
       const { message, activities } = action.payload.data;
       return {
