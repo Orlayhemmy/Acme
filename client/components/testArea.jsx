@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import isEmpty from 'lodash/isEmpty';
 import Navbar from './sidenavbar';
 import Header from './header';
 import Footer from './footer';
@@ -96,6 +97,8 @@ export default class TestArea extends React.Component {
     }    
   }
   render() {
+    let content;
+    const { tests } = this.props.test;
     const divColor = "color-orange";
     const { pathname } = this.props.location;
     const { errors, title, classId, historyTerm } = this.state;
@@ -134,7 +137,7 @@ export default class TestArea extends React.Component {
       </form>
     );
     
-    const testHistory = _.map(this.props.test.tests, (test) => {
+    const testHistory = _.map(tests, (test) => {
       let uploadColor;
       if (test.upload) {
         uploadColor = "fa fa-upload";
@@ -153,19 +156,17 @@ export default class TestArea extends React.Component {
         </tr>
       );
     });
-    const archive = ( 
-      <div className="table-responsive">
-        <h3 className="mt-4 mb-4 text-center"><em class="fa fa-edit"></em> Tests Archive</h3>
-        <div class="form-group">
-          <div class="col-12 no-padding">
-            <select id="historyTerm" class="form-control" onChange={this.onChange}>
-              <option value={this.props.term.id.value}>Current Term</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
+
+    if (isEmpty(tests)) {
+      content = (
+        <div className="col-lg-12 mb-4 mt-4 text-center">
+          <div className="notice">
+            <h2><span className="color-white"><b>No Test Found</b></span></h2>
           </div>
-        </div>
+        </div>  
+      );
+    } else {
+      content = (
         <table class="table table-striped">
           <thead>
             <tr>
@@ -184,6 +185,23 @@ export default class TestArea extends React.Component {
             {testHistory}
           </tbody>
         </table>
+      );
+    }
+
+    const archive = ( 
+      <div className="table-responsive">
+        <h3 className="mt-4 mb-4 text-center"><em class="fa fa-edit"></em> Tests Archive</h3>
+        <div class="form-group">
+          <div class="col-12 no-padding">
+            <select id="historyTerm" class="form-control" onChange={this.onChange}>
+              <option value={this.props.term.id.value}>Current Term</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+        </div>
+        {content}
       </div>  
     );
     return (

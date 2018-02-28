@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import ContentContainer from '../contentContainer';
 import { getTeacherClasses } from '../../actions/classActions';
 import { createNoteValidate } from '../../shared/noteValidation';
@@ -13,7 +14,6 @@ import { createNote, getWeekNotes, getNote, deleteNote } from '../../actions/not
     classes: store.classes.classes,
     term: store.term,
     week: store.week,
-    notes: store.note.notes,
     note: store.note,
   };
 })
@@ -85,6 +85,8 @@ export default class LessonNote extends React.Component {
     }     
   }
   render() {
+    let content;
+    const { notes } = this.props.note;
     const { weekId, classId, errors, historyWeek, topic } = this.state;
     const subjectClasses = _.map(this.props.classes, (subjectclass) => {
       return (
@@ -143,7 +145,7 @@ export default class LessonNote extends React.Component {
       </form>
     );
  
-    const lessonNotes = _.map(this.props.notes, (note) => {
+    const lessonNotes = _.map(notes, (note) => {
       return (
         <tr key={note.noteId}>
           <td id={note.noteId} onClick={this.onClick} className="text-left">{note.topic}</td>                 
@@ -152,8 +154,35 @@ export default class LessonNote extends React.Component {
         </tr>
       );
     });
+
+    if (isEmpty(notes)) {
+      content = (
+        <div className="col-lg-12 mb-4 mt-4 text-center">
+          <div className="notice">
+            <h2><span className="color-white"><b>No Lesson Note Found</b></span></h2>
+          </div>
+        </div>  
+      );
+    } else {
+      content = (
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Topic</th>
+              
+              <th>Class</th>
+              
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {lessonNotes}
+          </tbody>
+        </table>
+      );
+    }
     const archive = ( 
-      <div className="table-responsive text-center">
+      <div className="table-responsive">
         <h3 className="mt-4 mb-4"><em class="fa fa-list"></em> Note Archive</h3>
         <div class="form-group">
           <div class="col-12 no-padding">
@@ -174,20 +203,7 @@ export default class LessonNote extends React.Component {
             </select>
           </div>
         </div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Topic</th>
-              
-              <th>Class</th>
-              
-              <th>Remove/Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {lessonNotes}
-          </tbody>
-        </table>
+        {content}
       </div>  
     );
     return (

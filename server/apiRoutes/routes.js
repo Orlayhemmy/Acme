@@ -9,6 +9,7 @@ import WeekController from '../controllers/weekController';
 import TermController from '../controllers/termController';
 import TestController from '../controllers/testControllers';
 import QuestionController from '../controllers/questionControllers';
+import ActivityController from '../controllers/activityController';
 import AuthToken from '../middleware/authenticateToken';
 import AuthAdminToken from '../middleware/authAdminToken';
 import StudentValidate from '../middleware/studentValidate';
@@ -129,5 +130,12 @@ router.route('/question/:id')
   .put(AuthToken, QuestionController.updateQuestion)
   .get(AuthToken, QuestionController.getSingleQuestion)
   .delete(AuthToken, QuestionController.deleteQuestion);
+
+router.route('/activities')
+  .post(ActivityController.createActivity)
+  .get(AuthToken, ActivityController.getAllActivities);
+
+router.route('/activity/:id')
+  .delete(ActivityController.deleteActivity);
 
 export default router;
