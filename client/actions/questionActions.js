@@ -43,6 +43,17 @@ export function modifyQuestion(id, data) {
   };
 }
 
+export function deleteQuestion(id, data) {
+  return (dispatch) => {
+    dispatch({ type: 'DELETE_QUESTION' });
+    axios.delete(`api/v1/question/${id}`, data).then((response) => {
+      dispatch({ type: 'DELETE_QUESTION_SUCCESS', payload: response });
+    }).catch((err) => {
+      dispatch({ type: 'DELETE_QUESTION_FAIL', payload: err.response });
+    });
+  };
+}
+
 export function getTestQuestions(id) {
   return (dispatch) => {
     dispatch({ type: 'GET_QUESTIONS' });

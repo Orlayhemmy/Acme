@@ -169,6 +169,35 @@ export default (state = initialState, action = {}) => {
         questions,
       };
     }
+    case 'DELETE_QUESTION': {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+      };
+    }
+    case 'DELETE_QUESTION_SUCCESS': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
+    case 'DELETE_QUESTION_FAIL': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
     default: return state;
   }
 };

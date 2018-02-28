@@ -165,6 +165,35 @@ export default (state = initialState, action = {}) => {
         tests,
       };
     }
+    case 'DELETE_TEST': {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+      };
+    }
+    case 'DELETE_TEST_SUCCESS': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
+    case 'DELETE_TEST_FAIL': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
     default: return state;
   }
 };

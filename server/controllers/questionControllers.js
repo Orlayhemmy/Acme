@@ -187,7 +187,7 @@ export default class QuestionController {
 
     return Question.findById(id).then((question) => {
       if (question) {
-        return Question.destroy().then(() => res.status(200).send({
+        return question.destroy().then(() => res.status(200).send({
           message: 'Question Deleted',
         }));
       }

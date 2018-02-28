@@ -68,3 +68,14 @@ export function getClassTests(id) {
     });
   };
 }
+
+export function deleteTest(id) {
+  return (dispatch) => {
+    dispatch({ type: 'DELETE_TEST' });
+    axios.delete(`api/v1/test/${id}`).then((response) => {
+      dispatch({ type: 'DELETE_TEST_SUCCESS', payload: response });
+    }).catch((err) => {
+      dispatch({ type: 'DELETE_TEST_FAIL', payload: err.response });
+    });
+  };
+}

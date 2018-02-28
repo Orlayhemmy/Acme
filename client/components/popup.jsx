@@ -1,12 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-// @connect((store) => {
-//   return {
-//     auth: store.auth,
-//     question: store.question,
-//   };
-// })
 export default class PopUp extends React.Component {
   render() {    
     return (

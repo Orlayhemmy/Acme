@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 import Navbar from './sidenavbar';
 import Header from './header';
 import Footer from './footer';
+import Popup from './popup';
 import ContentContainer from './contentContainer';
 import { getTeacherClasses } from '../actions/classActions';
 import { createTestValidate } from '../shared/testValidation';
-import { getTermTests, createTest, getTest, modifyTest } from '../actions/testActions';
+import { getTermTests, createTest, getTest, modifyTest, deleteTest } from '../actions/testActions';
 
 @connect((store) => {
   return {
@@ -36,6 +37,7 @@ export default class TestArea extends React.Component {
     this.onClick = this.onClick.bind(this);
     this.viewQuestions = this.viewQuestions.bind(this);
     this.uploadTest = this.uploadTest.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
   uploadTest(e) {
     const data = {
@@ -80,6 +82,11 @@ export default class TestArea extends React.Component {
       window.open('/newtest', 'window', 'toolbar=no, menubar=no, resizable=yes');
     }
   }
+  onDelete(e) {
+    if (confirm("Are you sure you want to delete the test")) {
+      this.props.dispatch(deleteTest(e.target.id));
+    }
+  }
   viewQuestions(e) {
     this.props.dispatch(getTest(e.target.id));
     window.open('/testquestions', 'window', 'toolbar=no, menubar=no, resizable=yes');
@@ -122,7 +129,7 @@ export default class TestArea extends React.Component {
         </fieldset>
       </form>
     );
-
+    
     const testHistory = _.map(this.props.test.tests, (test) => {
       let uploadColor;
       if (test.upload) {
@@ -138,7 +145,7 @@ export default class TestArea extends React.Component {
           
           <td><em onClick={this.viewQuestions} id={test.testId} class="fa fa-eye"></em></td>
           <td><em onClick={this.uploadTest} id={test.testId} class={uploadColor}></em></td>
-          <td><i class="fa fa-trash"></i></td>
+          <td><em onClick={this.onDelete} id={test.testId} className="fa fa-trash"></em></td>
         </tr>
       );
     });

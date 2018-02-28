@@ -4,7 +4,7 @@ import { Redirect, Link } from 'react-router-dom';
 import Header from './header';
 import Footer from './footer';
 import Popup from './popup';
-import { getTestQuestions, getQuestion } from '../actions/questionActions';
+import { getTestQuestions, getQuestion, deleteQuestion } from '../actions/questionActions';
 
 @connect((store) => {
   return {
@@ -69,6 +69,11 @@ export default class Questions extends React.Component {
   componentWillMount() {
     this.props.dispatch(getTestQuestions(this.props.test.test.id));
   }
+  onDelete(e) {
+    if (confirm("Are you sure you want to delete the question")) {
+      this.props.dispatch(deleteQuestion(e.target.id));
+    }
+  }
 
   render() {
     const { questions, question } = this.props.question;
@@ -85,7 +90,7 @@ export default class Questions extends React.Component {
           <td>{creationDate}</td>
           <td><span data-toggle="modal" data-target="#popup"><em onClick={this.onClick.bind(this)} id={question.questionId} className="fa fa-eye"></em></span></td>
           <td><Link to="/editquestion"><em onClick={this.onClick.bind(this)} id={question.questionId} className="fa fa-edit"></em></Link></td>
-          <td><em className="fa fa-trash"></em></td>
+          <td><em onClick={this.onDelete.bind(this)} id={question.questionId} className="fa fa-trash"></em></td>
         </tr>
       ) 
     });

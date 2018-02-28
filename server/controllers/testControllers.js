@@ -204,7 +204,7 @@ export default class TestController {
 
     return Test.findById(id).then((test) => {
       if (test) {
-        return Test.destroy().then(() => res.status(200).send({
+        return test.destroy().then(() => res.status(200).send({
           message: 'Test Deleted',
         }));
       }
