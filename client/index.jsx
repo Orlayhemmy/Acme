@@ -24,6 +24,7 @@ import Questions from './components/questionsPage';
 import NewQuestion from './components/newQuestion';
 import EditQuestion from './components/editQuestion';
 import setAuthToken from './utils/setAuthorizationToken';
+import StudentViewNote from './components/studentViewNote';
 import { setCurrentUser } from './actions/authActions';
 import { setCurrentNote } from './actions/noteActions';
 import { setCurrentTerm } from './actions/termActions';
@@ -82,6 +83,7 @@ ReactDOM.render(
         <Route exact path="/testquestions" component={Questions} />
         <Route exact path="/addquestion" component={NewQuestion} />
         <Route exact path="/editquestion" component={EditQuestion} />
+        <Route exact path="/studentviewnote"  component={StudentViewNote} />
       </Switch>
     </Router>
   </Provider>

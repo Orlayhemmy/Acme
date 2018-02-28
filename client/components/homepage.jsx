@@ -69,11 +69,14 @@ export default class Homepage extends React.Component {
   render() {
     const { loginId, loginPassword, errors, serverError } = this.state;
     if (this.props.auth.isAuth) {
-      return <Redirect to="/dashboard" />;
+      if (!this.props.auth.isStudent) {
+        return <Redirect to="/dashboard" />;
+      }
+      if (this.props.auth.isStudent) {
+        return <Redirect to="/studentdashboard" />;
+      }
     }
-    if (this.props.auth.isStudent) {
-      return <Redirect to="/studentdashboard" />;
-    }
+    
     return (
       <div className="row">	
         <main className="col-xs-12 col-sm-8 col-lg-12 col-xl-12 pt-3 pl-4">	

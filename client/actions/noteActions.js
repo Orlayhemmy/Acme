@@ -19,6 +19,17 @@ export function getWeekNotes(id) {
   };
 }
 
+export function getStudentWeekNotes(id) {
+  return (dispatch) => {
+    dispatch({ type: 'GET_STUDENT_NOTES' });
+    axios.get(`api/v1/studentweeknotes/${id}`).then((response) => {
+      dispatch({ type: 'GET_STUDENT_NOTES_SUCCESS', payload: response });
+    }).catch((err) => {
+      dispatch({ type: 'GET_STUDENT_NOTES_FAIL', payload: err.response });
+    });
+  };
+}
+
 export function getNote(id) {
   return (dispatch) => {
     dispatch({ type: 'GET_LESSON_NOTE' });
@@ -29,6 +40,20 @@ export function getNote(id) {
       dispatch(setCurrentNote(jwt.decode(token)));
     }).catch((err) => {
       dispatch({ type: 'GET_NOTE_FAILS', payload: err.response });
+    });
+  };
+}
+
+export function getStudentNote(id) {
+  return (dispatch) => {
+    dispatch({ type: 'GET_STUDENT_LESSON_NOTE' });
+    axios.get(`api/v1/studentnote/${id}`).then((response) => {
+      dispatch({ type: 'GET_STUDENT_NOTE_SUCCESS', payload: response });
+      const { token } = response.data;
+      localStorage.setItem('note', token);
+      dispatch(setCurrentNote(jwt.decode(token)));
+    }).catch((err) => {
+      dispatch({ type: 'GET_STUDENT_NOTE_FAILS', payload: err.response });
     });
   };
 }

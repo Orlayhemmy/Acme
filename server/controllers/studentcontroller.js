@@ -16,7 +16,7 @@ export default class StudentController {
  */
   static signup(req, res) {
     const { firstname, lastname, middlename, address, origin, mobile,
-       dob, password, studentId, sex } = req.body;
+       dob, password, studentId, sex, classId } = req.body;
 
     Students.findOne({
       where: {
@@ -38,6 +38,7 @@ export default class StudentController {
           const origin_state = origin.toLowerCase();
           const home = address.toLowerCase();
           const std_id = studentId.toLowerCase();
+        
           Students.create({
             firstname: fname,
             lastname: lname,
@@ -49,8 +50,9 @@ export default class StudentController {
             studentId: std_id,
             sex,
             password: hash,
+            classId,
           }).then(() => {
-              const payload = { studentId, firstname };
+              const payload = { studentId, firstname, classId };
               const token = jwt.sign(payload, process.env.SECRET, {
                 expiresIn: 60 * 60 * 12,
               });

@@ -4,15 +4,47 @@ import { connect } from 'react-redux';
 import Navbar from './sidenavbar';
 import Header from './header';
 import Footer from './footer';
+import { getAllStudentActivities } from '../actions/activityActions';
 
-@connect((store) => {
+@connect((store) =>  {
   return {
     auth: store.auth,
+    activity: store.activity,
   };
 })
-export default class Dashboard extends React.Component {
+export default class StudentDashboard extends React.Component {
+  componentWillMount() {
+    this.props.dispatch(getAllStudentActivities());
+  }
   render() {
-    
+    const { activities } = this.props.activity;
+
+    const notifications = _.map(activities, (activity) => {
+      let data = activity.createdAt;
+      let creationDate = new Date(data.replace(/-/g,'/').replace('Z','').replace('T',' '));
+      let month = creationDate.getMonth();
+      let day = creationDate.getDate();
+
+      return (
+        <div class="article">
+          <div class="col-xs-12">
+            <div class="row">
+              <div class="col-2 date">
+                <div class="large">{day}</div>
+                
+                <div class="text-muted">{month}</div>
+              </div>
+              
+              <div class="col-10">
+                <h4><a href="#">{activity.title}</a></h4>
+                <p>{activity.description}</p>
+              </div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+      );
+    });
     return (
       <div class="row">
         <Navbar />
@@ -31,60 +63,7 @@ export default class Dashboard extends React.Component {
                       <div class="divider"></div>
                       
                       <div class="articles-container">
-                        <div class="article border-bottom">
-                          <div class="col-xs-12">
-                            <div class="row">
-                              <div class="col-2 date">
-                                <div class="large">30</div>
-                                
-                                <div class="text-muted">Jun</div>
-                              </div>
-                              
-                              <div class="col-10">
-                                <h4><a href="#">Adeyimika Oreoluwa</a></h4>
-                                
-                                <p>Gave a feedback to the questions you sent</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="clear"></div>
-                        </div>                        
-                        <div class="article">
-                          <div class="col-xs-12">
-                            <div class="row">
-                              <div class="col-2 date">
-                                <div class="large">30</div>
-                                
-                                <div class="text-muted">Jun</div>
-                              </div>
-                              
-                              <div class="col-10">
-                                <h4><a href="#">Anita Colson</a></h4>
-                                <p>Gave a feedback to the questions you sent</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="clear"></div>
-                        </div>
-                        <div class="article">
-                          <div class="col-xs-12">
-                            <div class="row">
-                              <div class="col-2 date">
-                                <div class="large">30</div>
-                                
-                                <div class="text-muted">Jun</div>
-                              </div>
-                              
-                              <div class="col-10">
-                                <h4><a href="#">Isaac John</a></h4>
-                                
-                                <p>Gave a feedback to the questions you sent</p>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div class="clear"></div>
-                        </div>
+                        {notifications}
                       </div>
                     </div>
                   </div>

@@ -12,6 +12,17 @@ export function getAllActivities() {
   };
 }
 
+export function getAllStudentActivities() {
+  return (dispatch) => {
+    dispatch({ type: 'GET__STUDENT_ACTIVITIES' });
+    axios.get('api/v1/studentactivities').then((response) => {
+      dispatch({ type: 'GET_STUDENT_ACTIVITIES_SUCCESS', payload: response });
+    }).catch((err) => {
+      dispatch({ type: 'GET_STUDENT_ACTIVITIES_FAILS', payload: err.response });
+    });
+  };
+}
+
 export function createActivity(data) {
   return (dispatch) => {
     dispatch({ type: 'CREATE_ACTIVITY' });
@@ -19,6 +30,17 @@ export function createActivity(data) {
       dispatch({ type: 'CREATE_ACTIVITY_SUCCESS', payload: response });
     }).catch((err) => {
       dispatch({ type: 'CREATE_ACTIVITY_FAILS', payload: err.response });
+    });
+  };
+}
+
+export function createStudentActivity(data) {
+  return (dispatch) => {
+    dispatch({ type: 'CREATE_STUDENT_ACTIVITY' });
+    axios.post('api/v1/studentactivities', data).then((response) => {
+      dispatch({ type: 'CREATE_STUDENT_ACTIVITY_SUCCESS', payload: response });
+    }).catch((err) => {
+      dispatch({ type: 'CREATE_STUDENT_ACTIVITY_FAILS', payload: err.response });
     });
   };
 }

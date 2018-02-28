@@ -60,15 +60,21 @@ router.route('/class/:id')
 
 router.route('/classes/:id')
   .get(AuthToken, ClassController.getTeacherClasses);
-  
+
 router.route('/notes')
   .post(AuthToken, NoteValidate.createNote, LessonNoteController.createLessonNote);
 
 router.route('/weeknotes/:id')
   .get(AuthToken, LessonNoteController.getWeekNotes);
 
+router.route('/studentweeknotes/:id')
+  .get(AuthToken, LessonNoteController.getStudentWeekNotes);
+
 router.route('/hodweeknotes/:id')
   .get(AuthToken, LessonNoteController.getHODWeekNotes);
+
+router.route('/studentnote/:id')
+  .get(AuthToken, LessonNoteController.getStudentSingleLessonNote)
 
 router.route('/note/:id')
   .put(AuthToken, LessonNoteController.updateLessonNote)

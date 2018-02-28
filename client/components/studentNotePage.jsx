@@ -5,7 +5,7 @@ import Navbar from './sidenavbar';
 import Header from './header';
 import Footer from './footer';
 import Container from './containerStudentPage';
-import { getWeekNotes } from '../actions/noteActions';
+import { getStudentWeekNotes, getStudentNote } from '../actions/noteActions';
 
 @connect((store) => {
   return {
@@ -22,14 +22,21 @@ export default class LessonNote extends React.Component {
       weekId: '',
     }
     this.updateArchive = this.updateArchive.bind(this);
+    this.onClick = this.onClick.bind(this);
+  }
+  
+  onClick(e) {
+    this.props.dispatch(getStudentNote(e.target.id));
+    window.open('/studentviewnote', 'window', 'toolbar=no, menubar=no, resizable=yes');
   }
   updateArchive(e) {
-    this.props.dispatch(getWeekNotes(e.target.id));
+    this.props.dispatch(getStudentWeekNotes(e.target.value));
   }
   componentWillMount() {
-    this.props.dispatch(getWeekNotes(this.props.week.id.value))
+    this.props.dispatch(getStudentWeekNotes(this.props.week.id.value))
   }
   render() {
+    const { weekId } = this.state;
     let content;
     const { notes } = this.props.note;
     if (isEmpty(notes)) {
@@ -42,15 +49,18 @@ export default class LessonNote extends React.Component {
       );
     } else {
       content = _.map(notes, (note) => {
-        <div class="col-lg-4 mb-4">
-          <div class="card card-inverse card-primary">
-            <div class="card-header">{note.Subject.subjectname}</div>
-            <div class="card-block">
-              <p><b>{note.topic}</b>
-              <br/>{note.preview}</p>
+        return (
+          <div class="col-lg-4 mb-4" key={note.noteId}>
+            <div class="card card-inverse card-primary">
+              <div class="card-header">{note.Subject.subjectname} <em className="fa fa-eye float-right" onClick={this.onClick} id={note.noteId}></em>
+              </div>
+              <div class="card-block">
+                <p><b>{note.topic}</b>
+                <br/>{note.preview}</p>
+              </div>
             </div>
           </div>
-        </div>
+        );
       });
     }
    

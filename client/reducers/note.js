@@ -49,10 +49,10 @@ export default (state = initialState, action = {}) => {
     case 'SET_CURRENT_NOTE': {
       const { newNote } = action.payload;
       const { duration, objectives, activity, materials, behaviours, content, assessment,
-      scope, topic, questions, reference, strategies, classname, termId, weekId, id } = newNote;
+      subjectname, scope, topic, questions, reference, strategies, classname, termId, weekId, id } = newNote;
       const note = { 
         id, duration, objectives, activity, materials, behaviours, content, assessment,
-        scope, topic, questions, reference, strategies, classname, termId, weekId,
+        scope, topic, questions, reference, strategies, classname, termId, weekId, subjectname,
       }
       return {
         ...state,
@@ -183,6 +183,38 @@ export default (state = initialState, action = {}) => {
         loaded: true,
         status,
         message,
+      };
+    }
+    case 'GET_STUDENT_LESSON_NOTES': {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        status: '',
+        message: '',
+      };
+    }
+    case 'GET_STUDENT_NOTES_FAIL': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
+    case 'GET_STUDENT_NOTES_SUCCESS': {
+      const { status } = action.payload;
+      const { message, notes } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+        notes,
       };
     }
     default: return state;

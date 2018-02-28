@@ -3,7 +3,7 @@ import env from 'dotenv';
 import models from '../models';
 
 const {
- LessonNote, Class, Staffs, Subjects 
+ LessonNote, Class, Staffs, Subjects, Students 
 } = models;
 
 export default class LessonNoteController {
@@ -16,7 +16,9 @@ export default class LessonNoteController {
    * @memberof LessonNoteController
    */
   static createLessonNote(req, res) {
-    const { termId, weekId, classId, staffId, subjectId, topic } = req.body;
+    const {
+ termId, weekId, classId, staffId, subjectId, topic 
+} = req.body;
     return LessonNote.create({
       termId,
       weekId,
@@ -126,6 +128,44 @@ export default class LessonNoteController {
       });
     });
   }
+
+  /**
+   *
+   *
+   * @static getStudentNotes
+   * @param {any} req
+   * @param {any} res
+   * @memberof LessonNoteController
+   */
+  static getStudentWeekNotes(req, res) {
+
+    LessonNote.findAll({
+      where: {
+        weekId: req.params.id,
+        upload: true,
+        classId: req.decoded.classId,
+      },
+      include: [{
+        model: Subjects,
+      }],
+    }).then((notes) => {
+      if (notes) {
+        // show notes
+        return res.status(200).send({
+          notes,
+        });
+      }
+      // No lesson note found
+      return res.status(404).send({
+        message: 'No lesson not found',
+      });
+    }).catch((error) => {
+      res.status(500).send({
+        message: error.message,
+      });
+    });
+  }
+
   /**
    *
    *
@@ -180,6 +220,57 @@ export default class LessonNoteController {
       message: error.message,
     }));
   }
+
+ /**
+   *
+   *
+   * @static getStudentSingleLessonNote
+   * @param {any} req
+   * @param {any} res
+   * @memberof LessonNoteController
+   */
+  static getStudentSingleLessonNote(req, res) {
+    const { id } = req.params;
+    LessonNote.findOne({
+      where: {
+        noteId: id,
+        upload: true,
+      },
+      include: [{
+        model: Class,
+      },
+      {
+        model: Subjects,
+      }],
+    }).then((note) => {
+      if (note) {
+        const payload = {
+          content: note.content,
+          classname: note.Class.classname,
+          subjectname: note.Subject.subjectname,
+          topic: note.topic,
+          termId: note.termId,
+          weekId: note.weekId,
+          id: note.noteId,
+        };
+        const token = jwt.sign(payload, process.env.SECRET, {
+          expiresIn: 60 * 60 * 12,
+        });
+        req.body.token = token;
+        return res.status(200).send({
+          token,
+          message: 'Lesson note found',
+        });
+      }
+      return res.status(400).send({
+        message: 'Lesson note not found',
+      });
+
+    }).catch(error => res.status(500).send({
+      message: error.message,
+    }));
+  }
+
   /**
    *
    *
