@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import Header from './header';
 import { writeNoteValidate } from '../shared/noteValidation';
-import { createNote, modifyNote, getNote } from '../actions/noteActions';
+import { modifyNote, getNote } from '../actions/noteActions';
 
 @connect((store) => {
   return {
@@ -89,8 +89,8 @@ export default class Note extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
-      this.state.upload = 'true';
-      this.props.dispatch(modifyNote(this.props.note.id.id, this.state));
+      this.state.upload = true;
+      this.props.dispatch(modifyNote(this.props.note.note.id, this.state));
      }
   }
   onClick() {
@@ -99,8 +99,12 @@ export default class Note extends React.Component {
     } else {
       this.state.preview = this.state.content.substring(0, 130) + '...';
     }
-    console.log(this.state);
-    // this.props.dispatch(modifyNote(this.props.note.id.id, this.state));
+    this.props.dispatch(modifyNote(this.props.note.note.id, this.state));
+  }
+  componentDidUpdate() {
+    if (this.props.note.status === 200) {
+      alert(this.props.note.message);
+    }    
   }
   render() {
     const { note } = this.props.note;

@@ -4,7 +4,7 @@ import _ from 'lodash';
 import ContentContainer from '../contentContainer';
 import { getTeacherClasses } from '../../actions/classActions';
 import { createAssignmentValidate } from '../../shared/assignmentValidation';
-import { createAssignment, getWeekAssignments, getAssignment } from '../../actions/assignmentActions';
+import { createAssignment, getWeekAssignments, getAssignment, deleteAssignment } from '../../actions/assignmentActions';
 
 
 @connect((store) => {
@@ -13,7 +13,7 @@ import { createAssignment, getWeekAssignments, getAssignment } from '../../actio
     classes: store.classes.classes,
     term: store.term,
     week: store.week,
-    assignments: store.assignment.assignments,
+    assignment: store.assignment,
   };
 })
 
@@ -32,10 +32,21 @@ export default class Assignment extends React.Component {
     this.isValid = this.isValid.bind(this);
     this.onClick = this.onClick.bind(this);
     this.updateArchive = this.updateArchive.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+    this.updateArchiveWeek  = this.updateArchiveWeek.bind(this);
+  }
+  onDelete(e) {
+    if (confirm("Are you sure you want to delete the assignment")) {
+      this.props.dispatch(deleteAssignment(e.target.id, this.props.week.id.value));
+    }
   }
   updateArchive(id) {
     this.props.dispatch(getWeekAssignments(id));
   }
+  updateArchiveWeek() {
+    this.props.dispatch(getWeekAssignments(this.props.week.id.value));
+  }
+
   onChange(e) {
     this.setState({
       [e.target.id]: e.target.value,
@@ -57,8 +68,7 @@ export default class Assignment extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
-      this.props.dispatch(createAssignment(this.state));
-      this.props.dispatch(getWeekAssignments(this.props.week.id.value));
+      this.props.dispatch(createAssignment(this.state, this.props.week.id.value));
       window.open('/assignment', 'window', 'toolbar=no, menubar=no, resizable=yes');
     }
   }
@@ -69,6 +79,11 @@ export default class Assignment extends React.Component {
   componentWillMount() {
     this.props.dispatch(getTeacherClasses(this.props.auth.user.id));
     this.props.dispatch(getWeekAssignments(this.props.week.id.value))
+  }
+  componentDidUpdate() {
+    if (this.props.assignment.message === 'Assignment Deleted') {
+      alert(this.props.assignment.message);
+    }    
   }
   render() {
     const { weekId, classId, errors, historyWeek, topic } = this.state;
@@ -129,13 +144,13 @@ export default class Assignment extends React.Component {
         </fieldset>
       </form>
     );
- 
-    const Assignments = _.map(this.props.assignments, (assignment) => {
+    const { assignments } = this.props.assignment;
+    const Assignments = _.map(assignments, (assignment) => {
       return (
         <tr key={assignment.assignmentId}>
           <td id={assignment.assignmentId} onClick={this.onClick} className="text-left">{assignment.topic}</td>                 
           <td>{assignment.Class.classname}</td>
-          <td><i class="fa fa-remove"></i></td>
+          <td><i class="fa fa-trash" onClick={this.onDelete} id={assignment.assignmentId}></i></td>
         </tr>
       );
     });
@@ -145,7 +160,7 @@ export default class Assignment extends React.Component {
         <div class="form-group">
           <div class="col-12 no-padding">
             <select id="historyWeek" class="form-control" onChange={this.onChange}>
-              <option>Current Week</option>
+              <option value={this.props.week.id.value}>Current Week</option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -161,14 +176,14 @@ export default class Assignment extends React.Component {
             </select>
           </div>
         </div>
-        <table class="table table-striped">
+        <table class="table table-striped text-center">
           <thead>
             <tr>
-              <th>Topic</th>
+              <th class="text-left">Topic</th>
               
               <th>Class</th>
               
-              <th>Remove/Delete</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>

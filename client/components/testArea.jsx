@@ -26,7 +26,7 @@ export default class TestArea extends React.Component {
       classId: '',
       weekId: '',
       errors: {},
-      classHistory: '',
+      historyTerm: '',
       title: '',
       upload: '',
     }
@@ -57,7 +57,7 @@ export default class TestArea extends React.Component {
     this.setState({
       [e.target.id]: e.target.value,
     });
-    if (e.target.id == 'classHistory') {
+    if (e.target.id == 'historyTerm') {
       this.updateArchive(e.target.value);
     }
   }
@@ -77,24 +77,28 @@ export default class TestArea extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
-      this.props.dispatch(createTest(this.state));
-      this.props.dispatch(getTermTests(this.props.term.id.value));
+      this.props.dispatch(createTest(this.state, this.props.term.id.value));
       window.open('/newtest', 'window', 'toolbar=no, menubar=no, resizable=yes');
     }
   }
   onDelete(e) {
     if (confirm("Are you sure you want to delete the test")) {
-      this.props.dispatch(deleteTest(e.target.id));
+      this.props.dispatch(deleteTest(e.target.id, this.props.term.id.value));
     }
   }
   viewQuestions(e) {
     this.props.dispatch(getTest(e.target.id));
     window.open('/testquestions', 'window', 'toolbar=no, menubar=no, resizable=yes');
   }
+  componentDidUpdate() {
+    if (this.props.test.message === 'Test Deleted') {
+      alert(this.props.test.message);
+    }    
+  }
   render() {
     const divColor = "color-orange";
     const { pathname } = this.props.location;
-    const { errors, title, classId, classHistory } = this.state;
+    const { errors, title, classId, historyTerm } = this.state;
     const subjectClasses = _.map(this.props.classes, (subjectclass) => {
       return (
         <option key={subjectclass.id} value={subjectclass.classId}>{subjectclass.Class.classname}</option>
@@ -152,6 +156,16 @@ export default class TestArea extends React.Component {
     const archive = ( 
       <div className="table-responsive">
         <h3 className="mt-4 mb-4 text-center"><em class="fa fa-edit"></em> Tests Archive</h3>
+        <div class="form-group">
+          <div class="col-12 no-padding">
+            <select id="historyTerm" class="form-control" onChange={this.onChange}>
+              <option value={this.props.term.id.value}>Current Term</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+        </div>
         <table class="table table-striped">
           <thead>
             <tr>

@@ -21,10 +21,22 @@ export default class AssignmentController {
       classId,
       staffId,
       topic,
-    }).then(assignment => res.status(201).send({
-      message: 'Assignment created',
-      assignmentId: assignment.assignmentId,
-    })).catch(error => res.status(500).send({
+    }).then((assignment) => {
+      const payload = {
+        termId: assignment.termId,
+        weekId: assignment.weekId,
+        topic: assignment.topic,
+        id: assignment.assignmentId,
+      }
+      const token = jwt.sign(payload, process.env.SECRET, {
+        expiresIn: 60 * 60 * 12,
+      });
+      req.body.token = token;
+      return res.status(201).send({
+        message: 'Assignment created',
+        token,
+      });
+    }).catch(error => res.status(500).send({
       message: error.message,
     }));
   }
@@ -192,7 +204,7 @@ export default class AssignmentController {
 
     return Assignment.findById(id).then((assignment) => {
       if (assignment) {
-        return Assignment.destroy().then(() => res.status(200).send({
+        return assignment.destroy().then(() => res.status(200).send({
           message: 'Assignment Deleted',
         }));
       }

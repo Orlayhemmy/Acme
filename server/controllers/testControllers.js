@@ -53,7 +53,6 @@ export default class TestController {
     const {
       upload, title, duration, intro,
     } = req.body;
-    console.log(req.body)
     const { id } = req.params;
     Test.findById(id).then((test) => {
       if (test) {

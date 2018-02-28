@@ -2,7 +2,9 @@ import jwt from 'jsonwebtoken';
 import env from 'dotenv';
 import models from '../models';
 
-const { LessonNote, Class, Staffs, Subjects } = models;
+const {
+ LessonNote, Class, Staffs, Subjects 
+} = models;
 
 export default class LessonNoteController {
   /**
@@ -22,10 +24,22 @@ export default class LessonNoteController {
       staffId,
       subjectId,
       topic,
-    }).then((note) => res.status(201).send({
-      message: 'Lesson note saved successfully',
-      noteId: note.noteId,
-    })).catch(error => res.status(500).send({
+    }).then((note) => {
+      const payload = {
+        termId: note.termId,
+        weekId: note.weekId,
+        topic: note.topic,
+        id: note.noteId,
+      };
+      const token = jwt.sign(payload, process.env.SECRET, {
+        expiresIn: 60 * 60 * 12,
+      });
+      req.body.token = token;
+      return res.status(201).send({
+        message: 'Lesson note created successfully',
+        token,
+      });
+    }).catch(error => res.status(500).send({
       message: error.message,
     }));
   }
@@ -40,7 +54,7 @@ export default class LessonNoteController {
   static updateLessonNote(req, res) {
     const {
       content, activity, duration, objectives, materials, behaviours,
-      assessment, scope, topic, questions, reference, strategies, upload, preview
+      assessment, scope, topic, questions, reference, strategies, upload, preview,
     } = req.body;
     const { id } = req.params;
     LessonNote.findById(id).then((note) => {
@@ -83,7 +97,7 @@ export default class LessonNoteController {
    * @memberof LessonNoteController
    */
   static getWeekNotes(req, res) {
-    
+
     LessonNote.findAll({
       where: {
         staffId: req.decoded.id,
@@ -128,7 +142,7 @@ export default class LessonNoteController {
       },
       include: [{
         model: Class,
-      }]
+      }],
     }).then((note) => {
       if (note) {
         const payload = {
@@ -180,7 +194,7 @@ export default class LessonNoteController {
 
     return LessonNote.findById(id).then((note) => {
       if (note) {
-        return LessonNote.destroy().then(() => res.status(200).send({
+        return note.destroy().then(() => res.status(200).send({
           message: 'Note Deleted',
         }));
       }
@@ -193,7 +207,7 @@ export default class LessonNoteController {
   }
 
   static getHODWeekNotes(req, res) {
-    
+
     LessonNote.findAll({
       where: {
         hodId: req.decoded.id,

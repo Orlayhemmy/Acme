@@ -58,6 +58,8 @@ export default (state = initialState, action = {}) => {
         ...state,
         isNote: !isEmpty(newNote),
         note,
+        status: '',
+        message: '',
       };
     }
     case 'GET_LESSON_NOTE': {
@@ -65,6 +67,8 @@ export default (state = initialState, action = {}) => {
         ...state,
         loading: true,
         loaded: false,
+        status: '',
+        message: '',
       };
     }
     case 'GET_NOTE_FAIL': {
@@ -97,11 +101,13 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'MODIFY_NOTE_SUCCESS': {
-      const { message } = action.payload;
-      return { 
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
         ...state,
-        loading: true,
-        loaded: false,
+        loading: false,
+        loaded: true,
+        status,
         message,
       };
     }
@@ -121,6 +127,8 @@ export default (state = initialState, action = {}) => {
         ...state,
         loading: true,
         loaded: false,
+        status: '',
+        message: '',
       };
     }
     case 'GET_NOTES_FAIL': {
@@ -135,12 +143,46 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'GET_NOTES_SUCCESS': {
-      const { notes } = action.payload.data;
+      const { status } = action.payload;
+      const { message, notes } = action.payload.data;
       return {
         ...state,
         loading: false,
         loaded: true,
+        status,
+        message,
         notes,
+      };
+    }
+    case 'DELETE_NOTE': {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        status: '',
+        message: '',
+      };
+    }
+    case 'DELETE_NOTE_SUCCESS': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
+    case 'DELETE_NOTE_FAIL': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
       };
     }
     default: return state;

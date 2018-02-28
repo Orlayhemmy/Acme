@@ -4,7 +4,7 @@ import _ from 'lodash';
 import ContentContainer from '../contentContainer';
 import { getTeacherClasses } from '../../actions/classActions';
 import { createNoteValidate } from '../../shared/noteValidation';
-import { createNote, getWeekNotes, getNote } from '../../actions/noteActions';
+import { createNote, getWeekNotes, getNote, deleteNote } from '../../actions/noteActions';
 
 
 @connect((store) => {
@@ -32,7 +32,13 @@ export default class LessonNote extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.isValid = this.isValid.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.onDelete = this.onDelete.bind(this);
     this.updateArchive = this.updateArchive.bind(this);
+  }
+  onDelete(e) {
+    if (confirm("Are you sure you want to delete the note")) {
+      this.props.dispatch(deleteNote(e.target.id, this.props.week.id.value));
+    }
   }
   updateArchive(id) {
     this.props.dispatch(getWeekNotes(id));
@@ -59,9 +65,7 @@ export default class LessonNote extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
-      this.props.dispatch(createNote(this.state));
-      this.props.dispatch(getWeekNotes(this.props.week.id.value));
-
+      this.props.dispatch(createNote(this.state, this.props.week.id.value));
       window.open('/note', 'window', 'toolbar=no, menubar=no, resizable=yes');
     }
   }
@@ -74,6 +78,11 @@ export default class LessonNote extends React.Component {
   componentWillMount() {
     this.props.dispatch(getTeacherClasses(this.props.auth.user.id));
     this.props.dispatch(getWeekNotes(this.props.week.id.value));
+  }
+  componentDidUpdate() {
+    if (this.props.note.message === 'Note Deleted') {
+      alert(this.props.note.message);
+    }     
   }
   render() {
     const { weekId, classId, errors, historyWeek, topic } = this.state;
@@ -139,7 +148,7 @@ export default class LessonNote extends React.Component {
         <tr key={note.noteId}>
           <td id={note.noteId} onClick={this.onClick} className="text-left">{note.topic}</td>                 
           <td>{note.Class.classname}</td>
-          <td><i class="fa fa-remove"></i></td>
+          <td><i class="fa fa-trash" onClick={this.onDelete} id={note.noteId}></i></td>
         </tr>
       );
     });

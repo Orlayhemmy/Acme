@@ -23,13 +23,14 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'CREATE_ASSIGNMENT_SUCCESS': {
-      const { message, assignmentId } = action.payload;
+      const { status } = action.payload;
+      const { message } = action.payload.data;
       return {
         ...state,
-        loading: true,
-        loaded: false,
+        loading: false,
+        loaded: true,
+        status,
         message,
-        assignmentId,
       };
     }
     case 'CREATE_ASSIGNMENT_FAILS': {
@@ -53,6 +54,8 @@ export default (state = initialState, action = {}) => {
         ...state,
         isAssess: !isEmpty(newAssignment),
         assignment,
+        status: '',
+        message: '',
       };
     }
     case 'GET_ASSIGNMENT': {
@@ -60,6 +63,8 @@ export default (state = initialState, action = {}) => {
         ...state,
         loading: true,
         loaded: false,
+        status: '',
+        message: '',
       };
     }
     case 'GET_ASSIGNMENT_FAIL': {
@@ -119,11 +124,13 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'MODIFY_ASSIGNMENT_SUCCESS': {
-      const { message } = action.payload;
+      const { status } = action.payload;
+      const { message } = action.payload.data;
       return { 
         ...state,
         loading: true,
         loaded: false,
+        status,
         message,
       };
     }
@@ -143,6 +150,8 @@ export default (state = initialState, action = {}) => {
         ...state,
         loading: true,
         loaded: false,
+        status: '',
+        message: '',
       };
     }
     case 'GET_ASSIGNMENTS_FAIL': {
@@ -157,12 +166,46 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'GET_ASSIGNMENTS_SUCCESS': {
-      const { assignments } = action.payload.data;
+      const { status } = action.payload;
+      const { message, assignments } = action.payload.data;
       return {
         ...state,
         loading: false,
         loaded: true,
+        status,
+        message,
         assignments,
+      };
+    }
+    case 'DELETE_ASSIGNMENT': {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        status: '',
+        message: '',
+      };
+    }
+    case 'DELETE_ASSIGNMENT_SUCCESS': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
+    case 'DELETE_ASSIGNMENT_FAIL': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
       };
     }
     default: return state;

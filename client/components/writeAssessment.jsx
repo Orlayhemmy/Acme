@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import isEmpty from 'lodash/isEmpty';
 import Header from './header';
 import { writeAssignmentValidate } from '../shared/assignmentValidation';
 import { getAssignment, modifyAssignment } from '../actions/assignmentActions';
@@ -27,8 +28,8 @@ export default class assignment extends React.Component {
   componentDidMount() {
     const { assignment } = this.props.assignment;
     this.setState({
-      topic: note.topic || '',
-      content: note.content || '',
+      topic: assignment.topic || '',
+      content: assignment.content || '',
     });
   }
   onChange(e) {
@@ -47,7 +48,7 @@ export default class assignment extends React.Component {
     e.preventDefault();
     if (this.isValid()) {
       this.state.upload = 'true';
-      this.props.dispatch(modifyAssignment(this.props.assignment.id.id, this.state));
+      this.props.dispatch(modifyAssignment(this.props.assignment.assignment.id, this.state));
      }
   }
   onClick() {
@@ -56,14 +57,20 @@ export default class assignment extends React.Component {
     } else {
       this.state.preview = this.state.content.substring(0, 130) + '...';
     }
-    this.props.dispatch(modifyAssignment(this.props.assignment.id.id, this.state));
+    this.props.dispatch(modifyAssignment(this.props.assignment.assignment.id, this.state));
+  }
+  componentDidUpdate() {
+    if (this.props.assignment.status === 200) {
+      alert(this.props.assignment.message);
+    }
   }
   render() {
+    const { assignment } = this.props.assignment;
     const { topic, content, errors} = this.state;
     return (
       <div class="row">			
         <main class="col-xs-12 col-sm-12 col-lg-12 col-xl-12 pl-4">
-          <Header header="Write Lesson Note"/>
+          <Header header="Write Assignment"/>
           <section class="row">
 					<div class="col-sm-12 col-md-8">
 						<div class="card mb-6">	
@@ -95,7 +102,7 @@ export default class assignment extends React.Component {
                     <div class="form-group">
                       <label class="col-12 control-label no-padding" for="name">Topic</label> 
                       <div class="col-12 no-padding">
-                        <textarea id="topic" class="form-control" onChange={this.onChange} defaultValue={topic}></textarea>
+                        <textarea id="topic" class="form-control" onChange={this.onChange} value={topic}></textarea>
                       </div>
                     </div>
                     
@@ -104,7 +111,7 @@ export default class assignment extends React.Component {
                       <label class="col-12 control-label no-padding" for="name">Content</label>
                       
                       <div class="col-12 no-padding">
-                        <textarea id="content" onChange={this.onChange} class="ckeditor" defaultValue={content}></textarea>
+                        <textarea id="content" onChange={this.onChange} class="ckeditor" value={content}></textarea>
                       </div>
                     </div>                    
                     

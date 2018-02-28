@@ -19,7 +19,6 @@ export default class LessonNote extends React.Component {
       assessmentHidden: !this.state.assessmentHidden,
       feedbackHidden: !this.state.feedbackHidden,
     });
-    console.log('after', this.state);
   }
   render() {
     let contentToggler = (

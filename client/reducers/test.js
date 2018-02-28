@@ -51,6 +51,8 @@ export default (state = initialState, action = {}) => {
         ...state,
         isTest: !isEmpty(newTest),
         test,
+        status: '',
+        message: '',
       };
     }
     case 'GET_TEST': {
@@ -58,6 +60,8 @@ export default (state = initialState, action = {}) => {
         ...state,
         loading: true,
         loaded: false,
+        status: '',
+        message: '',
       };
     }
     case 'GET_TEST_FAIL': {
@@ -143,6 +147,8 @@ export default (state = initialState, action = {}) => {
         ...state,
         loading: true,
         loaded: false,
+        status: '',
+        message: '',
       };
     }
     case 'GET_TESTS_FAIL': {
@@ -157,11 +163,14 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'GET_TESTS_SUCCESS': {
-      const { tests } = action.payload.data;
+      const { status } = action.payload;
+      const { message, tests } = action.payload.data;
       return {
         ...state,
         loading: false,
         loaded: true,
+        status,
+        message,
         tests,
       };
     }
@@ -170,6 +179,8 @@ export default (state = initialState, action = {}) => {
         ...state,
         loading: true,
         loaded: false,
+        status: '',
+        message: '',
       };
     }
     case 'DELETE_TEST_SUCCESS': {
