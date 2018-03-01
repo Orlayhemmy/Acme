@@ -84,6 +84,7 @@ export function modifyAssignment(id, data) {
     dispatch({ type: 'MODIFY_ASSIGNMENT' });
     axios.put(`api/v1/assignment/${id}`, data).then((response) => {
       dispatch({ type: 'MODIFY_ASSIGNMENT_SUCCESS', payload: response });
+      dispatch(getWeekAssignments(data.weekId));
     }).catch((err) => {
       dispatch({ type: 'MODIFY_ASSIGNMENT_FAIL', payload: err.response });
     });

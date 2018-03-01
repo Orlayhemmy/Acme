@@ -1,7 +1,7 @@
 
 import models from '../models';
 
-const { StaffActivity } = models;
+const { StaffActivity, StudentActivity } = models;
 
 export default class ActivityController {
   /**
@@ -13,11 +13,35 @@ export default class ActivityController {
    * @memberof ActivityController
    */
   static createActivity(req, res) {
-    const { description, title } = req.body;
+    const { description, title, subjectId } = req.body;
+    console.log(req.body)
     return StaffActivity.create({
       description,
       title,
-      staffId: req.decoded.id,
+      subjectId: subjectId || req.decoded.subjectId,
+    }).then(() => {
+      return res.status(201).send({
+        message: 'Activity created',
+      });
+    }).catch(error => res.status(500).send({
+      message: error.message,
+    }));
+  }
+
+   /**
+   *
+   *
+   * @static  createStudentActivity
+   * @param {any} req
+   * @param {any} res
+   * @memberof ActivityController
+   */
+  static createStudentActivity(req, res) {
+    const { description, title } = req.body;
+    return StudentActivity.create({
+      description,
+      title,
+      studentId: req.decoded.id,
     }).then(() => {
       return res.status(201).send({
         message: 'Activity created',
@@ -38,7 +62,38 @@ export default class ActivityController {
   static getAllActivities(req, res) {
     StaffActivity.findAll({
       where: {
-        staffId: req.decoded.id,
+        subjectId: req.decoded.subjectId,
+      },
+    }).then((activities) => {
+      if (activities) {
+        // show activity
+        return res.status(200).send({
+          activities,
+        });
+      }
+      // No Activity found
+      return res.status(404).send({
+        message: 'No Activity found',
+      });
+    }).catch((error) => {
+      res.status(500).send({
+        message: error.message,
+      });
+    });
+  }
+
+   /**
+   *
+   *
+   * @static getStudentActivities
+   * @param {any} req
+   * @param {any} res
+   * @memberof ActivityController
+   */
+  static getStudentActivities(req, res) {
+    StudentActivity.findAll({
+      where: {
+        studentId: req.decoded.id,
       },
     }).then((activities) => {
       if (activities) {
@@ -71,6 +126,32 @@ export default class ActivityController {
     const { id } = req.params;
 
     return StaffActivity.findById(id).then((activity) => {
+      if (activity) {
+        return activity.destroy().then(() => res.status(200).send({
+          message: 'Activity Deleted',
+        }));
+      }
+      return res.status(400).send({
+        message: 'Activity does not exist',
+      });
+    }).catch(error => res.status(500).send({
+      message: error.message,
+    }));
+  }
+
+   /**
+   *
+   *
+   * @static deleteStudentActivity
+   * @param {any} req
+   * @param {any} res
+   * @returns
+   * @memberof ActivityController
+   */
+  static deleteStudentActivity(req, res) {
+    const { id } = req.params;
+
+    return StudentActivity.findById(id).then((activity) => {
       if (activity) {
         return activity.destroy().then(() => res.status(200).send({
           message: 'Activity Deleted',

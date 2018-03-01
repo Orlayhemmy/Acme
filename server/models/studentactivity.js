@@ -1,12 +1,12 @@
 export default (sequelize, DataTypes) => {
-  const StaffActivity = sequelize.define('StaffActivity', {
+  const StudentActivity = sequelize.define('StudentActivity', {
     activityId: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    subjectId: {
+    studentId: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -17,10 +17,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
   });
-  StaffActivity.associate = (models) => {
-    StaffActivity.belongsTo(models.Subjects, {
-      foreignKey: 'subjectId',
+  StudentActivity.associate = (models) => {
+    StudentActivity.belongsTo(models.Students, {
+      foreignKey: 'studentId',
     });
   }
-  return StaffActivity;
+  return StudentActivity;
 }

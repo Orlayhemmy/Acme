@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import ContentContainer from '../contentContainer';
 import { getTeacherClasses } from '../../actions/classActions';
 import { createAssignmentValidate } from '../../shared/assignmentValidation';
-import { createAssignment, getWeekAssignments, getAssignment, deleteAssignment } from '../../actions/assignmentActions';
+import { createAssignment, getWeekAssignments, getAssignment, deleteAssignment, modifyAssignment } from '../../actions/assignmentActions';
 
 
 @connect((store) => {
@@ -35,6 +35,7 @@ export default class Assignment extends React.Component {
     this.updateArchive = this.updateArchive.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.updateArchiveWeek  = this.updateArchiveWeek.bind(this);
+    this.uploadAssignment = this.uploadAssignment.bind(this);
   }
   onDelete(e) {
     if (confirm("Are you sure you want to delete the assignment")) {
@@ -84,6 +85,15 @@ export default class Assignment extends React.Component {
     if (this.props.assignment.message === 'Assignment Deleted') {
       alert(this.props.assignment.message);
     }    
+  }
+  uploadAssignment(e) {
+    if (confirm("Are you sure you want to upload assignment")) {
+      const data = {
+        upload: true,
+        weekId: this.props.week.id.value
+      }
+      this.props.dispatch(modifyAssignment(e.target.id, data));
+    }
   }
   render() {
     const { assignments } = this.props.assignment;
@@ -148,10 +158,17 @@ export default class Assignment extends React.Component {
     );
 
     const Assignments = _.map(assignments, (assignment) => {
+      let uploadColor;
+      if (assignment.upload) {
+        uploadColor = "fa fa-upload";
+      } else {
+        uploadColor = "fa fa-download";
+      }
       return (
         <tr key={assignment.assignmentId}>
           <td id={assignment.assignmentId} onClick={this.onClick} className="text-left">{assignment.topic}</td>                 
           <td>{assignment.Class.classname}</td>
+          <td><em onClick={this.uploadAssignment} id={assignment.assignmentId} class={uploadColor}></em></td>
           <td><i class="fa fa-trash" onClick={this.onDelete} id={assignment.assignmentId}></i></td>
         </tr>
       );
@@ -173,7 +190,7 @@ export default class Assignment extends React.Component {
               <th class="text-left">Topic</th>
               
               <th>Class</th>
-              
+              <th>Status</th>
               <th>Delete</th>
             </tr>
           </thead>

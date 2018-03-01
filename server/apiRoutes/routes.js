@@ -147,7 +147,14 @@ router.route('/activities')
   .post(AuthToken, ActivityController.createActivity)
   .get(AuthToken, ActivityController.getAllActivities);
 
+router.route('/studentactivities')
+  .post(AuthToken, ActivityController.createStudentActivity)
+  .get(AuthToken, ActivityController.getStudentActivities);
+
 router.route('/activity/:id')
   .delete(ActivityController.deleteActivity);
+
+router.route('/studentactivity/:id')
+  .delete(ActivityController.deleteStudentActivity);
 
 export default router;

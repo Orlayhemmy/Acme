@@ -17,9 +17,9 @@ export default (state = initialState, action = {}) => {
 
     case 'SET_CURRENT_USER': {
       const { newUser } = action.payload;
-      const { firstname, id, classId, deptId, deptname, subjectId, subject, isStudent } = newUser;
+      const { lastname, fullname, id, classId, deptId, deptname, subjectId, subject, isStudent } = newUser;
       const user = {
-        firstname, id, classId, deptId, deptname, subjectId, subject,
+        lastname, fullname, id, classId, deptId, deptname, subjectId, subject,
       }
       return {
         isAuth: !isEmpty(newUser),

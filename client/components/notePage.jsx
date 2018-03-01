@@ -33,7 +33,6 @@ export default class Note extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.isValid = this.isValid.bind(this);
-    this.onClick = this.onClick.bind(this);
     this.updateContent = this.updateContent.bind(this);
   }
 
@@ -89,17 +88,13 @@ export default class Note extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
-      this.state.upload = true;
+      if (isEmpty(this.state.content)) {
+        this.state.preview = '...';
+      } else {
+        this.state.preview = this.state.content.substring(0, 130) + '...';
+      }
       this.props.dispatch(modifyNote(this.props.note.note.id, this.state));
      }
-  }
-  onClick() {
-    if (isEmpty(this.state.content)) {
-      this.state.preview = '...';
-    } else {
-      this.state.preview = this.state.content.substring(0, 130) + '...';
-    }
-    this.props.dispatch(modifyNote(this.props.note.note.id, this.state));
   }
   componentDidUpdate() {
     if (this.props.note.status === 200) {
@@ -250,10 +245,6 @@ export default class Note extends React.Component {
                     <div class="form-group">
                       <div class="col-12 widget-right no-padding">
                         <input type="submit" class="btn btn-primary btn-md float-right" value="Upload"/>
-                      </div>
-                
-                      <div class="col-12 widget-left no-padding">
-                        <input type="button" id="saveNote" onClick={this.onClick} class="btn btn-primary btn-md float-left" value="Save" />
                       </div>
                     </div>
                   </fieldset>

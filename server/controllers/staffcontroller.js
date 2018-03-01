@@ -70,7 +70,7 @@ export default class StaffController {
               }],
             }).then((user) => {
               const payload = { 
-                firstname: user.firstname, 
+                lastname: user.lastname, 
                 id: user.id, 
                 classId: user.classId, 
                 subjectId: user.subjectId, 
@@ -131,7 +131,7 @@ export default class StaffController {
         const check = bcrypt.compareSync(loginPassword, user.password);
         if (check) {
           const payload = { 
-            firstname: user.firstname, 
+            lastname: user.lastname,
             id: user.id, 
             classId: user.classId, 
             subjectId: user.subjectId, 

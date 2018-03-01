@@ -23,7 +23,6 @@ export default class assignment extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.isValid = this.isValid.bind(this);
-    this.onClick = this.onClick.bind(this);
   }
   componentDidMount() {
     const { assignment } = this.props.assignment;
@@ -47,17 +46,13 @@ export default class assignment extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
-      this.state.upload = 'true';
+      if (isEmpty(this.state.content)) {
+        this.state.preview = '...';
+      } else {
+        this.state.preview = this.state.content.substring(0, 130) + '...';
+      }
       this.props.dispatch(modifyAssignment(this.props.assignment.assignment.id, this.state));
      }
-  }
-  onClick() {
-    if (isEmpty(this.state.content)) {
-      this.state.preview = '...';
-    } else {
-      this.state.preview = this.state.content.substring(0, 130) + '...';
-    }
-    this.props.dispatch(modifyAssignment(this.props.assignment.assignment.id, this.state));
   }
   componentDidUpdate() {
     if (this.props.assignment.status === 200) {
@@ -118,10 +113,6 @@ export default class assignment extends React.Component {
                     <div class="form-group">
                       <div class="col-12 widget-right no-padding">
                         <input type="submit" class="btn btn-primary btn-md float-right" value="Upload"/>
-                      </div>
-                
-                      <div class="col-12 widget-left no-padding">
-                        <input type="button" id="saveNote" onClick={this.onClick} class="btn btn-primary btn-md float-left" value="Save" />
                       </div>
                     </div>
                   </fieldset>

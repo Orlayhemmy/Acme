@@ -59,6 +59,7 @@ export function modifyTest(id, data) {
     dispatch({ type: 'MODIFY_TEST' });
     axios.put(`api/v1/test/${id}`, data).then((response) => {
       dispatch({ type: 'MODIFY_TEST_SUCCESS', payload: response });
+      dispatch(getTermTests(data.termId));
     }).catch((err) => {
       dispatch({ type: 'MODIFY_TEST_FAIL', payload: err.response });
     });

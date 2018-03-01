@@ -51,8 +51,8 @@ export default class StudentController {
             sex,
             password: hash,
             classId,
-          }).then(() => {
-              const payload = { studentId, firstname, classId };
+          }).then((user) => {
+              const payload = { id: user.id, lastname, classId, fullname: `${firstname} ${lastname}`, isStudent: true };
               const token = jwt.sign(payload, process.env.SECRET, {
                 expiresIn: 60 * 60 * 12,
               });
@@ -95,7 +95,13 @@ export default class StudentController {
       if (user && user.studentId.toLowerCase === loginId.toLowerCase) {
         const check = bcrypt.compareSync(loginPassword, user.password);
         if (check) {
-          const payload = { firstname: user.firstname, id: user.id, classId: user.classId, isStudent: true };
+          const payload = { 
+            id: user.id, 
+            lastname: user.lastname,
+            classId: user.classId, 
+            fullname: `${user.firstname} ${user.lastname}`,
+            isStudent: true,
+          };
           const token = jwt.sign(payload, process.env.SECRET, {
             expiresIn: 60 * 60 * 12,
           });

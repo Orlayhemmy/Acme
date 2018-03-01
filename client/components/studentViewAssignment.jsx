@@ -45,11 +45,15 @@ export default class ViewAssignment extends React.Component {
     if (confirm("Are you sure you want to upload your response")) {
       if (this.isValid()) {
         this.state.upload = true;
+        this.state.fullname = this.props.auth.user.fullname;
+        this.state.assignmentTopic = this.props.assignment.assignment.topic;
+        this.state.subjectId = this.props.assignment.assignment.subjectId,
         this.props.dispatch(modifyFeedback(this.props.feedback.feedback.id, this.state));
        }
     }
   }
   onSave() {
+    this.state.assignmentTopic = this.props.assignment.assignment.topic;
     this.props.dispatch(modifyFeedback(this.props.feedback.feedback.id, this.state));
   }
   onClick() {

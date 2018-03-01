@@ -41,11 +41,13 @@ export default class TestArea extends React.Component {
     this.onDelete = this.onDelete.bind(this);
   }
   uploadTest(e) {
-    const data = {
-      upload: true,
+    if (confirm("Are you sure you want to upload test")) {
+      const data = {
+        upload: true,
+        termId: this.props.term.id.value,
+      }
+      this.props.dispatch(modifyTest(e.target.id, data));
     }
-    this.props.dispatch(modifyTest(e.target.id, data));
-    this.props.dispatch(getTermTests(this.props.term.id.value));
   }
   updateArchive(id) {
     this.props.dispatch(getTermTests(id));

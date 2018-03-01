@@ -83,6 +83,7 @@ export function modifyNote(id, data) {
     dispatch({ type: 'MODIFY_LESSON_NOTE' });
     axios.put(`api/v1/note/${id}`, data).then((response) => {
       dispatch({ type: 'MODIFY_NOTE_SUCCESS', payload: response });
+      dispatch(getWeekNotes(data.weekId));
     }).catch((err) => {
       dispatch({ type: 'MODIFY_NOTE_FAIL', payload: err.response });
     });

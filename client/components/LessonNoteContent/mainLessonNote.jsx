@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import ContentContainer from '../contentContainer';
 import { getTeacherClasses } from '../../actions/classActions';
 import { createNoteValidate } from '../../shared/noteValidation';
-import { createNote, getWeekNotes, getNote, deleteNote } from '../../actions/noteActions';
+import { createNote, getWeekNotes, getNote, deleteNote, modifyNote } from '../../actions/noteActions';
 
 
 @connect((store) => {
@@ -34,6 +34,7 @@ export default class LessonNote extends React.Component {
     this.onClick = this.onClick.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.updateArchive = this.updateArchive.bind(this);
+    this.uploadNote = this.uploadNote.bind(this);
   }
   onDelete(e) {
     if (confirm("Are you sure you want to delete the note")) {
@@ -81,6 +82,16 @@ export default class LessonNote extends React.Component {
     if (this.props.note.message === 'Note Deleted') {
       alert(this.props.note.message);
     }     
+  }
+  uploadNote(e) {
+    if (confirm("Are you sure you want to upload note")) {
+      const data = {
+        upload: true,
+        weekId: this.props.week.id.value,
+      }
+      this.props.dispatch(modifyNote(e.target.id, data));
+    }
+    
   }
   render() {
     let content;
@@ -144,10 +155,17 @@ export default class LessonNote extends React.Component {
     );
  
     const lessonNotes = _.map(notes, (note) => {
+      let uploadColor;
+      if (note.upload) {
+        uploadColor = "fa fa-upload";
+      } else {
+        uploadColor = "fa fa-download";
+      }
       return (
         <tr key={note.noteId}>
           <td id={note.noteId} onClick={this.onClick} className="text-left">{note.topic}</td>                 
           <td>{note.Class.classname}</td>
+          <td><em onClick={this.uploadNote} id={note.noteId} class={uploadColor}></em></td>
           <td><i class="fa fa-trash" onClick={this.onDelete} id={note.noteId}></i></td>
         </tr>
       );
@@ -169,6 +187,7 @@ export default class LessonNote extends React.Component {
               <th>Topic</th>
               
               <th>Class</th>
+              <th>Status</th>
               
               <th>Delete</th>
             </tr>

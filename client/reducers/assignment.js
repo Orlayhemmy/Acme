@@ -46,9 +46,9 @@ export default (state = initialState, action = {}) => {
     }
     case 'SET_CURRENT_ASSIGNMENT': {
       const { newAssignment } = action.payload;
-      const { content, topic, classname, termId, weekId, id, subjectname } = newAssignment;
+      const { content, topic, classname, termId, weekId, id, subjectname, subjectId } = newAssignment;
       const assignment = { 
-        content, topic, classname, termId, weekId, id, subjectname,
+        content, topic, classname, termId, weekId, id, subjectname, subjectId
       }
       return {
         ...state,

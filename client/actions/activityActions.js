@@ -14,7 +14,7 @@ export function getAllActivities() {
 
 export function getAllStudentActivities() {
   return (dispatch) => {
-    dispatch({ type: 'GET__STUDENT_ACTIVITIES' });
+    dispatch({ type: 'GET_STUDENT_ACTIVITIES' });
     axios.get('api/v1/studentactivities').then((response) => {
       dispatch({ type: 'GET_STUDENT_ACTIVITIES_SUCCESS', payload: response });
     }).catch((err) => {

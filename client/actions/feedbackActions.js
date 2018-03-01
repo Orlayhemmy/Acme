@@ -1,6 +1,6 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
-import { createActivity } from './activityActions';
+import { createStudentActivity, createActivity } from './activityActions';
 
 export function setCurrentFeedback(newFeedback) {
   return (dispatch) => {
@@ -43,10 +43,22 @@ export function modifyFeedback(id, data) {
       dispatch({ type: 'MODIFY_FEEDBACK_SUCCESS', payload: response });
       if (data.upload) {
         const act = {
-          description: `You uploaded a response to`,
-          title: data.topic,
+          description: `You uploaded a response to ${data.assignmentTopic}`,
+          title: data.assignmentTopic,
         }
-        dispatch(createActivity(act));
+        dispatch(createStudentActivity(act));
+        const act2 = {
+          description: `Gave a response to ${data.assignmentTopic}`,
+          title: data.fullname,
+          subjectId: data.subjectId,
+        }
+        dispatch(createActivity(act2));
+      } else {
+        const act = {
+          description: `You created a response to ${data.assignmentTopic}`,
+          title: data.assignmentTopic,
+        }
+        dispatch(createStudentActivity(act));
       }
     }).catch((err) => {
       dispatch({ type: 'MODIFY_FEEDBACK_FAIL', payload: err.response });

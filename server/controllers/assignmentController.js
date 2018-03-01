@@ -201,7 +201,7 @@ export default class AssignmentController {
       },
       include: [{
         model: Class,
-      }]
+      }],
     }).then((assignment) => {
       if (assignment) {
         const payload = {
@@ -261,6 +261,7 @@ export default class AssignmentController {
           weekId: assignment.weekId,
           id: assignment.assignmentId,
           subjectname: assignment.Subject.subjectname,
+          subjectId: assignment.Subject.subjectId,
         }
         const token = jwt.sign(payload, process.env.SECRET, {
           expiresIn: 60 * 60 * 12,
