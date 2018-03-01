@@ -6,6 +6,7 @@ import Header from './header';
 import Footer from './footer';
 import Container from './containerStudentPage';
 import { getStudentWeekAssignments, getStudentAssignment } from '../actions/assignmentActions';
+import { getFeedback } from '../actions/feedbackActions';
 
 @connect((store) => {
   return {
@@ -27,6 +28,7 @@ export default class StudentAssignment extends React.Component {
   
   onClick(e) {
     this.props.dispatch(getStudentAssignment(e.target.id));
+    this.props.dispatch(getFeedback(e.target.id));
     window.open('/studentviewassignment', 'window', 'toolbar=no, menubar=no, resizable=yes');
   }
   updateArchive(e) {
@@ -52,7 +54,9 @@ export default class StudentAssignment extends React.Component {
         return (
           <div class="col-lg-4 mb-4" key={assignment.assignmentId}>
             <div class="card card-inverse card-primary">
-              <div class="card-header">{assignment.Subject.subjectname} <em className="fa fa-eye float-right" onClick={this.onClick} id={assignment.assignmentId}></em>
+              <div class="card-header">
+              {assignment.Subject.subjectname} 
+              <em className="fa fa-eye float-right" onClick={this.onClick} id={assignment.assignmentId}></em>
               </div>
               <div class="card-block">
                 <p><b>{assignment.topic}</b>

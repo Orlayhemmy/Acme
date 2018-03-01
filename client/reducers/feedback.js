@@ -6,6 +6,7 @@ const initialState = {
   status: '',
   message: '',
   isFeedback: false,
+  feedback: {},
 };
 export default (state = initialState, action = {}) => {
   switch (action.type) {
@@ -20,13 +21,12 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'CREATE_FEEDBACK_SUCCESS': {
-      const { message, feedbackId } = action.payload;
+      const { message } = action.payload.data;
       return {
         ...state,
         loading: true,
         loaded: false,
         message,
-        feedbackId,
       };
     }
     case 'CREATE_FEEDBACK_FAILS': {
@@ -42,11 +42,11 @@ export default (state = initialState, action = {}) => {
     }
     case 'SET_CURRENT_FEEDBACK': {
       const { newFeedback } = action.payload;
-      const { content, noteId, id } = newFeedback;
-      const feedback = { content, noteId, id };
+      const { content, id, assignmentId, upload } = newFeedback;
+      const feedback = { content, id, assignmentId, upload };
       return {
         ...state,
-        isFeedback: !isEmpty(id),
+        isFeedback: !isEmpty(newFeedback),
         feedback,
       };
     }
@@ -69,12 +69,14 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'GET_FEEDBACK_SUCCESS': {
-      const feedback = action.payload.data;
+      const { status } = action.payload;
+      const { message } = action.payload.data;
       return {
         ...state,
         loading: false,
         loaded: true,
-        feedback,
+        status,
+        message,
       };
     }
     case 'GET_CLASS_FEEDBACKS': {
@@ -114,11 +116,13 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'MODIFY_FEEDBACK_SUCCESS': {
-      const { message } = action.payload;
+      const { status } = action.payload;
+      const { message } = action.payload.data;
       return { 
         ...state,
         loading: true,
         loaded: false,
+        status,
         message,
       };
     }

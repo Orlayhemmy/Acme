@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+import env from 'dotenv';
 import models from '../models';
 
 const { Feedback, Students } = models;
@@ -12,16 +14,24 @@ export default class FeedbackController {
    * @memberof FeedbackController
    */
   static createFeedback(req, res) {
-    const { termId, weekId, classId, studentId } = req.body;
+    const { assignmentId } = req.body;
     return Feedback.create({
-      termId,
-      weekId,
-      classId,
-      studentId,
-    }).then(assess => res.status(201).send({
-      message: 'Feedback created',
-      assignmentId: assess.assignmentId,
-    })).catch(error => res.status(500).send({
+      assignmentId,
+      studentId: req.decoded.id,
+    }).then((feedback) => {
+      const payload = {
+        id: feedback.feedbackId,
+        assignmentId: feedback.assignmentId,
+      };
+      const token = jwt.sign(payload, process.env.SECRET, {
+        expiresIn: 60 * 60 * 12,
+      });
+      req.body.token = token;
+      return res.status(201).send({
+        message: 'Feedback created',
+        token,
+      });
+    }).catch(error => res.status(500).send({
       message: error.message,
     }));
   }
@@ -34,19 +44,26 @@ export default class FeedbackController {
    * @memberof FeedbackController
    */
   static updateFeedback(req, res) {
-    const {
-      content, upload,
-    } = req.body;
+    const { content, upload } = req.body;
     const { id } = req.params;
-    Feedback.findById(id).then((assess) => {
-      if (assess) {
-        assess.update({
-          content: content || assess.content,
-          upload: upload || assess.upload,
-        }).then(() => res.status(200).send({
-          message: 'Your Feedback has been updated successfully',
-        })).catch(err => res.status(500).send({
-          message: err.message,
+    Feedback.findById(id).then((feedback) => {
+      if (feedback) {
+        feedback.update({
+          content: content || feedback.content,
+          upload: upload || feedback.upload,
+        }).then(() => {
+          // const payload = {
+          //   id: feedback.feedbackId,
+          // };
+          // const token = jwt.sign(payload, process.env.SECRET, {
+          //   expiresIn: 60 * 60 * 12,
+          // });
+          // req.body.token = token;
+          return res.status(200).send({
+            message: 'Your response has been updated successfully',
+          });
+        }).catch(err => res.status(500).send({
+            message: err.message,
         }));
       } else {
         return res.status(400).send({
@@ -78,7 +95,7 @@ export default class FeedbackController {
       }],
     }).then((feedbacks) => {
       if (feedbacks) {
-        // show assess
+        // show feedback
         return res.status(200).send({
           feedbacks,
         });
@@ -101,19 +118,27 @@ export default class FeedbackController {
    * @param {any} res
    * @memberof FeedbackController
    */
-  static getSingleFeedback(req, res) {
+  static getFeedback(req, res) {
     const { id } = req.params;
     Feedback.findOne({
       where: {
         assignmentId: id,
+        studentId: req.decoded.id,
       },
-      include: [{
-        model: Class,
-      }]
-    }).then((assess) => {
-      if (assess) {
+    }).then((feedback) => {
+      if (feedback) {
+        const payload = {
+          id: feedback.feedbackId,
+          assignmentId: feedback.assignmentId,
+          content: feedback.content,
+          upload: feedback.upload,
+        };
+        const token = jwt.sign(payload, process.env.SECRET, {
+          expiresIn: 60 * 60 * 12,
+        });
+        req.body.token = token;
         return res.status(200).send({
-          assess,
+          token,
         });
       }
       return res.status(400).send({
@@ -127,7 +152,7 @@ export default class FeedbackController {
   /**
    *
    *
-   * @static deleteassess
+   * @static deletefeedback
    * @param {any} req
    * @param {any} res
    * @returns
@@ -136,8 +161,8 @@ export default class FeedbackController {
   static deleteFeedback(req, res) {
     const { id } = req.params;
 
-    return Feedback.findById(id).then((assess) => {
-      if (assess) {
+    return Feedback.findById(id).then((feedback) => {
+      if (feedback) {
         return Feedback.destroy().then(() => res.status(200).send({
           message: 'Feedback Deleted',
         }));

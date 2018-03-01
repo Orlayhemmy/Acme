@@ -2,7 +2,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Feedbacks', {
-      id: {
+      feedbackId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -22,6 +22,7 @@ module.exports = {
       },
       upload: {
         type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,

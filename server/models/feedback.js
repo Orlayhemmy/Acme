@@ -1,6 +1,6 @@
 export default (sequelize, DataTypes) => {
   const Feedback = sequelize.define('Feedback', {
-    id: {
+    feedbackId: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
@@ -20,6 +20,7 @@ export default (sequelize, DataTypes) => {
     },
     upload: {
       type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   });
   Feedback.associate = (models) => {

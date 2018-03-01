@@ -106,7 +106,7 @@ router.route('/weekfeedbacks/:id')
 
 router.route('/feedback/:id')
   .put(AuthToken, FeedbackController.updateFeedback)
-  .get(AuthToken, FeedbackController.getSingleFeedback)
+  .get(AuthToken, FeedbackController.getFeedback)
   .delete(AuthToken, FeedbackController.deleteFeedback);
 
 router.route('/term')

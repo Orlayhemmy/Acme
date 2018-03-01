@@ -34,6 +34,7 @@ import { setCurrentWeek } from './actions/weekActions';
 import { setCurrentAssignment } from './actions/assignmentActions';
 import { setCurrentTest } from './actions/testActions';
 import { setCurrentQuestion } from './actions/questionActions';
+import { setCurrentFeedback } from './actions/feedbackActions';
 
 
 
@@ -60,9 +61,10 @@ if (localStorage.test) {
 if (localStorage.question) {
   store.dispatch(setCurrentQuestion(jwt.decode(localStorage.question)));
 }
-// if (localStorage.centerId) {
-//   store.dispatch(setCurrentCenter(localStorage.centerId));
-// }
+if (localStorage.feedback) {
+  store.dispatch(setCurrentFeedback(jwt.decode(localStorage.feedback)));
+}
+
 //put component into html page
 ReactDOM.render(
   <Provider store={store}>

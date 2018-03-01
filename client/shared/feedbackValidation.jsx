@@ -9,5 +9,5 @@ export function writeFeedbackValidate(data) {
     error.content = 'Content cannot be blank';
   }
 
-  return { errors, isValid: isEmpty(error) };
+  return { error, isValid: isEmpty(error) };
 }
