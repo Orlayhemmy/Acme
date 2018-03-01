@@ -18,6 +18,9 @@ export default (sequelize, DataTypes) => {
     Subjects.hasMany(models.LessonNote, {
       foreignKey: 'subjectId',
     });
+    Subjects.hasMany(models.Assignment, {
+      foreignKey: 'subjectId',
+    });
   }
   return Subjects;
 };

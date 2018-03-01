@@ -30,7 +30,7 @@ export default class Navbar extends React.Component {
       <ul className="nav nav-pills flex-column sidebar-nav">
         <li className="nav-item"><Link className="nav-link" to="/studentdashboard"><em className="fa fa-dashboard"></em> Dashboard <span className="sr-only">(current)</span></Link></li>
         <li className="nav-item"><Link className="nav-link" to="/studentnote"><em className="fa fa-clone"></em> Note</Link></li>
-        <li className="nav-item"><Link className="nav-link" to="/studentassessments"><em className="fa fa-tasks"></em> Assessments </Link></li>
+        <li className="nav-item"><Link className="nav-link" to="/studentassignment"><em className="fa fa-tasks"></em> Assessments </Link></li>
         <li className="nav-item"><Link className="nav-link" to="/studentlibrary"><em className="fa fa-book"></em> Library</Link></li>
         <li className="nav-item"><Link className="nav-link" to="/studenttestarea"><em className="fa fa-edit"></em> Test Area</Link></li>
       </ul>

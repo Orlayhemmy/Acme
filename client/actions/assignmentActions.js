@@ -20,6 +20,17 @@ export function getWeekAssignments(id) {
   };
 }
 
+export function getStudentWeekAssignments(id) {
+  return (dispatch) => {
+    dispatch({ type: 'GET_STUDENT_ASSIGNMENTS' });
+    axios.get(`api/v1/studentweekassignments/${id}`).then((response) => {
+      dispatch({ type: 'GET_STUDENT_ASSIGNMENTS_SUCCESS', payload: response });
+    }).catch((err) => {
+      dispatch({ type: 'GET_STUDENT_ASSIGNMENTS_FAIL', payload: err.response });
+    });
+  };
+}
+
 export function getAssignment(id) {
   return (dispatch) => {
     dispatch({ type: 'GET_ASSIGNMENT' });
@@ -30,6 +41,20 @@ export function getAssignment(id) {
       dispatch(setCurrentAssignment(jwt.decode(token)));
     }).catch((err) => {
       dispatch({ type: 'GET_ASSIGNMENT_FAILS', payload: err.response });
+    });
+  };
+}
+
+export function getStudentAssignment(id) {
+  return (dispatch) => {
+    dispatch({ type: 'GET_STUDENT_ASSIGNMENT' });
+    axios.get(`api/v1/studentassignment/${id}`).then((response) => {
+      dispatch({ type: 'GET_STUDENT_ASSIGNMENT_SUCCESS', payload: response });
+      const { token } = response.data;
+      localStorage.setItem('assignment', token);
+      dispatch(setCurrentAssignment(jwt.decode(token)));
+    }).catch((err) => {
+      dispatch({ type: 'GET_STUDENT_ASSIGNMENT_FAILS', payload: err.response });
     });
   };
 }

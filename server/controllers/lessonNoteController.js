@@ -16,15 +16,13 @@ export default class LessonNoteController {
    * @memberof LessonNoteController
    */
   static createLessonNote(req, res) {
-    const {
- termId, weekId, classId, staffId, subjectId, topic 
-} = req.body;
+    const { termId, weekId, classId, topic } = req.body;
     return LessonNote.create({
       termId,
       weekId,
       classId,
-      staffId,
-      subjectId,
+      staffId: req.decoded.id,
+      subjectId: req.decoded.subjectId,
       topic,
     }).then((note) => {
       const payload = {

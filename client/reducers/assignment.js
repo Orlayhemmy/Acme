@@ -46,9 +46,9 @@ export default (state = initialState, action = {}) => {
     }
     case 'SET_CURRENT_ASSIGNMENT': {
       const { newAssignment } = action.payload;
-      const { content, topic, classname, termId, weekId, id } = newAssignment;
+      const { content, topic, classname, termId, weekId, id, subjectname } = newAssignment;
       const assignment = { 
-        content, topic, classname, termId, weekId, id,
+        content, topic, classname, termId, weekId, id, subjectname,
       }
       return {
         ...state,
@@ -206,6 +206,67 @@ export default (state = initialState, action = {}) => {
         loaded: true,
         status,
         message,
+      };
+    }
+    case 'GET_STUDENT_ASSIGNMENT': {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        status: '',
+        message: '',
+      };
+    }
+    case 'GET_STUDENT_ASSIGNMENT_FAIL': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
+    case 'GET_STUDENT_ASSIGNMENT_SUCCESS': {
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        message,
+      };
+    }
+    case 'GET_STUDENT_ASSIGNMENTS': {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        status: '',
+        message: '',
+      };
+    }
+    case 'GET_STUDENT_ASSIGNMENTS_FAIL': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
+    case 'GET_STUDENT_ASSIGNMENTS_SUCCESS': {
+      const { status } = action.payload;
+      const { message, assignments } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+        assignments,
       };
     }
     default: return state;

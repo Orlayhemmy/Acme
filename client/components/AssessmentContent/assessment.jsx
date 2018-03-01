@@ -59,7 +59,6 @@ export default class Assignment extends React.Component {
   
   isValid() {
     this.state.termId = this.props.term.id.value;
-    this.state.staffId = this.props.auth.user.id;
     const { isValid, errors } = createAssignmentValidate(this.state);
     if (!isValid) {
       this.setState({ errors });

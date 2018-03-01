@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import env from 'dotenv';
 import models from '../models';
 
-const { Assignment, Class } = models;
+const { Assignment, Class, Subjects } = models;
 
 export default class AssignmentController {
   /**
@@ -14,13 +14,14 @@ export default class AssignmentController {
    * @memberof AssignmentController
    */
   static createAssignment(req, res) {
-    const { termId, weekId, classId, staffId, topic } = req.body;
+    const { termId, weekId, classId, topic } = req.body;
     return Assignment.create({
       termId,
       weekId,
       classId,
-      staffId,
+      staffId: req.decoded.id,
       topic,
+      subjectId: req.decoded.subjectId,
     }).then((assignment) => {
       const payload = {
         termId: assignment.termId,
@@ -146,6 +147,44 @@ export default class AssignmentController {
       });
     });
   }
+
+ /**
+   *
+   *
+   * @static getAllAssignment
+   * @param {any} req
+   * @param {any} res
+   * @memberof AssignmentController
+   */
+  static getStudentWeekAssignments(req, res) {
+    
+    Assignment.findAll({
+      where: {
+        weekId: req.params.id,
+        upload: true,
+        classId: req.decoded.classId,
+      },
+      include: [{
+        model: Subjects,
+      }],
+    }).then((assignments) => {
+      if (assignments) {
+        // show assignment
+        return res.status(200).send({
+          assignments,
+        });
+      }
+      // No Assignment found
+      return res.status(404).send({
+        message: 'No Assignment found',
+      });
+    }).catch((error) => {
+      res.status(500).send({
+        message: error.message,
+      });
+    });
+  }
+
   /**
    *
    *
@@ -190,6 +229,57 @@ export default class AssignmentController {
       message: error.message,
     }));
   }
+
+/**
+   *
+   *
+   * @static getSingleAssignment
+   * @param {any} req
+   * @param {any} res
+   * @memberof AssignmentController
+   */
+  static getStudentSingleAssignment(req, res) {
+    const { id } = req.params;
+    Assignment.findOne({
+      where: {
+        assignmentId: id,
+        upload: true,
+      },
+      include: [{
+        model: Class,
+      },
+      {
+        model: Subjects,
+      }],
+    }).then((assignment) => {
+      if (assignment) {
+        const payload = {
+          content: assignment.content,
+          topic: assignment.topic,
+          classname: assignment.Class.classname,
+          termId: assignment.termId,
+          weekId: assignment.weekId,
+          id: assignment.assignmentId,
+          subjectname: assignment.Subject.subjectname,
+        }
+        const token = jwt.sign(payload, process.env.SECRET, {
+          expiresIn: 60 * 60 * 12,
+        });
+        req.body.token = token;
+        return res.status(200).send({
+          token,
+          message: 'Assignment found',
+        });
+      }
+      return res.status(400).send({
+        message: 'Assignment not found',
+      });
+
+    }).catch(error => res.status(500).send({
+      message: error.message,
+    }));
+  }
+
   /**
    *
    *

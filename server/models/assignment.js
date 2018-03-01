@@ -22,6 +22,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    subjectId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     topic: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -51,6 +55,9 @@ export default (sequelize, DataTypes) => {
       foreignKey: 'staffId',
     });
     Assignment.hasMany(models.Feedback, {
+      foreignKey: 'assignmentId',
+    });
+    Assignment.belongsTo(models.Subjects, {
       foreignKey: 'assignmentId',
     });
   };

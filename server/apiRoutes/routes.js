@@ -87,6 +87,12 @@ router.route('/assignments')
 router.route('/weekassignments/:id')
   .get(AuthToken, AssignmentController.getWeekAssignments);
 
+router.route('/studentweekassignments/:id')
+  .get(AuthToken, AssignmentController.getStudentWeekAssignments);
+
+router.route('/studentassignment/:id')
+  .get(AuthToken, AssignmentController.getStudentSingleAssignment);
+
 router.route('/assignment/:id')
   .put(AuthToken, AssignmentController.updateAssignment)
   .get(AuthToken, AssignmentController.getSingleAssignment)

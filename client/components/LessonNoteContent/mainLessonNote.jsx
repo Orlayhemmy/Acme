@@ -54,8 +54,6 @@ export default class LessonNote extends React.Component {
   
   isValid() {
     this.state.termId = this.props.term.id.value;
-    this.state.staffId = this.props.auth.user.id;
-    this.state.subjectId = this.props.auth.user.subjectId;
     const { isValid, errors } = createNoteValidate(this.state);
     if (!isValid) {
       this.setState({ errors });
