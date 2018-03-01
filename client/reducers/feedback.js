@@ -5,7 +5,7 @@ const initialState = {
   loaded: '',
   status: '',
   message: '',
-  isAssess: false,
+  isFeedback: false,
 };
 export default (state = initialState, action = {}) => {
   switch (action.type) {
@@ -41,11 +41,13 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'SET_CURRENT_FEEDBACK': {
-      const id = action.payload;
+      const { newFeedback } = action.payload;
+      const { content, noteId, id } = newFeedback;
+      const feedback = { content, noteId, id };
       return {
         ...state,
-        isAssess: !isEmpty(id),
-        id,
+        isFeedback: !isEmpty(id),
+        feedback,
       };
     }
     case 'GET_FEEDBACK': {

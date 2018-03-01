@@ -22,7 +22,6 @@ export default class ViewAssignment extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.isValid = this.isValid.bind(this);
     this.onClick = this.onClick.bind(this);
-    this.updateContent = this.updateContent.bind(this);
   }
   onChange(e) {
     this.setState({
@@ -40,7 +39,7 @@ export default class ViewAssignment extends React.Component {
     e.preventDefault();
     if (this.isValid()) {
       this.state.upload = true;
-      this.props.dispatch(modifyFeedback(this.props.note.note.id, this.state));
+      // this.props.dispatch(modifyFeedback(this.props.note.note.id, this.state));
      }
   }
   onClick() {
@@ -60,7 +59,7 @@ export default class ViewAssignment extends React.Component {
                   <h3>{assignment.topic}</h3>
                   <br/>
                   <p>{assignment.content}</p>
-                  <em className="fa fa-reply" onClick={this.onClick}>Reply</em>
+                  <em className="fa fa-reply" onClick={this.onClick}> Reply</em>
                   <form class="form-horizontal" onSubmit={this.onSubmit}>
                     <div className="help-block">{error.content}</div>
                       <div class="form-group">
