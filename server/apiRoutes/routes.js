@@ -127,6 +127,9 @@ router.route('/tests')
 router.route('/termtests/:id')
   .get(AuthToken, TestController.getTermTests);
 
+router.route('/studenttests/:id')
+  .get(AuthToken, TestController.getStudentTermTests);
+
 router.route('/test/:id')
   .put(AuthToken, TestController.updateTest)
   .get(AuthToken, TestController.getSingleTest)

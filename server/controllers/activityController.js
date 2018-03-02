@@ -14,7 +14,6 @@ export default class ActivityController {
    */
   static createActivity(req, res) {
     const { description, title, subjectId } = req.body;
-    console.log(req.body)
     return StaffActivity.create({
       description,
       title,

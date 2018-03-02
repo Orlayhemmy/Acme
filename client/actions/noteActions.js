@@ -1,6 +1,6 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
-import { createActivity } from './activityActions';
+import { createActivity, createStudentActivity } from './activityActions';
 
 export function setCurrentNote(newNote) {
   return (dispatch) => {
@@ -84,6 +84,18 @@ export function modifyNote(id, data) {
     axios.put(`api/v1/note/${id}`, data).then((response) => {
       dispatch({ type: 'MODIFY_NOTE_SUCCESS', payload: response });
       dispatch(getWeekNotes(data.weekId));
+      if (data.upload) {
+        const act = {
+          description: `You uploaded a lesson note: ${data.topic}`,
+          title: data.topic,
+        }
+        dispatch(createActivity(act));
+        const act2 = {
+          description: `${data.lastname} sent a lesson note`,
+          title: data.topic,
+        }
+        dispatch(createStudentActivity(act2));
+      }
     }).catch((err) => {
       dispatch({ type: 'MODIFY_NOTE_FAIL', payload: err.response });
     });

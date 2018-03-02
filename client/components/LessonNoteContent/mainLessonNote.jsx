@@ -88,6 +88,8 @@ export default class LessonNote extends React.Component {
       const data = {
         upload: true,
         weekId: this.props.week.id.value,
+        topic: e.target.parentNode.id,
+        lastname: this.props.auth.user.lastname,
       }
       this.props.dispatch(modifyNote(e.target.id, data));
     }
@@ -165,7 +167,7 @@ export default class LessonNote extends React.Component {
         <tr key={note.noteId}>
           <td id={note.noteId} onClick={this.onClick} className="text-left">{note.topic}</td>                 
           <td>{note.Class.classname}</td>
-          <td><em onClick={this.uploadNote} id={note.noteId} class={uploadColor}></em></td>
+          <td id={note.topic}><em onClick={this.uploadNote} id={note.noteId} class={uploadColor}></em></td>
           <td><i class="fa fa-trash" onClick={this.onDelete} id={note.noteId}></i></td>
         </tr>
       );

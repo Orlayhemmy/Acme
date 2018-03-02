@@ -103,12 +103,15 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'CLASS_TESTS_SUCCESS': {
-      const tests = action.payload.data;
+      const { status } = action.payload;
+      const { message, tests } = action.payload.data;
       return {
         ...state,
         loading: false,
         loaded: true,
         tests,
+        message,
+        status,
       };
     }
     case 'MODIFY_TEST': {

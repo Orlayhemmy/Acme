@@ -69,7 +69,7 @@ export function modifyTest(id, data) {
 export function getClassTests(id) {
   return (dispatch) => {
     dispatch({ type: 'GET_CLASS_TESTS' });
-    axios.get(`api/v1/classtests/${id}`).then((response) => {
+    axios.get(`api/v1/studenttests/${id}`).then((response) => {
       dispatch({ type: 'CLASS_TESTS_SUCCESS', payload: response });
     }).catch((err) => {
       dispatch({ type: 'CLASS_TESTS_FAIL', payload: err.response });

@@ -22,6 +22,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    subjectId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     intro: {
       type: DataTypes.TEXT,
     },
@@ -45,6 +49,9 @@ export default (sequelize, DataTypes) => {
     });
     Test.hasMany(models.Question, {
       foreignKey: 'testId',
+    });
+    Test.belongsTo(models.Subjects, {
+      foreignKey: 'subjectId',
     });
   }
   return Test;

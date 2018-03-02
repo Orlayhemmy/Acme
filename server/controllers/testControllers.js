@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import env from 'dotenv';
 import models from '../models';
 
-const { Test, Class } = models;
+const { Test, Class, Subjects } = models;
 
 export default class TestController {
   /**
@@ -14,11 +14,12 @@ export default class TestController {
    * @memberof TestController
    */
   static createTest(req, res) {
-    const { termId, classId, staffId, title } = req.body;
+    const { termId, classId, title } = req.body;
     return Test.create({
       termId,
       classId,
-      staffId,
+      staffId: req.decoded.id,
+      subjectId: req.decoded.subjectId,
       title,
     }).then((test) => {
       const payload = {
@@ -84,14 +85,16 @@ export default class TestController {
    * @param {any} res
    * @memberof FeedbackController
    */
-  static getClassTests(req, res) {
+  static getStudentTermTests(req, res) {
     
     Test.findAll({
       where: {
-        classId: req.params.id,
+        classId: req.decoded.classId,
+        termId: req.params.id,
+        upload: true,
       },
       include: [{
-        model: Class,
+        model: Subjects,
       }],
     }).then((tests) => {
       if (tests) {
