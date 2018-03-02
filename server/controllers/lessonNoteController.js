@@ -73,7 +73,7 @@ export default class LessonNoteController {
           reference: reference || note.reference,
           strategies: strategies || note.strategies,
           preview: preview || note.preview,
-          upload: upload || note.upload,
+          upload,
         }).then(() => res.status(200).send({
           message: 'Your lesson note has been updated successfully',
         })).catch(err => res.status(500).send({

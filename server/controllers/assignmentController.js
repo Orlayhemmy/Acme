@@ -58,7 +58,7 @@ export default class AssignmentController {
       if (assignment) {
         assignment.update({
           content: content || assignment.content,
-          upload: upload || assignment.upload,
+          upload,
           topic: topic || assignment.topic,
           preview: preview || assignment.preview,
         }).then(() => res.status(200).send({

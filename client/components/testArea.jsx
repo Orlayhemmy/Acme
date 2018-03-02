@@ -39,6 +39,7 @@ export default class TestArea extends React.Component {
     this.viewQuestions = this.viewQuestions.bind(this);
     this.uploadTest = this.uploadTest.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.downloadTest = this.downloadTest.bind(this);
   }
   uploadTest(e) {
     if (confirm("Are you sure you want to upload test")) {
@@ -48,6 +49,15 @@ export default class TestArea extends React.Component {
       }
       this.props.dispatch(modifyTest(e.target.id, data));
     }
+  }
+  downloadTest(e) {
+    if (confirm("Are you sure you want put test offline")) {
+      const data = {
+        upload: false,
+        termId: this.props.term.id.value,
+      }
+      this.props.dispatch(modifyTest(e.target.id, data));
+    } 
   }
   updateArchive(id) {
     this.props.dispatch(getTermTests(id));
@@ -139,11 +149,15 @@ export default class TestArea extends React.Component {
     );
     
     const testHistory = _.map(tests, (test) => {
-      let uploadColor;
+      let statusContent;
       if (test.upload) {
-        uploadColor = "fa fa-upload";
+        statusContent = (
+          <td id={test.topic}><em id={test.testId} onClick={this.downloadTest} class="fa fa-upload"></em><input type="text" id={test.classId} hidden /></td>
+        )
       } else {
-        uploadColor = "fa fa-download";
+        statusContent = (
+          <td id={test.topic}><em id={test.testId} onClick={this.uploadTest} class="fa fa-download"></em><input type="text" id={test.classId} hidden /></td>
+        )
       }
       return (
         <tr key={test.testId}>
@@ -152,7 +166,7 @@ export default class TestArea extends React.Component {
           <td>{test.Class.classname}</td>
           
           <td><em onClick={this.viewQuestions} id={test.testId} class="fa fa-eye"></em></td>
-          <td><em onClick={this.uploadTest} id={test.testId} class={uploadColor}></em></td>
+          {statusContent}
           <td><em onClick={this.onDelete} id={test.testId} className="fa fa-trash"></em></td>
         </tr>
       );

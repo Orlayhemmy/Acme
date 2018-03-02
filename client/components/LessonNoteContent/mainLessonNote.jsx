@@ -35,6 +35,7 @@ export default class LessonNote extends React.Component {
     this.onDelete = this.onDelete.bind(this);
     this.updateArchive = this.updateArchive.bind(this);
     this.uploadNote = this.uploadNote.bind(this);
+    this.downloadNote = this.downloadNote.bind(this);
   }
   onDelete(e) {
     if (confirm("Are you sure you want to delete the note")) {
@@ -93,8 +94,19 @@ export default class LessonNote extends React.Component {
         classId : e.target.nextSibling.id
       }
       this.props.dispatch(modifyNote(e.target.id, data));
-    }
-    
+    } 
+  }
+  downloadNote(e) {
+    if (confirm("Are you sure you want put note offline")) {
+      const data = {
+        upload: false,
+        weekId: this.props.week.id.value,
+        topic: e.target.parentNode.id,
+        lastname: this.props.auth.user.lastname,
+        classId : e.target.nextSibling.id
+      }
+      this.props.dispatch(modifyNote(e.target.id, data));
+    } 
   }
   render() {
     let content;
@@ -158,17 +170,21 @@ export default class LessonNote extends React.Component {
     );
  
     const lessonNotes = _.map(notes, (note) => {
-      let uploadColor;
+      let statusContent;
       if (note.upload) {
-        uploadColor = "fa fa-upload";
+        statusContent = (
+          <td id={note.topic}><em id={note.noteId} onClick={this.downloadNote} class="fa fa-upload"></em><input type="text" id={note.classId} hidden /></td>
+        )
       } else {
-        uploadColor = "fa fa-download";
+        statusContent = (
+          <td id={note.topic}><em id={note.noteId} onClick={this.uploadNote} class="fa fa-download"></em><input type="text" id={note.classId} hidden /></td>
+        )
       }
       return (
         <tr key={note.noteId} id={note.classId}>
           <td id={note.noteId} onClick={this.onClick} className="text-left">{note.topic}</td>                 
           <td>{note.Class.classname}</td>
-          <td id={note.topic}><em onClick={this.uploadNote} id={note.noteId} class={uploadColor}></em><input type="text" id={note.classId} hidden /></td>
+          {statusContent}
           <td><i class="fa fa-trash" onClick={this.onDelete} id={note.noteId}></i></td>
         </tr>
       );

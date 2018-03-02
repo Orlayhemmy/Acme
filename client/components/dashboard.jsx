@@ -22,7 +22,8 @@ export default class Dashboard extends React.Component {
     const notifications = _.map(activities, (activity) => {
       let data = activity.createdAt;
       let creationDate = new Date(data.replace(/-/g,'/').replace('Z','').replace('T',' '));
-      let month = creationDate.getMonth();
+      let locale = "en-us";
+      let month = creationDate.toLocaleString(locale, { month: "short" });
       let day = creationDate.getDate();
 
       return (

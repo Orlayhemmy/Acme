@@ -59,7 +59,7 @@ export default class TestController {
       if (test) {
         test.update({
           intro: intro || test.intro,
-          upload: upload || test.upload,
+          upload,
           duration: duration || test.duration,
           title: title || test.title,
         }).then(() => res.status(200).send({
@@ -131,6 +131,7 @@ export default class TestController {
       include: [{
         model: Class,
       }],
+      order: [['createdAt', 'DESC']],
     }).then((tests) => {
       if (tests) {
         // show test
