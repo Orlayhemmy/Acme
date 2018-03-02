@@ -48,6 +48,7 @@ export default class ViewAssignment extends React.Component {
         this.state.fullname = this.props.auth.user.fullname;
         this.state.assignmentTopic = this.props.assignment.assignment.topic;
         this.state.subjectId = this.props.assignment.assignment.subjectId,
+        this.state.studentId = this.props.auth.user.id;
         this.props.dispatch(modifyFeedback(this.props.feedback.feedback.id, this.state));
        }
     }

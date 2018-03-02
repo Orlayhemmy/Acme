@@ -1,6 +1,6 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
-import { createActivity } from './activityActions';
+import { createActivity, createStudentActivity } from './activityActions';
 
 
 export function setCurrentAssignment(newAssignment) {
@@ -85,6 +85,19 @@ export function modifyAssignment(id, data) {
     axios.put(`api/v1/assignment/${id}`, data).then((response) => {
       dispatch({ type: 'MODIFY_ASSIGNMENT_SUCCESS', payload: response });
       dispatch(getWeekAssignments(data.weekId));
+      if (data.upload) {
+        const act = {
+          description: `You uploaded an assignment: ${data.topic}`,
+          title: data.topic,
+        }
+        dispatch(createActivity(act));
+        const act2 = {
+          description: `${data.lastname} sent an assignment`,
+          title: data.topic,
+          classId: data.classId,
+        }
+        dispatch(createStudentActivity(act2));
+      }
     }).catch((err) => {
       dispatch({ type: 'MODIFY_ASSIGNMENT_FAIL', payload: err.response });
     });

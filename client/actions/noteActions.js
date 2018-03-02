@@ -68,7 +68,7 @@ export function createNote(data, weekId) {
       dispatch(setCurrentNote(jwt.decode(token)));
       dispatch(getWeekNotes(weekId));
       const act = {
-        description: `You created a lesson note :${data.topic}`,
+        description: `You created a lesson note: ${data.topic}`,
         title: data.topic,
       }
       dispatch(createActivity(act));
@@ -93,6 +93,7 @@ export function modifyNote(id, data) {
         const act2 = {
           description: `${data.lastname} sent a lesson note`,
           title: data.topic,
+          classId: data.classId,
         }
         dispatch(createStudentActivity(act2));
       }

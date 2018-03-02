@@ -8,7 +8,9 @@ export default (sequelize, DataTypes) => {
     },
     studentId: {
       type: DataTypes.STRING,
-      allowNull: false,
+    },
+    classId: {
+      type: DataTypes.STRING,
     },
     description: {
       type: DataTypes.STRING,
@@ -20,6 +22,9 @@ export default (sequelize, DataTypes) => {
   StudentActivity.associate = (models) => {
     StudentActivity.belongsTo(models.Students, {
       foreignKey: 'studentId',
+    });
+    StudentActivity.belongsTo(models.Class, {
+      foreignKey: 'classId',
     });
   }
   return StudentActivity;

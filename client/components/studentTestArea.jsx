@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import Navbar from './sidenavbar';
 import Header from './header';
 import Footer from './footer';
-import { getClassTests } from '../actions/testActions';
+import { getClassTests, getTest } from '../actions/testActions';
+import { getTestQuestions } from '../actions/questionActions';
 
 @connect((store) => {
   return {
@@ -25,10 +25,10 @@ export default class StudentTestArea extends React.Component {
   //   this.onClick = this.onClick.bind(this);
   // }
   
-  // onClick(e) {
-  //   this.props.dispatch(getStudentNote(e.target.id));
-  //   window.open('/studentviewtest', 'window', 'toolbar=no, menubar=no, resizable=yes');
-  // }
+  onClick(e) {
+    this.props.dispatch(getTest(e.target.id));
+    window.open('/testintro', 'window', 'toolbar=no, menubar=no, resizable=yes');
+  }
   // updateArchive(e) {
   //   this.props.dispatch(getStudentWeekNotes(e.target.value));
   // }
@@ -52,7 +52,9 @@ export default class StudentTestArea extends React.Component {
           <div class="col-lg-12 mb-4" key={test.testId}>
             
               <div class="card-block">
-                <Link to="/testintro"><h3>{test.title}: {test.Subject.subjectname}</h3></Link>
+                <span id={test.testId}  onClick={this.onClick.bind(this)}>
+                  {test.title}: {test.Subject.subjectname}
+                </span>
               </div>
           </div>
         );

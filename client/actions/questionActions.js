@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 export function setCurrentQuestion(newQuestion) {
   return (dispatch) => {
-    dispatch({ type: 'SET_CURRENT_QUESTION', payload: { newQuestion } })
+    dispatch({ type: 'SET_CURRENT_QUESTION', payload: { newQuestion } });
   };
 }
 

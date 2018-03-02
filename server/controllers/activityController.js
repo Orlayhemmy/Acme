@@ -36,11 +36,12 @@ export default class ActivityController {
    * @memberof ActivityController
    */
   static createStudentActivity(req, res) {
-    const { description, title } = req.body;
+    const { description, title, classId, studentId } = req.body;
     return StudentActivity.create({
       description,
       title,
-      studentId: req.decoded.id,
+      studentId,
+      classId,
     }).then(() => {
       return res.status(201).send({
         message: 'Activity created',
@@ -92,7 +93,7 @@ export default class ActivityController {
   static getStudentActivities(req, res) {
     StudentActivity.findAll({
       where: {
-        studentId: req.decoded.id,
+        $or: [{ studentId: req.decoded.id }, { classId: req.decoded.classId }]
       },
     }).then((activities) => {
       if (activities) {

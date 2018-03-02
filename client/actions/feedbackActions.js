@@ -45,6 +45,7 @@ export function modifyFeedback(id, data) {
         const act = {
           description: `You uploaded a response to ${data.assignmentTopic}`,
           title: data.assignmentTopic,
+          studentId: data.studentId,
         }
         dispatch(createStudentActivity(act));
         const act2 = {
@@ -53,12 +54,6 @@ export function modifyFeedback(id, data) {
           subjectId: data.subjectId,
         }
         dispatch(createActivity(act2));
-      } else {
-        const act = {
-          description: `You created a response to ${data.assignmentTopic}`,
-          title: data.assignmentTopic,
-        }
-        dispatch(createStudentActivity(act));
       }
     }).catch((err) => {
       dispatch({ type: 'MODIFY_FEEDBACK_FAIL', payload: err.response });

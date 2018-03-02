@@ -28,6 +28,7 @@ import StudentViewNote from './components/studentViewNote';
 import StudentAssignment from './components/studentAssessmentPage';
 import StudentViewAssignment from './components/studentViewAssignment';
 import StudentTestArea from './components/studentTestArea';
+import TestIntro from './components/testIntro';
 import { setCurrentUser } from './actions/authActions';
 import { setCurrentNote } from './actions/noteActions';
 import { setCurrentTerm } from './actions/termActions';
@@ -92,6 +93,7 @@ ReactDOM.render(
         <Route exact path="/studentassignment" component={StudentAssignment} />
         <Route exact path="/studentviewassignment" component={StudentViewAssignment} />
         <Route exact path="/studenttestarea" component={StudentTestArea} />
+        <Route exact path="/testintro" component={TestIntro} />
       </Switch>
     </Router>
   </Provider>

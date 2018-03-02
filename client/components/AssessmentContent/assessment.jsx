@@ -90,7 +90,10 @@ export default class Assignment extends React.Component {
     if (confirm("Are you sure you want to upload assignment")) {
       const data = {
         upload: true,
-        weekId: this.props.week.id.value
+        weekId: this.props.week.id.value,
+        topic: e.target.parentNode.id,
+        lastname: this.props.auth.user.lastname,
+        classId : e.target.nextSibling.id
       }
       this.props.dispatch(modifyAssignment(e.target.id, data));
     }
@@ -168,7 +171,7 @@ export default class Assignment extends React.Component {
         <tr key={assignment.assignmentId}>
           <td id={assignment.assignmentId} onClick={this.onClick} className="text-left">{assignment.topic}</td>                 
           <td>{assignment.Class.classname}</td>
-          <td><em onClick={this.uploadAssignment} id={assignment.assignmentId} class={uploadColor}></em></td>
+          <td id={assignment.topic}><em onClick={this.uploadAssignment} id={assignment.assignmentId} class={uploadColor}></em><input type="text" id={assignment.classId} hidden /></td>
           <td><i class="fa fa-trash" onClick={this.onDelete} id={assignment.assignmentId}></i></td>
         </tr>
       );
