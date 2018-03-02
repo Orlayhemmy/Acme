@@ -114,6 +114,7 @@ export default class QuestionController {
       where: {
         testId: req.params.id,
       },
+      order: [['createdAt', 'DESC']],
     }).then((questions) => {
       if (questions) {
         // show question

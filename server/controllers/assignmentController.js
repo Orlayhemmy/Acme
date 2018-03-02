@@ -94,6 +94,7 @@ export default class AssignmentController {
       include: [{
         model: Class,
       }],
+      order: [['createdAt', 'DESC']],
     }).then((assignments) => {
       if (assignments) {
         // show assignment
@@ -130,6 +131,7 @@ export default class AssignmentController {
       include: [{
         model: Class,
       }],
+      order: [['createdAt', 'DESC']],
     }).then((assignments) => {
       if (assignments) {
         // show assignment
@@ -167,6 +169,7 @@ export default class AssignmentController {
       include: [{
         model: Subjects,
       }],
+      order: [['createdAt', 'DESC']],
     }).then((assignments) => {
       if (assignments) {
         // show assignment

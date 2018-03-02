@@ -109,6 +109,7 @@ export default class LessonNoteController {
       {
         model: Subjects,
       }],
+      order: [['createdAt', 'DESC']],
     }).then((notes) => {
       if (notes) {
         // show notes
@@ -305,6 +306,7 @@ export default class LessonNoteController {
       include: [{
         model: Class,
       }],
+      order: [['createdAt', 'DESC']],
     }).then((hodnotes) => {
       if (hodnotes) {
         // show notes

@@ -93,6 +93,7 @@ export default class FeedbackController {
       include: [{
         model: Students,
       }],
+      order: [['createdAt', 'DESC']],
     }).then((feedbacks) => {
       if (feedbacks) {
         // show feedback

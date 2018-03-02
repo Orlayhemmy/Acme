@@ -64,6 +64,7 @@ export default class ActivityController {
       where: {
         subjectId: req.decoded.subjectId,
       },
+      order: [['createdAt', 'DESC']],
     }).then((activities) => {
       if (activities) {
         // show activity
@@ -95,6 +96,7 @@ export default class ActivityController {
       where: {
         $or: [{ studentId: req.decoded.id }, { classId: req.decoded.classId }]
       },
+      order: [['createdAt', 'DESC']],
     }).then((activities) => {
       if (activities) {
         // show activity
