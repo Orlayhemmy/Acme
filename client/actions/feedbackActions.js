@@ -61,3 +61,14 @@ export function modifyFeedback(id, data) {
   };
 }
 
+export function sendTestFeedback(id, data) {
+  return (dispatch) => {
+    dispatch({ type: 'SEND_FEEDBACK' });
+    axios.post('api/v1/testfeedbacks', data).then((response) => {
+      dispatch({ type: 'SEND_FEEDBACK_SUCCESS', payload: response });
+    }).catch((err) => {
+      dispatch({ type: 'SEND_FEEDBACK_FAILS', payload: err.response });
+    });
+  };
+}
+

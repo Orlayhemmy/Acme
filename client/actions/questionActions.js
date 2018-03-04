@@ -7,6 +7,12 @@ export function setCurrentQuestion(newQuestion) {
   };
 }
 
+export function setCurrentTestQuestions(testQuestions) {
+  return (dispatch) => {
+    dispatch({ type: 'SET_CURRENT_TEST_QUESTIONS', payload: { testQuestions } });
+  };
+}
+
 export function getQuestion(id) {
   return (dispatch) => {
     dispatch({ type: 'GET_QUESTION' });
@@ -59,6 +65,9 @@ export function getTestQuestions(id) {
     dispatch({ type: 'GET_QUESTIONS' });
     axios.get(`api/v1/testquestions/${id}`).then((response) => {
       dispatch({ type: 'GET_QUESTIONS_SUCCESS', payload: response });
+      const { token } = response.data;
+      localStorage.setItem('questions', token);
+      dispatch(setCurrentTestQuestions(jwt.decode(token)));
     }).catch((err) => {
       dispatch({ type: 'GET_QUESTIONS_FAIL', payload: err.response });
     });

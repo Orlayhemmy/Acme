@@ -175,5 +175,4 @@ export default class FeedbackController {
       message: error.message,
     }));
   }
-
 }

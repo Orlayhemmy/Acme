@@ -55,6 +55,16 @@ export default (state = initialState, action = {}) => {
         question,
       };
     }
+    case 'SET_CURRENT_TEST_QUESTIONS': {
+      const { testQuestions } = action.payload;
+      const { content } = testQuestions;
+      const question = { content  }
+      return {
+        ...state,
+        isQuestion: !isEmpty(testQuestions),
+        question,
+      };
+    }
     case 'GET_QUESTION': {
       return {
         ...state,

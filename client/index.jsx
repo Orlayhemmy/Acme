@@ -36,9 +36,10 @@ import { setCurrentTerm } from './actions/termActions';
 import { setCurrentWeek } from './actions/weekActions';
 import { setCurrentAssignment } from './actions/assignmentActions';
 import { setCurrentTest } from './actions/testActions';
-import { setCurrentQuestion } from './actions/questionActions';
+import { setCurrentQuestion, setCurrentTestQuestions } from './actions/questionActions';
 import { setCurrentFeedback } from './actions/feedbackActions';
-
+import Carousel from './components/carousel';
+import style from './sass/style.scss';
 
 
 
@@ -65,6 +66,9 @@ if (localStorage.test) {
 }
 if (localStorage.question) {
   store.dispatch(setCurrentQuestion(jwt.decode(localStorage.question)));
+}
+if (localStorage.questions) {
+  store.dispatch(setCurrentTestQuestions(jwt.decode(localStorage.questions)));
 }
 if (localStorage.feedback) {
   store.dispatch(setCurrentFeedback(jwt.decode(localStorage.feedback)));
@@ -98,6 +102,7 @@ ReactDOM.render(
         <Route exact path="/studenttestarea" component={StudentTestArea} />
         <Route exact path="/testintro" component={TestIntro} />
         <Route exact path="/role" component={Role} />
+        <Route exact path="/carousel" component={Carousel} />
       </Switch>
     </Router>
   </Provider>

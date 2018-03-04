@@ -40,6 +40,35 @@ export default (state = initialState, action = {}) => {
         message,
       };
     }
+    case 'SEND_FEEDBACK': {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        status: '',
+        message: '',
+      };
+    }
+    case 'SEND_FEEDBACK_SUCCESS': {
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        message,
+      };
+    }
+    case 'SEND_FEEDBACK_FAILS': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
     case 'SET_CURRENT_FEEDBACK': {
       const { newFeedback } = action.payload;
       const { content, id, assignmentId, upload } = newFeedback;

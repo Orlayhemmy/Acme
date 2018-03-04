@@ -115,11 +115,17 @@ export default class QuestionController {
         testId: req.params.id,
       },
       order: [['createdAt', 'DESC']],
-    }).then((questions) => {
-      if (questions) {
-        // show question
+    }).then((content) => {
+      if (content) {
+        const payload = {
+          content,
+        }
+        const token = jwt.sign(payload, process.env.SECRET, {
+          expiresIn: 60 * 60 * 12,
+        });
+        req.body.token = token;
         return res.status(200).send({
-          questions,
+          token,
         });
       }
       // No Question found

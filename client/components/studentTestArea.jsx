@@ -27,6 +27,7 @@ export default class StudentTestArea extends React.Component {
   
   onClick(e) {
     this.props.dispatch(getTest(e.target.id));
+    this.props.dispatch(getTestQuestions(e.target.id));
     window.open('/testintro', 'window', 'toolbar=no, menubar=no, resizable=yes');
   }
   // updateArchive(e) {
