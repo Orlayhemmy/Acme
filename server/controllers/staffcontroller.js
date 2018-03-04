@@ -248,11 +248,11 @@ export default class StaffController {
  * @memberof StudentController
  */
   static getAllStaffs(req, res) {
-      Staffs.findAll().then((employees) => {
-        if (employees) {
+      Staffs.findAll().then((staffs) => {
+        if (staffs) {
           // show staffs
           return res.status(200).send({
-            employees,
+            staffs,
           });
         }
         // No employee found

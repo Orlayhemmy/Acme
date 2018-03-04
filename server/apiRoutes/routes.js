@@ -10,6 +10,7 @@ import TermController from '../controllers/termController';
 import TestController from '../controllers/testControllers';
 import QuestionController from '../controllers/questionControllers';
 import ActivityController from '../controllers/activityController';
+import SubjectController from '../controllers/subjectControllers';
 import AuthToken from '../middleware/authenticateToken';
 import AuthAdminToken from '../middleware/authAdminToken';
 import StudentValidate from '../middleware/studentValidate';
@@ -37,7 +38,8 @@ router.route('/studentPasswordRecovery')
   .post(StudentController.recoverPassword);
 
 router.route('/staffs')
-  .post(StaffValidate.signup, StaffController.signup);
+  .post(StaffValidate.signup, StaffController.signup)
+  .get(AuthToken, StaffController.getAllStaffs);
 
 router.route('/staffs/login')
   .post(StaffValidate.signin, StaffController.signin);
@@ -49,7 +51,7 @@ router.route('/staff/:id')
 router.route('/staffPasswordRecovery')
   .post(StaffController.recoverPassword);
 
-router.route('/class')
+router.route('/classes')
   .post(AuthAdminToken, ClassValidate.createClass, ClassController.createClass)
   .get(AuthToken, ClassController.getAllClasses);
 
@@ -58,8 +60,16 @@ router.route('/class/:id')
   .get(AuthToken, ClassController.getSingleClass)
   .delete(AuthAdminToken, ClassController.deleteClass);
 
-router.route('/classes/:id')
+router.route('/subjectclasses')
+  .post(AuthToken, ClassController.createSubjectClass)
   .get(AuthToken, ClassController.getTeacherClasses);
+
+// router.route('/subjectclasses/:id')
+//   .get(AuthToken, ClassController.getTeacherClasses);
+
+router.route('/subjects')
+  .post(AuthAdminToken, ClassValidate.createClass, ClassController.createClass)
+  .get(AuthToken, SubjectController.getAllSubjects);
 
 router.route('/notes')
   .post(AuthToken, NoteValidate.createNote, LessonNoteController.createLessonNote);

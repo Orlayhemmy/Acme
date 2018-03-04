@@ -9,6 +9,7 @@ import feedback from './feedback';
 import test from './test';
 import question from './question';
 import activity from './activity';
+import subject from './subject';
 
 
 export default combineReducers({
@@ -22,4 +23,5 @@ export default combineReducers({
   test,
   question,
   activity,
+  subject,
 });

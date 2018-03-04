@@ -1,14 +1,16 @@
+import jwt from 'jsonwebtoken';
+import env from 'dotenv';
 import models from '../models';
 
 const { Class, TeacherClasses } = models;
 
 export default class ClassController {
 /**
- * 
- * 
+ *
+ *
  * @static  createClass
- * @param {any} req 
- * @param {any} res 
+ * @param {any} req
+ * @param {any} res
  * @memberof ClassController
  */
   static createClass(req, res) {
@@ -16,27 +18,23 @@ export default class ClassController {
 
     Class.create({
       classname,
-    }).then(() => {
-      return res.status(201).send({
+    }).then(() => res.status(201).send({
       message: 'Class created'
-      });
-    }).catch(error => {
-      return res.status(500).send({
+      })).catch((error) => res.status(500).send({
         message: error.message,
-      });
-    });
+      }));
   }
-/**
- * 
- * 
+  /**
+ *
+ *
  * @static updateClass
- * @param {any} req 
- * @param {any} res 
+ * @param {any} req
+ * @param {any} res
  * @memberof ClassController
  */
   static updateClassInfo(req, res) {
     const { classname } = req.body;
-    
+
     Class.findOne({
       where: {
         id: req.params.id,
@@ -59,12 +57,12 @@ export default class ClassController {
       message: err.message,
     }));
   }
-/**
- * 
- * 
+  /**
+ *
+ *
  * @static getAllClasses
- * @param {any} req 
- * @param {any} res 
+ * @param {any} req
+ * @param {any} res
  * @memberof ClassController
  */
   static getAllClasses(req, res) {
@@ -83,12 +81,12 @@ export default class ClassController {
       message: error.message,
     }));
   }
-/**
- * 
- * 
+  /**
+ *
+ *
  * @staticgetSingleClass
- * @param {any} req 
- * @param {any} res 
+ * @param {any} req
+ * @param {any} res
  * @memberof ClassController
  */
   static getSingleClass(req, res) {
@@ -97,25 +95,25 @@ export default class ClassController {
         class_id: req.params.class_id,
       },
     }).then((foundClass) => {
-        if (foundClass) {
-          return res.status(200).send({
-            foundClass,
-          });
-        }
-        return res.status(400).send({
-          message: 'Class not found',
+      if (foundClass) {
+        return res.status(200).send({
+          foundClass,
         });
-      }).catch(error => res.status(500).send({
-        message: error.message,
-      }));
+      }
+      return res.status(400).send({
+        message: 'Class not found',
+      });
+    }).catch(error => res.status(500).send({
+      message: error.message,
+    }));
   }
-/**
- * 
- * 
+  /**
+ *
+ *
  * @static deleteClass
- * @param {any} req 
- * @param {any} res 
- * @returns 
+ * @param {any} req
+ * @param {any} res
+ * @returns
  * @memberof ClassController
  */
   static deleteClass(req, res) {
@@ -136,19 +134,18 @@ export default class ClassController {
   }
 
   static getTeacherClasses(req, res) {
-    const { id } = req.params;
 
     TeacherClasses.findAll({
       where: {
-        staffId: id,
+        staffId: req.decoded.id,
       },
       include: [{
         model: Class,
       }],
-    }).then((classes) => {
-      if (classes) {
+    }).then((teacherclasses) => {
+      if (teacherclasses) {
         return res.status(200).send({
-          classes,
+          teacherclasses,
         });
       }
       return res.status(400).send({
@@ -159,5 +156,26 @@ export default class ClassController {
         message: error.message,
       });
     });
+  }
+
+  /**
+ *
+ *
+ * @static  createSubjectClass
+ * @param {any} req
+ * @param {any} res
+ * @memberof ClassController
+ */
+  static createSubjectClass(req, res) {
+    const { classId } = req.body;
+
+    TeacherClasses.create({
+      classId,
+      staffId: req.decoded.id,
+    }).then(() => res.status(201).send({
+    message: 'done'
+    })).catch((error) => res.status(500).send({
+      message: error.message,
+    }));
   }
 }

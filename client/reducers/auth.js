@@ -188,6 +188,35 @@ export default (state = initialState, action = {}) => {
         email,
       };
     }
+    case 'GET_STAFFS': {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        status: '',
+        message: '',
+      };
+    }
+    case 'GET_STAFFS_SUCCESS': {
+      const { staffs } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        staffs,
+      };
+    }
+    case 'GET_STAFFS_FAIL': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
     default: return state;
   }
 };

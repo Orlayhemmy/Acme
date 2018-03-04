@@ -11,7 +11,7 @@ import { createNote, getWeekNotes, getNote, deleteNote, modifyNote } from '../..
 @connect((store) => {
   return {
     auth: store.auth,
-    classes: store.classes.classes,
+    classes: store.classes.teacherclasses,
     term: store.term,
     week: store.week,
     note: store.note,
@@ -76,7 +76,7 @@ export default class LessonNote extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(getTeacherClasses(this.props.auth.user.id));
+    this.props.dispatch(getTeacherClasses());
     this.props.dispatch(getWeekNotes(this.props.week.id.value));
   }
   componentDidUpdate() {

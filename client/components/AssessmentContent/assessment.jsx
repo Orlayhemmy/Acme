@@ -11,7 +11,7 @@ import { createAssignment, getWeekAssignments, getAssignment, deleteAssignment, 
 @connect((store) => {
   return {
     auth: store.auth,
-    classes: store.classes.classes,
+    classes: store.classes.teacherclasses,
     term: store.term,
     week: store.week,
     assignment: store.assignment,
@@ -79,7 +79,7 @@ export default class Assignment extends React.Component {
     window.open('/assignment', 'window', 'toolbar=no, menubar=no, resizable=yes');
   }
   componentWillMount() {
-    this.props.dispatch(getTeacherClasses(this.props.auth.user.id));
+    this.props.dispatch(getTeacherClasses());
     this.props.dispatch(getWeekAssignments(this.props.week.id.value))
   }
   componentDidUpdate() {
