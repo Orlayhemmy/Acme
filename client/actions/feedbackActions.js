@@ -4,7 +4,7 @@ import { createStudentActivity, createActivity } from './activityActions';
 
 export function setCurrentFeedback(newFeedback) {
   return (dispatch) => {
-    dispatch({ type: 'SET_CURRENT_FEEDBACK', payload: { newFeedback } })
+    dispatch({ type: 'SET_CURRENT_FEEDBACK', payload: { newFeedback } });
   };
 }
 
@@ -18,6 +18,31 @@ export function getFeedback(id) {
       dispatch(setCurrentFeedback(jwt.decode(token)));
     }).catch((err) => {
       dispatch({ type: 'GET_FEEDBACK_FAILS', payload: err.response });
+    });
+  };
+}
+
+export function getWeekFeedback(id) {
+  return (dispatch) => {
+    dispatch({ type: 'GET_WEEK_FEEDBACK' });
+    axios.get(`api/v1/weekfeedbacks/${id}`).then((response) => {
+      dispatch({ type: 'GET_WEEK_FEEDBACK_SUCCESS', payload: response });
+    }).catch((err) => {
+      dispatch({ type: 'GET_WEEK_FEEDBACK_FAILS', payload: err.response });
+    });
+  };
+}
+
+export function getStudentFeedback(id) {
+  return (dispatch) => {
+    dispatch({ type: 'GET_STUDENT_FEEDBACK' });
+    axios.get(`api/v1/viewfeedback/${id}`).then((response) => {
+      dispatch({ type: 'GET_STUDENT_FEEDBACK_SUCCESS', payload: response });
+      const { token } = response.data;
+      localStorage.setItem('feedback', token);
+      dispatch(setCurrentFeedback(jwt.decode(token)));
+    }).catch((err) => {
+      dispatch({ type: 'GET_STUDENT_FEEDBACK_FAILS', payload: err.response });
     });
   };
 }
@@ -45,15 +70,21 @@ export function modifyFeedback(id, data) {
         const act = {
           description: `You uploaded a response to ${data.assignmentTopic}`,
           title: data.assignmentTopic,
-          studentId: data.studentId,
-        }
+        };
         dispatch(createStudentActivity(act));
         const act2 = {
           description: `Gave a response to ${data.assignmentTopic}`,
           title: data.fullname,
           subjectId: data.subjectId,
-        }
+        };
         dispatch(createActivity(act2));
+      }
+      if (data.score) {
+        const act = {
+          description: `${data.fullname} gave a remark to your response`,
+          title: data.assignmentTopic,
+        };
+        dispatch(createStudentActivity(act));
       }
     }).catch((err) => {
       dispatch({ type: 'MODIFY_FEEDBACK_FAIL', payload: err.response });

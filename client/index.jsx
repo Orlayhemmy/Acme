@@ -30,6 +30,7 @@ import StudentViewAssignment from './components/studentViewAssignment';
 import StudentTestArea from './components/studentTestArea';
 import Role from './components/role';
 import TestIntro from './components/testIntro';
+import StudentFeedback from './components/studentFeedback';
 import { setCurrentUser } from './actions/authActions';
 import { setCurrentNote } from './actions/noteActions';
 import { setCurrentTerm } from './actions/termActions';
@@ -103,6 +104,7 @@ ReactDOM.render(
         <Route exact path="/testintro" component={TestIntro} />
         <Route exact path="/role" component={Role} />
         <Route exact path="/carousel" component={Carousel} />
+        <Route exact path="/viewfeedback" component={StudentFeedback} />
       </Switch>
     </Router>
   </Provider>

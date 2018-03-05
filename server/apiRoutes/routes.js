@@ -119,6 +119,9 @@ router.route('/feedback/:id')
   .get(AuthToken, FeedbackController.getFeedback)
   .delete(AuthToken, FeedbackController.deleteFeedback);
 
+router.route('/viewfeedback/:id')
+  .get(AuthToken, FeedbackController.getStudentFeedback)
+
 router.route('/term')
   .get(TermController.getTerm);
 

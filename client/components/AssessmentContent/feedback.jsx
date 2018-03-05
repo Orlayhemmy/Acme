@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import ContentContainer from '../contentContainer';
-import { getWeekFeedbacks } from '../../actions/feedbackActions';
+import { getWeekFeedback, getStudentFeedback } from '../../actions/feedbackActions';
 import { getClassAssignments, getWeekAssignments } from '../../actions/assignmentActions';
-import { currentTerm } from '../../actions/termActions';
+
 
 @connect((store) => {
   return {
@@ -25,16 +25,21 @@ export default class Feedback extends React.Component {
     }
     this.onClick = this.onClick.bind(this);
     this.updateArchive = this.updateArchive.bind(this);
+    this.openFeedback = this.openFeedback.bind(this);
   }
   updateArchive(e) {
     this.props.dispatch(getWeekAssignments(e.target.value));
   }
   onClick(e) {
-    this.props.dispatch(getWeekFeedbacks(e.target.id))
-    window.open('/assignment', 'window', 'toolbar=no, menubar=no, resizable=yes');
+    this.props.dispatch(getWeekFeedback(e.target.id))
+    // window.open('/assignment', 'window', 'toolbar=no, menubar=no, resizable=yes');
+  }
+  openFeedback(e) {
+    this.props.dispatch(getStudentFeedback(e.target.id));
+    window.open('/viewfeedback', 'window', 'toolbar=no, menubar=no, resizable=yes');
   }
   componentWillMount() {
-    this.props.dispatch(getWeekFeedbacks(this.props.week.id.value));
+    // this.props.dispatch(getWeekFeedbacks(this.props.week.id.value));
   }
   render() {
     const { weekId, classId, errors, historyWeek } = this.state;
@@ -95,7 +100,7 @@ export default class Feedback extends React.Component {
     const Feedbacks = _.map(this.props.feedbacks, (feedback) => {
       return (
         <tr key={feedback.feedbackId}>
-          <td id={feedback.feedbackId} onClick={this.onClick} className="text-left">{feedback.Student.firstname} {feedback.Student.lastname}</td>                 
+          <td id={feedback.feedbackId} onClick={this.openFeedback} className="text-left">{feedback.Student.firstname} {feedback.Student.lastname}</td>                 
         </tr>
       );
     });

@@ -61,15 +61,22 @@ export default class Note extends React.Component {
     //   console.log('content')
     //   let timer= setInterval(this.updateContent(), 100);
     // }
-    // if (e.target.id === 'content') {
-    //   let newContent = e.ckeditor.getData();
-    //   this.setState({
-    //     content: newContent,
-    //   });
-    // }
-  }
-  updateContent(e) {
+    if (e.target.id === 'editor1') {
+      // let newContent = e.ckeditor.getData();
+      // this.setState({
+      //   content: newContent,
+      // });
+      CKEDITOR.replace('editor1');
+      let timer= setInterval(this.updateContent(), 100);
+      // console.log(CKEDITOR.instances.editor1.getData());
+      // this.updateContent();
+    }
     
+  }
+  updateContent() {
+    CKEDITOR.replace('editor1');
+    let editorText = CKEDITOR.instances.editor1.getData();
+    $('#topic').html(editorText);
   }
   // updateContent() {
   //   console.log('yes')
@@ -147,10 +154,10 @@ export default class Note extends React.Component {
                     <div class="form-group">
                       <label class="col-12 control-label no-padding" for="name">Topic</label> 
                       <div class="col-12 no-padding">
-                        <textarea id="topic" class="form-control" onChange={this.onChange} value={topic}></textarea>
+                        <textarea name="editor1" id="editor1" class="form-control" onChange={this.onChange} value={topic}></textarea>
                       </div>
                     </div>
-                    
+                    <div id="topic"></div>
                     <div className="help-block">{errors.scope}</div>
                     <div class="form-group">
                       <label class="col-12 control-label no-padding" for="name">Definition of purpose and scope of topic</label>

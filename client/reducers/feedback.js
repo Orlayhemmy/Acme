@@ -108,6 +108,65 @@ export default (state = initialState, action = {}) => {
         message,
       };
     }
+    case 'GET_STUDENT_FEEDBACK': {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+      };
+    }
+    case 'GET_STUDENT_FEEDBACK_FAIL': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
+    case 'GET_STUDENT_FEEDBACK_SUCCESS': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
+    case 'GET_WEEK_FEEDBACK': {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+      };
+    }
+    case 'GET_WEEK_FEEDBACK_FAIL': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
+    case 'GET_WEEK_FEEDBACK_SUCCESS': {
+      const { status } = action.payload;
+      const { message, feedbacks } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+        feedbacks
+      };
+    }
     case 'GET_CLASS_FEEDBACKS': {
       return {
         ...state,

@@ -11,7 +11,15 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     },
     content: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    score: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    comment: {
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     assignmentId: {

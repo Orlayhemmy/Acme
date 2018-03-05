@@ -44,13 +44,15 @@ export default class FeedbackController {
    * @memberof FeedbackController
    */
   static updateFeedback(req, res) {
-    const { content, upload } = req.body;
+    const { content, upload, comment, score } = req.body;
     const { id } = req.params;
     Feedback.findById(id).then((feedback) => {
       if (feedback) {
         feedback.update({
           content: content || feedback.content,
           upload: upload || feedback.upload,
+          comment: comment || feedback.comment,
+          score: score || feedback.score,
         }).then(() => {
           // const payload = {
           //   id: feedback.feedbackId,
@@ -88,7 +90,7 @@ export default class FeedbackController {
     
     Feedback.findAll({
       where: {
-        assignmentId: req.params.assignmentId,
+        assignmentId: req.params.id,
       },
       include: [{
         model: Students,
@@ -125,6 +127,44 @@ export default class FeedbackController {
       where: {
         assignmentId: id,
         studentId: req.decoded.id,
+      },
+    }).then((feedback) => {
+      if (feedback) {
+        const payload = {
+          id: feedback.feedbackId,
+          assignmentId: feedback.assignmentId,
+          content: feedback.content,
+          upload: feedback.upload,
+        };
+        const token = jwt.sign(payload, process.env.SECRET, {
+          expiresIn: 60 * 60 * 12,
+        });
+        req.body.token = token;
+        return res.status(200).send({
+          token,
+        });
+      }
+      return res.status(400).send({
+        message: 'Feedback not found',
+      });
+
+    }).catch(error => res.status(500).send({
+      message: error.message,
+    }));
+  }
+  /**
+   *
+   *
+   * @static getSingleFeedback
+   * @param {any} req
+   * @param {any} res
+   * @memberof FeedbackController
+   */
+  static getStudentFeedback(req, res) {
+    const { id } = req.params;
+    Feedback.findOne({
+      where: {
+        feedbackId: id,
       },
     }).then((feedback) => {
       if (feedback) {

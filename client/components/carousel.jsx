@@ -32,9 +32,26 @@ export default class Carousel extends React.Component {
     };
   }
 
-  onSubmit(e, index) {
+  onSubmit(e) {
     e.preventDefault();
-    this.props.dispatch(sendTestFeedback(this.state));
+    const { content } = this.props.question;
+    let correctAnswer = [];
+    let studentAnswer = [];
+    let counter = 0;
+    Object.entries(content).forEach((entry) => {
+      correctAnswer.push(entry[1].answer);
+    });
+    Object.entries(this.state).forEach((entry) => {
+      if (entry[0] != 'activeIndex') {
+        studentAnswer.push(entry[1]);
+      }
+    });
+    for (let i=0; i<correctAnswer.length; i++) {
+      if (studentAnswer[i] == correctAnswer[i]) {
+        counter++;
+      }
+    }
+    this.props.dispatch(sendTestFeedback(counter));
   }
   onChange(e) {
     this.setState({
@@ -86,6 +103,7 @@ export default class Carousel extends React.Component {
 
 
   render() {
+    
     const { activeIndex } = this.state;
     const { content } = this.props.question;
     const { test } = this.props.test;

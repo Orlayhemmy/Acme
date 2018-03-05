@@ -13,7 +13,15 @@ module.exports = {
         allowNull: false,
       },
       content: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      comment: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      score: {
+        type: Sequelize.INTEGER,
         allowNull: true,
       },
       assignmentId: {
