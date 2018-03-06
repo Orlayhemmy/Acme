@@ -53,7 +53,7 @@ export default class LessonNoteController {
    */
   static updateLessonNote(req, res) {
     const {
-      content, activity, duration, objectives, materials, behaviours,
+      content, activity, duration, objectives, materials, behaviours, remarks,
       assessment, scope, topic, questions, reference, strategies, upload, preview,
     } = req.body;
     const { id } = req.params;
@@ -73,6 +73,7 @@ export default class LessonNoteController {
           reference: reference || note.reference,
           strategies: strategies || note.strategies,
           preview: preview || note.preview,
+          remarks: remarks || note.remarks,
           upload,
         }).then(() => res.status(200).send({
           message: 'Your lesson note has been updated successfully',

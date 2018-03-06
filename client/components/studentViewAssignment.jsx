@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import Header from './header';
 import Footer from './footer';
-import { writeFeedbackValidate } from '../shared/feedbackValidation';
+import { writeFeedbackValidate } from '../shared/feedback';
 import { createFeedback, modifyFeedback } from '../actions/feedbackActions';
 
 @connect((store) => {

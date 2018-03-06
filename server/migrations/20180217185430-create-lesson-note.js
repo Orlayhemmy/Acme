@@ -72,6 +72,10 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true,
       },
+      remarks: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
       strategies: {
         type: Sequelize.TEXT,
         allowNull: true,

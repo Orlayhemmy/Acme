@@ -70,6 +70,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    remarks: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
     strategies: {
       type: DataTypes.TEXT,
       allowNull: true,

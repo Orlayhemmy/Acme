@@ -75,27 +75,27 @@ export default class Note extends React.Component {
                   </tbody>
                 </table>
                 <h5>Topic</h5>
-                <h6>{topic}</h6>
+                <h6>{note.topic}</h6>
                 <h5>Scope</h5>
-                <h6>{scope}</h6>
+                <h6>{note.scope}</h6>
                 <h5>Questions</h5>
-                <h6>{questions}</h6>
+                <h6>{note.questions}</h6>
                 <h5>Reference</h5>
-                <h6>{reference}</h6>
+                <h6>{note.reference}</h6>
                 <h5>Materials</h5>
-                <h6>{materials}</h6>
+                <h6>{note.materials}</h6>
                 <h5>Objectives</h5>
-                <h6>{objectives}</h6>
+                <h6>{note.objectives}</h6>
                 <h5>Entry Behaviours</h5>
-                <h6>{behaviour}</h6>
+                <h6>{note.behaviour}</h6>
                 <h5>Strategies</h5>
-                <h6>{strategies}</h6>
+                <h6>{note.strategies}</h6>
                 <h5>Content</h5>
-                <h6>{content}</h6>
+                <h6>{note.content}</h6>
                 <h5>Activity</h5>
-                <h6>{activity}</h6>
+                <h6>{note.activity}</h6>
                 <h5>Assessment</h5>
-                <h6>{assessment}</h6>							
+                <h6>{note.assessment}</h6>							
 							</div>					
 						</div>
 						
