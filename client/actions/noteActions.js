@@ -19,6 +19,17 @@ export function getWeekNotes(id) {
   };
 }
 
+export function HODWeekNotes(id) {
+  return (dispatch) => {
+    dispatch({ type: 'GET_HNOTES' });
+    axios.get(`api/v1/hodweeknotes/${id}`).then((response) => {
+      dispatch({ type: 'GET_HNOTES_SUCCESS', payload: response });
+    }).catch((err) => {
+      dispatch({ type: 'GET_HNOTES_FAIL', payload: err.response });
+    });
+  };
+}
+
 export function getStudentWeekNotes(id) {
   return (dispatch) => {
     dispatch({ type: 'GET_STUDENT_NOTES' });

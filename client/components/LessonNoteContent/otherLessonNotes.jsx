@@ -2,14 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import AtomContainer from '../atomContainer';
-import { createNote, getWeekNotes, getNote } from '../../actions/noteActions';
+import { createNote, HODWeekNotes, getNote } from '../../actions/noteActions';
 import { currentTerm } from '../../actions/termActions';
 
 
 @connect((store) => {
   return {
     auth: store.auth,
-    notes: store.note.notes,
+    term: store.term,
+    week: store.week,
+    note: store.note,
   };
 })
 
@@ -36,10 +38,10 @@ export default class OtherNotes extends React.Component {
   }
   onClick(e) {
     this.props.dispatch(getNote(e.target.id))
-    window.open('/note', 'window', 'toolbar=no, menubar=no, resizable=yes');
+    window.open('/hodviewnote', 'window', 'toolbar=no, menubar=no, resizable=yes');
   }
   componentWillMount() {
-    this.props.dispatch(getWeekNotes('2'))
+    this.props.dispatch(HODWeekNotes(this.props.week.id.value))
   }
   render() {
     const { historyWeek } = this.state;

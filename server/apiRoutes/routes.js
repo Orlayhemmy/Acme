@@ -47,7 +47,7 @@ router.route('/staffs/login')
 
 router.route('/staff/:id')
   .get(AuthToken, StaffController.getSingleStaff);
-  
+
 router.route('/staffPasswordRecovery')
   .post(StaffController.recoverPassword);
 
@@ -76,6 +76,9 @@ router.route('/notes')
 
 router.route('/weeknotes/:id')
   .get(AuthToken, LessonNoteController.getWeekNotes);
+
+router.route('/hodweeknotes/:id')
+  .get(AuthToken, LessonNoteController.getHODWeekNotes);
 
 router.route('/studentweeknotes/:id')
   .get(AuthToken, LessonNoteController.getStudentWeekNotes);

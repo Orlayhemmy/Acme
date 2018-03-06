@@ -154,6 +154,38 @@ export default (state = initialState, action = {}) => {
         notes,
       };
     }
+    case 'GET_HNOTES': {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        status: '',
+        message: '',
+      };
+    }
+    case 'GET_HNOTES_FAIL': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
+    case 'GET_HNOTES_SUCCESS': {
+      const { status } = action.payload;
+      const { message, hodnotes } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+        hodnotes,
+      };
+    }
     case 'DELETE_NOTE': {
       return {
         ...state,

@@ -31,6 +31,7 @@ import StudentTestArea from './components/studentTestArea';
 import Role from './components/role';
 import TestIntro from './components/testIntro';
 import StudentFeedback from './components/studentFeedback';
+import HODWeekNotes from './components/hodNotepage';
 import { setCurrentUser } from './actions/authActions';
 import { setCurrentNote } from './actions/noteActions';
 import { setCurrentTerm } from './actions/termActions';
@@ -109,6 +110,7 @@ ReactDOM.render(
         <Route exact path="/registration" component={Role} />
         <Route exact path="/carousel" component={Carousel} />
         <Route exact path="/viewfeedback" component={StudentFeedback} />
+        <Route exact path="/hodviewnote" component={HODWeekNotes} />
       </Switch>
     </Router>
   </Provider>
