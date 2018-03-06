@@ -47,6 +47,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    HOD: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
   });
   Staffs.associate = (models) => {
     Staffs.belongsTo(models.Class, {

@@ -14,7 +14,7 @@ import { getTermTests, createTest, getTest, modifyTest, deleteTest } from '../ac
 @connect((store) => {
   return {
     auth: store.auth,
-    classes: store.classes.classes,
+    classes: store.classes.teacherclasses,
     term: store.term,
     test: store.test
   };
@@ -63,7 +63,6 @@ export default class TestArea extends React.Component {
     this.props.dispatch(getTermTests(id));
   }
   componentWillMount() {
-    this.props.dispatch(getTeacherClasses(this.props.auth.user.id));
     this.props.dispatch(getTermTests(this.props.term.id.value))
   }
   onChange(e) {
@@ -114,6 +113,7 @@ export default class TestArea extends React.Component {
     const { pathname } = this.props.location;
     const { errors, title, classId, historyTerm } = this.state;
     const subjectClasses = _.map(this.props.classes, (subjectclass) => {
+      console.log(subjectclass)
       return (
         <option key={subjectclass.id} value={subjectclass.classId}>{subjectclass.Class.classname}</option>
       );      

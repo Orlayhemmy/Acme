@@ -203,17 +203,16 @@ export default class StaffController {
    */
     static updateStaffInfo(req, res) {
       const { firstname, lastname, middlename, address, origin, mobile,
-      dob, password, staffId, sex, classId } = req.body;
-      
+      dob, password, sex, classId, HOD, subjectId } = req.body;
       Staffs.findOne({
         where: {
-          staffId,
+          id: req.decoded.id,
         },
       }).then((user) => {
         if (user) {
           const saltRounds = 10;
           bcrypt.genSalt(saltRounds, (err, salt) => {
-            bcrypt.hash(password, salt, (err, hash) => Staffs.update({
+            bcrypt.hash(password, salt, (err, hash) => user.update({
               firstname: firstname || user.firstname,
               lastname: lastname || user.lastname,
               middlename: middlename || user.middlename,
@@ -223,7 +222,9 @@ export default class StaffController {
               dob: dob || user.dob,
               sex: sex || user.sex,
               password: hash || user.password,
-              classId: classId || user.classId
+              classId: classId || user.classId,
+              HOD: HOD || user.HOD,
+              subjectId: subjectId || user.subjectId,
             }).then(() => res.status(200).send({
               message: 'Your information has been updated successfully',
             })).catch(err => res.status(500).send({

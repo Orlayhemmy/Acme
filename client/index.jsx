@@ -39,6 +39,7 @@ import { setCurrentAssignment } from './actions/assignmentActions';
 import { setCurrentTest } from './actions/testActions';
 import { setCurrentQuestion, setCurrentTestQuestions } from './actions/questionActions';
 import { setCurrentFeedback } from './actions/feedbackActions';
+import { setCurrentTeacherClasses } from './actions/classActions';
 import Carousel from './components/carousel';
 import style from './sass/style.scss';
 
@@ -74,6 +75,9 @@ if (localStorage.questions) {
 if (localStorage.feedback) {
   store.dispatch(setCurrentFeedback(jwt.decode(localStorage.feedback)));
 }
+if (localStorage.teacherClasses) {
+  store.dispatch(setCurrentTeacherClasses(jwt.decode(localStorage.teacherClasses)));
+}
 
 //put component into html page
 ReactDOM.render(
@@ -102,7 +106,7 @@ ReactDOM.render(
         <Route exact path="/studentviewassignment" component={StudentViewAssignment} />
         <Route exact path="/studenttestarea" component={StudentTestArea} />
         <Route exact path="/testintro" component={TestIntro} />
-        <Route exact path="/role" component={Role} />
+        <Route exact path="/registration" component={Role} />
         <Route exact path="/carousel" component={Carousel} />
         <Route exact path="/viewfeedback" component={StudentFeedback} />
       </Switch>

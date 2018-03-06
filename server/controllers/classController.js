@@ -121,7 +121,7 @@ export default class ClassController {
 
     return Class.findById(id).then((foundClass) => {
       if (foundClass) {
-        return Class.destroy().then(() => res.status(200).send({
+        return foundClass.destroy().then(() => res.status(200).send({
           message: 'Class Deleted',
         }));
       }
@@ -144,8 +144,15 @@ export default class ClassController {
       }],
     }).then((teacherclasses) => {
       if (teacherclasses) {
-        return res.status(200).send({
+        const payload = {
           teacherclasses,
+        }
+        const token = jwt.sign(payload, process.env.SECRET, {
+          expiresIn: 60 * 60 * 12,
+        });
+        req.body.token = token;
+        return res.status(200).send({
+          token,
         });
       }
       return res.status(400).send({
@@ -168,14 +175,50 @@ export default class ClassController {
  */
   static createSubjectClass(req, res) {
     const { classId } = req.body;
-
-    TeacherClasses.create({
-      classId,
-      staffId: req.decoded.id,
-    }).then(() => res.status(201).send({
-    message: 'done'
-    })).catch((error) => res.status(500).send({
-      message: error.message,
-    }));
+    TeacherClasses.findOne({
+      where: {
+        staffId: req.decoded.id,
+        classId,
+      },
+    }).then((foundclass) => {
+      if (foundclass) {
+        return res.status(400).send({
+          message: 'class already added',
+        });
+      }
+      TeacherClasses.create({
+        classId,
+        staffId: req.decoded.id,
+      }).then(() => res.status(201).send({
+      message: 'done'
+      })).catch((error) => res.status(500).send({
+        message: error.message,
+      }));
+    });
   }
+  /**
+  *
+  *
+  * @static deleteTeacherClass
+  * @param {any} req
+  * @param {any} res
+  * @returns
+  * @memberof ClassController
+  */
+   static deleteTeacherClass(req, res) {
+     const { id } = req.params;
+ 
+     return TeacherClasses.findById(id).then((foundClass) => {
+       if (foundClass) {
+         return foundClass.destroy().then(() => res.status(200).send({
+           message: 'Class Deleted',
+         }));
+       }
+       return res.status(400).send({
+         message: 'Class does not exist',
+       });
+     }).catch(error => res.status(500).send({
+       message: error.message,
+     }));
+   }
 }

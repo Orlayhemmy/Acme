@@ -5,6 +5,7 @@ import Navbar from './sidenavbar';
 import Header from './header';
 import Footer from './footer';
 import { getAllActivities } from '../actions/activityActions';
+import { getTeacherClasses } from '../actions/classActions';
 
 @connect((store) =>  {
   return {
@@ -15,6 +16,7 @@ import { getAllActivities } from '../actions/activityActions';
 export default class Dashboard extends React.Component {
   componentWillMount() {
     this.props.dispatch(getAllActivities());
+    this.props.dispatch(getTeacherClasses());
   }
   render() {
     const { activities } = this.props.activity;

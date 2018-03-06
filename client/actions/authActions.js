@@ -49,6 +49,17 @@ export function getStaffs() {
   };
 }
 
+export function modifyUser(data) {
+  return (dispatch) => {
+    dispatch({ type: 'UPDATE_STAFFS' });
+    axios.put('api/v1/staffs', data).then((response) => {
+      dispatch({ type: 'UPDATE_STAFFS_SUCCESS', payload: response });
+    }).catch((err) => {
+      dispatch({ type: 'UPDATE_STAFFS_FAIL', payload: err.response });
+    });
+  }
+}
+
 export function logout() {
   return (dispatch) => {
     localStorage.removeItem('jwtToken');

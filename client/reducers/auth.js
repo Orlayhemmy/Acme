@@ -124,7 +124,7 @@ export default (state = initialState, action = {}) => {
         codeStatus: '',
       };
     }
-    case 'UPDATE_USER': {
+    case 'UPDATE_STAFFS': {
       return {
         ...state,
         status: '',
@@ -134,7 +134,7 @@ export default (state = initialState, action = {}) => {
         loaded: false,
       };
     }
-    case 'UPDATE_USER_SUCCESS': {
+    case 'UPDATE_STAFFS_SUCCESS': {
       const { message } = action.payload.data;
       return {
         ...state,
@@ -143,7 +143,7 @@ export default (state = initialState, action = {}) => {
         message,
       };
     }
-    case 'UPDATE_USER_FAILS': {
+    case 'UPDATE_STAFFS_FAILS': {
       const { message } = action.payload;
       return {
         ...state,

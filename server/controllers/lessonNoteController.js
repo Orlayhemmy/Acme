@@ -300,11 +300,11 @@ export default class LessonNoteController {
 
     LessonNote.findAll({
       where: {
-        hodId: req.decoded.id,
+        HOD: req.decoded.id,
         weekId: req.params.id,
       },
       include: [{
-        model: Class,
+        model: Staffs,
       }],
       order: [['createdAt', 'DESC']],
     }).then((hodnotes) => {

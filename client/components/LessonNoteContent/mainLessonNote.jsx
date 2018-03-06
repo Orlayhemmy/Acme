@@ -76,7 +76,6 @@ export default class LessonNote extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(getTeacherClasses());
     this.props.dispatch(getWeekNotes(this.props.week.id.value));
   }
   componentDidUpdate() {

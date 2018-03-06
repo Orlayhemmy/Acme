@@ -10,15 +10,16 @@ const initialState = {
 export default (state = initialState, action = {}) => {
   switch (action.type) {
 
-    case 'SET_CURRENT_CLASSES': {
-      const { teacherClasses } = action.payload;
-      const { classId, classname } = teacherClasses;
-      const teachClasses = { classId, classname }
+    case 'SET_CURRENT_TEACHER_CLASSES': {
+      const { classes } = action.payload;
+      const { teacherclasses } = classes;
+      
       return {
         ...state,
-        isClass: !isEmpty(teachClasses),
+        isClass: !isEmpty(teacherclasses),
         status: '',
         message: '',
+        teacherclasses,
       };
     }
 
@@ -64,12 +65,14 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'CREATE_TEACHER_CLASSES_SUCCESS': {
-      const { classes } = action.payload.data;
+      const { status } = action.payload;
+      const { message } = action.payload.data;
       return {
         ...state,
-        loading: true,
-        loaded: false,
-        classes,
+        loading: false,
+        loaded: true,
+        status,
+        message,
       };
     }
     case 'CREATE_TEACHER_CLASSES_FAIL': {

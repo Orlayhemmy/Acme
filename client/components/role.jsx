@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from'react-router-dom';
+import isEmpty from 'lodash/isEmpty';
 import Footer from './footer';
 import Header from './header';
 import Navbar from './sidenavbar';
-import { getClasses, createSubjectClasses, getTeacherClasses } from '../actions/classActions';
+import { getClasses, createSubjectClasses, getTeacherClasses, deleteTeacherClasses } from '../actions/classActions';
 import { getSubjects } from '../actions/subjectActions';
-import { getStaffs } from '../actions/authActions';
+import { getStaffs, modifyUser } from '../actions/authActions';
+
 
 
 @connect((store) => {
@@ -37,6 +39,10 @@ export default class Homepage extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.updateSubClasses = this.updateSubClasses.bind(this);
+    this.onRemove = this.onRemove.bind(this);
+    this.updateClassTutor = this.updateClassTutor.bind(this);
+    this.updateHOD = this.updateHOD.bind(this);
+    this.updateSubject = this.updateSubject.bind(this);
   }
 
   componentWillMount() {
@@ -48,19 +54,58 @@ export default class Homepage extends React.Component {
   onSubmit(e) {
     
   }
-
+  onRemove(e) {
+    e.preventDefault();
+    if (confirm("Are you sure you want to remove this class")) {
+      this.props.dispatch(deleteTeacherClasses(e.target.id));
+    }
+  }
   
-
   onChange(e) {
     this.setState({
       [e.target.id]: e.target.value
     });
     if (e.target.id === 'subjectClasses') {
-      this.updateSubClasses(e.target.id);
+      if (!isEmpty(e.target.value)) {
+        this.updateSubClasses(e.target.value);
+      }
+    }
+    if (e.target.id === 'classTutoring') {
+      if (!isEmpty(e.target.value)) {
+        this.updateClassTutor(e.target.value);
+      }
+    }
+    if (e.target.id === 'subjectHod') {
+      if (!isEmpty(e.target.value)) {
+        this.updateHOD(e.target.value);
+      }
+    }
+    if (e.target.id === 'subject') {
+      if (!isEmpty(e.target.value)) {
+        this.updateSubject(e.target.value);
+      }
     }
   }
   updateSubClasses(id) {
     this.props.dispatch(createSubjectClasses(id));
+  }
+  updateClassTutor(id) {
+    const data = {
+      classId: id,
+    }
+    this.props.dispatch(modifyUser(data));
+  }
+  updateHOD(id) {
+    const data = {
+      HOD: id,
+    }
+    this.props.dispatch(modifyUser(data));
+  }
+  updateSubject(id) {
+    const data = {
+      subjectId: id,
+    }
+    this.props.dispatch(modifyUser(data));
   }
   showDiv(e) {
     let div = document.getElementById(e.target.nextSibling.value);
@@ -86,13 +131,16 @@ export default class Homepage extends React.Component {
     });
     const staffList = _.map(staffs, (staff) => {
       return (
-        <option key={staff.staffId} value={staff.staffId}>{staff.firstname} {staff.lastname}</option>
+        <option key={staff.id} value={staff.id}>{staff.firstname} {staff.lastname}</option>
       )
     });
     const subTeachList = _.map(teacherclasses, (teacherClass) => {
       return (
-        <div class="col-12 widget-left no-padding">
-          <input type="text" class="btn btn-info" value={teacherClass.Class.classname} id={teacherClass.classId} key={teacherClass.classId}/>
+        <div className="form-group" key={teacherClass.classId}>
+          <button className="btn btn-success" onClick={(e) => e.preventDefault() }>
+            {teacherClass.Class.classname} 
+            <i className="fa fa-remove" id={teacherClass.id}  onClick={this.onRemove}></i>
+          </button>
         </div>
       )
     });
@@ -169,7 +217,7 @@ export default class Homepage extends React.Component {
                             <label class="control-label no-padding" for="name"> Class Tutoring</label>
                             <div class="col-12 no-padding">
                               <select id="classTutoring" class="form-control" onChange={this.onChange}>
-                                <option>Select Class</option>
+                                <option value="">Select Class</option>
                                 {classList}
                               </select>
                             </div>
@@ -184,7 +232,7 @@ export default class Homepage extends React.Component {
                             <label class="control-label no-padding" for="name">Head of Department</label>
                             <div class="col-12 no-padding">
                               <select id="subjectHod" class="form-control" onChange={this.onChange}>
-                              <option>Select HOD</option>
+                              <option value="">Select HOD</option>
                               {staffList}
                             </select>
                             </div>
@@ -193,14 +241,14 @@ export default class Homepage extends React.Component {
                             <label class="control-label no-padding" for="name"> Subject</label>
                             <div class="col-3 no-padding">
                               <select id="subject" class="form-control" onChange={this.onChange}>
-                                <option>Select Subject</option>
+                                <option value="">Select Subject</option>
                                 {subjectList}
                               </select>
                             </div>
                             <label class="control-label no-padding" for="name">Class</label>
                             <div class="col-3 no-padding">
                               <select id="subjectClasses" class="form-control" onChange={this.onChange}>
-                              <option>Select Class</option>
+                              <option value="">Select Class</option>
                               {classList}
                             </select>
                             </div>

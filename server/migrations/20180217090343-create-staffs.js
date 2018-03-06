@@ -58,6 +58,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      HOD: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

@@ -39,15 +39,15 @@ router.route('/studentPasswordRecovery')
 
 router.route('/staffs')
   .post(StaffValidate.signup, StaffController.signup)
-  .get(AuthToken, StaffController.getAllStaffs);
+  .get(AuthToken, StaffController.getAllStaffs)  
+  .put(AuthToken, StaffValidate.updateStaffInfo, StaffController.updateStaffInfo);
 
 router.route('/staffs/login')
   .post(StaffValidate.signin, StaffController.signin);
 
 router.route('/staff/:id')
-  .get(AuthToken, StaffController.getSingleStaff)
-  .put(AuthToken, StaffValidate.updateStaffInfo, StaffController.updateStaffInfo);
-
+  .get(AuthToken, StaffController.getSingleStaff);
+  
 router.route('/staffPasswordRecovery')
   .post(StaffController.recoverPassword);
 
@@ -64,8 +64,8 @@ router.route('/subjectclasses')
   .post(AuthToken, ClassController.createSubjectClass)
   .get(AuthToken, ClassController.getTeacherClasses);
 
-// router.route('/subjectclasses/:id')
-//   .get(AuthToken, ClassController.getTeacherClasses);
+router.route('/subjectclasses/:id')
+  .delete(AuthToken, ClassController.deleteTeacherClass);
 
 router.route('/subjects')
   .post(AuthAdminToken, ClassValidate.createClass, ClassController.createClass)

@@ -79,7 +79,6 @@ export default class Assignment extends React.Component {
     window.open('/assignment', 'window', 'toolbar=no, menubar=no, resizable=yes');
   }
   componentWillMount() {
-    this.props.dispatch(getTeacherClasses());
     this.props.dispatch(getWeekAssignments(this.props.week.id.value))
   }
   componentDidUpdate() {
