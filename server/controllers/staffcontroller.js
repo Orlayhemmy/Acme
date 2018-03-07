@@ -225,9 +225,27 @@ export default class StaffController {
               classId: classId || user.classId,
               HOD: HOD || user.HOD,
               subjectId: subjectId || user.subjectId,
-            }).then(() => res.status(200).send({
-              message: 'Your information has been updated successfully',
-            })).catch(err => res.status(500).send({
+            }).then((check) => {
+              if (check) {
+                const payload = { 
+                  lastname: check.lastname,
+                  id: check.id, 
+                  classId: check.classId, 
+                  subjectId: check.subjectId, 
+                  subject: check.Subject.subjectname, 
+                  deptId: check.deptId, 
+                  deptname: check.Department.dept_name, 
+                };
+                const token = jwt.sign(payload, process.env.SECRET, {
+                  expiresIn: 60 * 60 * 12,
+                });
+                req.body.token = token;
+                return res.status(200).send({
+                  message: 'Update Successful',
+                  token,
+                });
+              }
+            }).catch(err => res.status(500).send({
               message: err.message,
             })));
           });

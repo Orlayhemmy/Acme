@@ -9,6 +9,37 @@ const initialState = {
 };
 export default (state = initialState, action = {}) => {
   switch (action.type) {
+    case 'GET_CLASS_STUDENTS': {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        status: '',
+        message: '',
+      };
+    }
+    case 'GET_CLASS_STUDENTS_SUCCESS': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
+    case 'GET_CLASS_STUDENTS_FAIL': {
+      const { status } = action.payload;
+      const { message } = action.payload.data;
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        status,
+        message,
+      };
+    }
 
     case 'SET_CURRENT_TEACHER_CLASSES': {
       const { classes } = action.payload;

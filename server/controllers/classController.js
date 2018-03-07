@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import env from 'dotenv';
 import models from '../models';
 
-const { Class, TeacherClasses } = models;
+const { Class, TeacherClasses, Students } = models;
 
 export default class ClassController {
 /**
@@ -89,15 +89,26 @@ export default class ClassController {
  * @param {any} res
  * @memberof ClassController
  */
-  static getSingleClass(req, res) {
+  static getClassStudents(req, res) {
     Class.findOne({
       where: {
-        class_id: req.params.class_id,
+        classId: req.params.id,
       },
-    }).then((foundClass) => {
-      if (foundClass) {
+      include: [{
+        model: Students,
+      }],
+    }).then((students) => {
+      const studentArray = [];
+      if (students) {
+        Object.entries(students).forEach((entry) => {
+          if (entry[0] === 'Students') {
+            Object.entries(entry[1]).forEach((subEntry) => {
+              studentArray.push(subEntry[1].id);
+            });
+          }
+        });
         return res.status(200).send({
-          foundClass,
+          studentArray,
         });
       }
       return res.status(400).send({

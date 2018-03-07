@@ -44,6 +44,19 @@ export function getClasses() {
   };
 }
 
+export function getClassStudent(id) {
+  return (dispatch) => {
+    dispatch({ type: 'GET_CLASS_STUDENTS' });
+    axios.get(`api/v1/class/${id}`).then((response) => {
+      dispatch({ type: 'GET_CLASS_STUDENTS_SUCCESS', payload: response });
+      const { studentArray } = response.data;
+      dispatch(createGradeSheet(studentArray));
+    }).catch((err) => {
+      dispatch({ type: 'GET_CLASS_STUDENTS_FAIL', payload: err.response });
+    });
+  };
+}
+
 export function createSubjectClasses(id) {
   const data = {
     classId: id,
@@ -53,6 +66,7 @@ export function createSubjectClasses(id) {
     axios.post('api/v1/subjectclasses', data).then((response) => {
       dispatch({ type: 'CREATE_TEACHER_CLASSES_SUCCESS', payload: response });
       dispatch(getTeacherClasses());
+      dispatch(getClassStudent(id));
     }).catch((err) => {
       dispatch({ type: 'CREATE_TEACHER_CLASSES_FAILS', payload: err.response });
     });

@@ -57,7 +57,7 @@ router.route('/classes')
 
 router.route('/class/:id')
   .put(AuthToken, ClassValidate.updateClass, ClassController.updateClassInfo)
-  .get(AuthToken, ClassController.getSingleClass)
+  .get(AuthToken, ClassController.getClassStudents)
   .delete(AuthAdminToken, ClassController.deleteClass);
 
 router.route('/subjectclasses')

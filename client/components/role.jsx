@@ -138,8 +138,8 @@ export default class Homepage extends React.Component {
       return (
         <div className="form-group" key={teacherClass.classId}>
           <button className="btn btn-success" onClick={(e) => e.preventDefault() }>
-            {teacherClass.Class.classname} 
-            <i className="fa fa-remove" id={teacherClass.id}  onClick={this.onRemove}></i>
+            {teacherClass.Class.classname}  
+             <i className="fa fa-remove pl-2" id={teacherClass.id}  onClick={this.onRemove}></i>
           </button>
         </div>
       )
